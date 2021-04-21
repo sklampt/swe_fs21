@@ -3,5 +3,8 @@ project(Zombiedice)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_subdirectory(googletest)
-add_subdirectory(unit-tests)
+# Testing
+include(cmake/GetGTest.cmake)
+
+add_executable(unit_tests)
+target_link_libraries(unit_tests GTest)
