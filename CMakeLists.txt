@@ -10,7 +10,14 @@ add_executable(
     tests/main.cpp # dependency
     tests/example_add.cpp # dependency
 )
-target_link_libraries(unit_tests GTest)
+target_link_libraries(
+    unit_tests
+    GTest
+    example
+    pthread
+    )
+
+enable_testing()
 
 # add_subdirectory(src)
 # add_subdirectory(tests)
