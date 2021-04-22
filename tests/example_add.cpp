@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "example.h"
+#include "src/example.h"
 
 TEST(example, add)
 {
