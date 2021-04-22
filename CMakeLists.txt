@@ -7,8 +7,8 @@ include(cmake/GetGTest.cmake)
 
 add_executable(
     unit_tests # executable
-    test/main.cpp # dependency
-    test/example_add.cpp # dependency
+    tests/main.cpp # dependency
+    tests/example_add.cpp # dependency
 )
 target_link_libraries(unit_tests GTest)
 
