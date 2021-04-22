@@ -12,5 +12,5 @@ add_executable(
 )
 target_link_libraries(unit_tests GTest)
 
-add_subdirectory(src)
-add_subdirectory(tests)
+# add_subdirectory(src)
+# add_subdirectory(tests)
