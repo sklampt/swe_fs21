@@ -14,9 +14,9 @@ build:
     - apt-get install --yes cmake
     - mkdir build && cd build
     - cmake ..
-  artifacts:
-    paths:
-      - mybinary
+  # artifacts:
+    # paths:
+      # - mybinary
       # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
       # cache:
       #   paths:
