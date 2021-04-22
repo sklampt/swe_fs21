@@ -19,7 +19,7 @@ build:
     # - cd ..
   artifacts:
     paths:
-      - unit_tests
+      - ./unit_tests
 
 # run tests using the binary built before
 test:
