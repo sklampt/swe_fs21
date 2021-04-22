@@ -12,6 +12,7 @@ build:
     - mkdir build && cd build
     - cmake ..
     - make -j
+    - cd ..
   artifacts:
     paths:
       - unit_tests
