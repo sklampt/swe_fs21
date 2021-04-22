@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 include(cmake/GetGTest.cmake)
 
+add_library(
+    example
+    src/example.cpp
+    )
+
 add_executable(
     unit_tests # executable
     tests/main.cpp # dependency
@@ -13,7 +18,7 @@ add_executable(
 target_link_libraries(
     unit_tests
     GTest
-    # example
+    example
     pthread
     )
 
