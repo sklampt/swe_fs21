@@ -25,6 +25,8 @@ build:
 test:
   stage: test
   script:
+    - cd build
+    - make test
     - ./unit_tests
     - gcovr -r ../src/
   dependencies:
