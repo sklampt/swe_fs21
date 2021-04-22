@@ -10,6 +10,8 @@ build:
   # before_script:
   #   - apt update && apt -y install make autoconf
   script:
+    - apt-get update --yes
+    - apt-get install --yes cmake
     - mkdir build && cd build
     - cmake ..
   artifacts:
