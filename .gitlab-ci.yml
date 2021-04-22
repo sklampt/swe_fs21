@@ -27,6 +27,5 @@ test:
   script:
     - cd build
     - ./unit_tests
-    - gcovr -r ../src/
   dependencies:
     - build
