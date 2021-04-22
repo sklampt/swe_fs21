@@ -6,8 +6,9 @@ image: gcc
 build:
   stage: build
   script:
-    - apt-get update --yes
-    - apt-get install --yes cmake
+    - apt-get update -y
+    - apt-get install -y git cmake g++ gcovr
+    - git submodule update --init --recursive
     - mkdir build && cd build
     - cmake ..
     - make -j
@@ -24,3 +25,4 @@ test:
   stage: test
   script:
     - ./unit_tests
+    - gcovr -r ../src/
