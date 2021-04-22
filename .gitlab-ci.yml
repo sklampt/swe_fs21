@@ -36,3 +36,5 @@ test:
     key: build-tests
     paths:
       - unit_tests
+  dependencies:
+    - build
