@@ -32,7 +32,7 @@ test:
   script:
     - ./unit_tests
     - gcovr -r ../src/
-cache:
-  key: build-tests
-  paths:
-    - unit_tests
+  cache:
+    key: build-tests
+    paths:
+      - unit_tests
