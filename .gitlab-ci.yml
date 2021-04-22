@@ -3,6 +3,10 @@
 # see https://hub.docker.com/_/gcc/
 image: gcc
 
+stages:
+   - build
+   - test
+
 build:
   stage: build
   script:
@@ -14,8 +18,10 @@ build:
     - make -j
     - cd ..
   artifacts:
-    paths:
-      - unit_tests
+    cache:
+        key: build-tests
+        paths:
+            - unit_tests
       # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
       # cache:
       #   paths:
@@ -27,3 +33,7 @@ test:
   script:
     - ./unit_tests
     - gcovr -r ../src/
+cache:
+  key: build-tests
+  paths:
+    - unit_tests
