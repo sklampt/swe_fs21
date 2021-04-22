@@ -17,14 +17,9 @@ build:
     - cmake ..
     - make -j
     # - cd ..
-  cache:
-    key: build-tests
+  artifacts:
     paths:
       - unit_tests
-      # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
-      # cache:
-      #   paths:
-      #     - "*.o"
 
 # run tests using the binary built before
 test:
@@ -32,9 +27,5 @@ test:
   script:
     - ./unit_tests
     - gcovr -r ../src/
-  cache:
-    key: build-tests
-    paths:
-      - unit_tests
   dependencies:
     - build
