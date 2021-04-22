@@ -5,10 +5,6 @@ image: gcc
 
 build:
   stage: build
-  # instead of calling g++ directly you can also use some build toolkit like make
-  # install the necessary build tools when needed
-  # before_script:
-  #   - apt update && apt -y install make autoconf
   script:
     - apt-get update --yes
     - apt-get install --yes cmake
