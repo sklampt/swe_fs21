@@ -13,7 +13,7 @@ add_executable(
 target_link_libraries(
     unit_tests
     GTest
-    example
+    # example
     pthread
     )
 
