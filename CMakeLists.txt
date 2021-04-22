@@ -5,6 +5,10 @@ set(CMAKE_CXX_STANDARD 20)
 
 include(cmake/GetGTest.cmake)
 
+include_directories(
+    ${PROJECT_SOURCE_DIR}/src
+    )
+
 add_library(
     example
     src/example.cpp
@@ -15,6 +19,9 @@ add_executable(
     tests/main.cpp # dependency
     tests/example_add.cpp # dependency
 )
+
+add_dependencies(unit_tests GTest)
+
 target_link_libraries(
     unit_tests
     GTest
