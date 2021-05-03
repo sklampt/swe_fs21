@@ -11,7 +11,7 @@ build:
   stage: build
   script:
     - apt-get update -y
-    - apt-get install -y git cmake g++ gcovr
+    - apt-get install -y git cmake g++ gcovr libwxgtk3.0-gtk3-dev
     - git submodule update --init --recursive
     - mkdir build && cd build
     - cmake ..
