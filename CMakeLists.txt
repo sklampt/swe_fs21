@@ -3,11 +3,80 @@ project(Zombiedice)
 
 set(CMAKE_CXX_STANDARD 20)
 
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -c")
+
 include(cmake/GetGTest.cmake)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/sockpp/include
     )
+
+find_package(wxWidgets COMPONENTS core base net REQUIRED)
+include(${wxWidgets_USE_FILE})
+
+# Define all source files for Zombie Dice
+set(SOURCE_FILES
+        ### GUI
+        src/gui/main.cpp
+        src/gui/GameController.cpp src/gui/GameController.h
+        src/gui/app/ZombieDice.cpp src/gui/app/ZombieDice.h
+        ## Windows
+        src/gui/windows/GameWindow.cpp src/gui/windows/GameWindow.h
+        ## Panels
+        src/gui/panels/MainGamePanel.cpp src/gui/panels/MainGamePanel.h
+        src/gui/panels/ConnectionPanel.cpp src/gui/panels/ConnectionPanel.h
+        src/gui/panels/LobbyPanel.cpp src/gui/panels/LobbyPanel.h
+        ## UIElements
+        src/gui/uiElements/ImagePanel.cpp src/gui/uiElements/ImagePanel.h
+        src/gui/uiElements/InputField.cpp src/gui/uiElements/InputField.h
+        ## Client Network
+        src/gui/network/ClientNetworkManager.cpp src/gui/network/ClientNetworkManager.h
+        src/gui/network/ResponseListenerThread.cpp src/gui/network/ResponseListenerThread.h
+
+        ### COMMON
+        ## Exceptions
+        src/common/exceptions/ZombieException.h
+        ## Game
+        src/common/game/Game.cpp src/common/game/Game.h
+        src/common/game/Turn.cpp src/common/game/Turn.h
+        src/common/game/Cup.cpp src/common/game/Cup.h
+        src/common/game/Die.cpp src/common/game/Die.h
+        src/common/game/Player.cpp src/common/game/Player.h
+        ## Network
+        src/common/network/requests/client_request.cpp  src/common/network/requests/client_request.h
+        src/common/network/requests/join_game_request.cpp src/common/network/requests/join_game_request.h
+        src/common/network/requests/start_game_request.cpp src/common/network/requests/start_game_request.h
+
+        src/common/network/responses/full_state_response.cpp src/common/network/responses/full_state_response.h
+        src/common/network/responses/request_response.cpp src/common/network/responses/request_response.h
+        src/common/network/responses/server_response.cpp src/common/network/responses/server_response.h
+        ## Serialization
+        src/common/serialization/json_utils.h
+        src/common/serialization/serializable.h
+        src/common/serialization/serializable_value.h
+        src/common/serialization/unique_serializable.cpp src/common/serialization/unique_serializable.h
+        src/common/serialization/uuid_generator.h
+        src/common/serialization/value_type_helpers.h
+        src/common/serialization/vector_utils.h
+
+        ### Server
+        src/server/game_instance.cpp src/server/game_instance.h
+        src/server/game_instance_manager.cpp src/server/game_instance_manager.h
+    src/server/not_main.cpp
+        src/server/player_manager.cpp src/server/player_manager.h
+        src/server/server_network_manager.cpp src/server/server_network_manager.h
+    )
+
+add_executable(
+    ZombieDice
+    ${SOURCE_FILES}
+    )
+# set compile directives for client-executable
+target_compile_definitions(ZombieDice PRIVATE RAPIDJSON_HAS_STDSTRING=1)
+# Comment out if you don't want to print network-related messages into the console
+target_compile_definitions(ZombieDice PRIVATE PRINT_NETWORK_MESSAGES=1)
+
 
 add_library(
     example
@@ -28,6 +97,41 @@ target_link_libraries(
     example
     pthread
     )
+
+# link with wxWidgets
+target_link_libraries(ZombieDice ${wxWidgets_LIBRARIES})
+
+# linking to sockpp
+if(WIN32)
+    message("Detected Win32")
+    target_link_libraries(zombie_dice ${CMAKE_SOURCE_DIR}/sockpp/cmake-build-debug/sockpp-static.lib)
+    # Necessary to get sockets working under Windows (with MingW)
+    target_link_libraries(Lama-client wsock32 ws2_32)
+elseif(APPLE)
+    # Do some mac stuff to fix out of sync warnings
+    set(CMAKE_OSX_SYSROOT /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.12")
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
+    target_link_libraries(ZombieDice ${CMAKE_SOURCE_DIR}/sockpp/cmake-build-debug/libsockpp.dylib Threads::Threads)
+else()
+    message("Not Win32 or Apple, so probably a Linux") # We assume it's Linux in this case
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
+    target_link_libraries(ZombieDice ${CMAKE_SOURCE_DIR}/sockpp/cmake-build-debug/libsockpp.so Threads::Threads)
+endif()
+
+# copy assets (images) to binary directory
+file(INSTALL assets DESTINATION ${CMAKE_BINARY_DIR})
+
+set(CMAKE_CXX_FLAGS "--coverage")
+
+# TODO: Decide if we want to use a Library to package functionality
+# set source files for library
+add_library(ZombieDice-lib ${SOURCE_FILES})
+# set compile directives for server-library
+target_compile_definitions(ZombieDice-lib PRIVATE RAPIDJSON_HAS_STDSTRING=1)
+
 
 enable_testing()
 
