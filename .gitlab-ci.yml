@@ -11,6 +11,8 @@ stages:
 
 cache:
   key: build
+  paths:
+    - build/
 
 build:
   stage: build
