@@ -2,10 +2,14 @@
 # can use verions as well, like gcc:5.2
 # see https://hub.docker.com/_/gcc/
 image: gcc
+services: mkrrr/docker-ubuntu-vnc-desktop
 
 stages:
    - build
    - test
+
+cache:
+  key: build
 
 build:
   stage: build
@@ -20,6 +24,7 @@ build:
   artifacts:
     paths:
       - build/
+
 
 # run tests using the binary built before
 test:
