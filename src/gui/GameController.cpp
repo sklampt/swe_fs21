@@ -1,5 +1,5 @@
 #include <gui/network/ClientNetworkManager.h>
-#include <common/network/requests/join_game_request.h>
+#include <common/network/requests/client_join_lobby_request.h>
 #include "GameController.h"
 
 
@@ -66,7 +66,7 @@ void GameController::connectToServer() {
 
     // send request to join game
     //GameController::_me = new Player(playerName);
-    //join_game_request request = join_game_request(GameController::_me->get_id(), GameController::_me->get_player_name());
+    //client_join_lobby_request request = client_join_lobby_request(GameController::_me->get_id(), GameController::_me->get_player_name());
     //ClientNetworkManager::sendRequest(request);
 
 }
@@ -102,7 +102,7 @@ void GameController::updateGameState(Game* newGameState) {
 }
 
 void GameController::startGame() {
-    // start_game_request request = start_game_request(GameController::_currentGameState->get_id(), GameController::_me->get_id());
+    // client_update_game_request request = client_update_game_request(GameController::_currentGameState->get_id(), GameController::_me->get_id());
     // ClientNetworkManager::sendRequest(request);
 }
 

@@ -1,28 +1,23 @@
-//
-// Created by Manuel on 28.01.2021.
-//
+// This class receive the message from the server and forwards it to the right processing class e.g. to client_join_lobby_request
 
 #include "client_request.h"
-#include "join_game_request.h"
-#include "start_game_request.h"
+#include "client_join_lobby_request.h"
+#include "client_exit_lobby_request.h"
+#include "client_update_game_request.h"
 
 #include <iostream>
 
 // for deserialization
 const std::unordered_map<std::string, RequestType> client_request::_string_to_request_type = {
-        {"join_game", RequestType::join_game },
-        {"start_game", RequestType::start_game},
-        {"play_card", RequestType::play_card},
-        {"draw_card", RequestType::draw_card},
-        {"fold", RequestType::fold}
+        {"client_join_lobby", RequestType::client_join_lobby },
+        {"client_exit_lobby", RequestType::client_exit_lobby},
+        {"client_update_game", RequestType::client_update_game}
 };
 // for serialization
 const std::unordered_map<RequestType, std::string> client_request::_request_type_to_string = {
-        { RequestType::join_game, "join_game" },
-        { RequestType::start_game, "start_game"},
-        { RequestType::play_card, "play_card"},
-        { RequestType::draw_card, "draw_card"},
-        {RequestType::fold, "fold"}
+        {RequestType::client_join_lobby, "client_join_lobby"},
+        {RequestType::client_exit_lobby, "client_exit_lobby"},
+        {RequestType::client_update_game, "client_update_game"}
 };
 
 // protected constructor. only used by subclasses
@@ -98,11 +93,14 @@ client_request* client_request::from_json(const rapidjson::Value &json) {
         const RequestType request_type = client_request::_string_to_request_type.at(type);
 
         // Check which type of request it is and call the respective from_json constructor
-        if (request_type == RequestType::join_game) {
-            return join_game_request::from_json(json);
+        if (request_type == RequestType::client_join_lobby) {
+            return client_join_lobby_request::from_json(json);
         }
-        else if (request_type == RequestType::start_game) {
-            return start_game_request::from_json(json);
+        else if (request_type == RequestType::client_exit_lobby) {
+            return client_exit_lobby_request::from_json(json);
+        }
+        else if (request_type == RequestType::client_update_game) {
+            return client_update_game_request::from_json(json);
         } else {
             throw ZombieDiceException("Encountered unknown ClientRequest type " + type);
         }

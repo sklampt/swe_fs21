@@ -1,21 +1,19 @@
-//
-// Created by Manuel on 12.02.2021.
-//
 // The server_network_manager handles all incoming messages and offers functionality to broadcast messages
 // to all connected players of a game.
 
 #include "server_network_manager.h"
-#include "../common/network/responses/request_response.h"
 
 // include server address configurations
 #include "default.conf"
 
-server_network_manager::server_network_manager() {
+server_network_manager::server_network_manager(const std::string host_uuid, const std::string shared_token,
+                                               const uint16_t server_port
+                                               ) : _shared_token(shared_token) {
     if (_instance == nullptr) {
         _instance = this;
     }
     sockpp::socket_initializer socket_initializer; // Required to initialise sockpp
-    this->connect(default_server_host, default_port);   // variables from "default.conf"
+    this->connect("0.0.0.0", server_port); // Listen on all IPs of the host for incoming connections
 }
 
 server_network_manager::~server_network_manager() = default;
@@ -32,7 +30,7 @@ void server_network_manager::connect(const std::string &url, const uint16_t port
     listener_loop();    // start endless loop
 }
 
-void server_network_manager::listener_loop() {
+[[noreturn]] void server_network_manager::listener_loop() {
     // intentional endless loop
     while (true) {
         sockpp::inet_address peer;
@@ -136,6 +134,7 @@ void server_network_manager::handle_incoming_message(const std::string& msg, con
         } else {
             _rw_lock.unlock_shared();
         }
+
 #ifdef PRINT_NETWORK_MESSAGES
         std::cout << "Received valid request : " << msg << std::endl;
 #endif
@@ -174,7 +173,6 @@ void server_network_manager::on_player_left(std::string player_id) {
 }
 
 ssize_t server_network_manager::send_message(const std::string &msg, const std::string& address) {
-
     std::stringstream ss_msg;
     ss_msg << std::to_string(msg.size()) << ':' << msg; // prepend message length
     return _address_to_socket.at(address).write(ss_msg.str());
@@ -190,7 +188,11 @@ void server_network_manager::broadcast_message(server_response &msg, const std::
 #endif
 
     _rw_lock.lock_shared();
+
+
     // send object_diff to all requested players
+    //TODO: define how event queue is updated and when it is triggered
+
     /*try {
         for(auto& player : players) {
             if (player != exclude) {

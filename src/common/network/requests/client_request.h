@@ -24,11 +24,9 @@
 // The RequestType is sent with every client_request to identify the type of client_request
 // during deserialization on the server side.
 enum RequestType {
-    join_game,
-    start_game,
-    play_card,
-    draw_card,
-    fold,
+    client_join_lobby,
+    client_exit_lobby,
+    client_update_game
 };
 
 class client_request : public serializable {
@@ -51,7 +49,6 @@ protected:
     static base_class_properties extract_base_class_properties(const rapidjson::Value& json);
 
 private:
-
     // for deserialization
     static const std::unordered_map<std::string, RequestType> _string_to_request_type;
     // for serialization
@@ -72,12 +69,9 @@ public:
 
     virtual std::string to_string() const;
 
-    // Code that should only exist on the server side
-// #ifdef LAMA_SERVER
     // Execute this request on the server side
     virtual request_response* execute() = 0;
-// #endif
 };
 
 
-#endif //LAMA_CLIENT_REQUEST_H
+#endif //ZOMBIEDICE_CLIENT_REQUEST_H
