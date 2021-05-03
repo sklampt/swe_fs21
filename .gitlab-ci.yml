@@ -24,9 +24,11 @@ build:
     - cmake ..
     - make -j
     # - cd ..
+  timeout: 1 hour
   artifacts:
     paths:
       - build/
+  
 
 
 # run tests using the binary built before
