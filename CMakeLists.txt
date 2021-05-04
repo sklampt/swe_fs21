@@ -93,7 +93,7 @@ add_dependencies(unit_tests GTest)
 
 target_link_libraries(
     unit_tests
-    GTest
+    gtest_main
     example
     pthread
     )
