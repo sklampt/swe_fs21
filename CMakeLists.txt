@@ -89,7 +89,7 @@ add_executable(
     tests/example_add.cpp # dependency
 )
 
-add_dependencies(unit_tests GTest)
+# add_dependencies(unit_tests GTest)
 
 target_link_libraries(
     unit_tests
