@@ -47,10 +47,13 @@ set(SOURCE_FILES
         src/common/network/requests/client_request.cpp  src/common/network/requests/client_request.h
         src/common/network/requests/client_join_lobby_request.cpp src/common/network/requests/client_join_lobby_request.h
         src/common/network/requests/client_update_game_request.cpp src/common/network/requests/client_update_game_request.h
+        src/common/network/requests/client_exit_lobby_request.cpp src/common/network/requests/client_exit_lobby_request.h
 
-        src/common/network/responses/full_state_response.cpp src/common/network/responses/full_state_response.h
-        src/common/network/responses/request_response.cpp src/common/network/responses/request_response.h
+        src/common/network/responses/request_response_event.cpp src/common/network/responses/request_response_event.h
         src/common/network/responses/server_response.cpp src/common/network/responses/server_response.h
+        src/common/network/responses/server_update_lobby_event.cpp src/common/network/responses/server_update_lobby_event.h
+        src/common/network/responses/server_update_game_event.cpp src/common/network/responses/server_update_game_event.h
+
         ## Serialization
         src/common/serialization/json_utils.h
         src/common/serialization/serializable.h
@@ -59,14 +62,15 @@ set(SOURCE_FILES
         src/common/serialization/uuid_generator.h
         src/common/serialization/value_type_helpers.h
         src/common/serialization/vector_utils.h
+        src/common/serialization/token_generator.h
 
         ### Server
         src/server/game_instance.cpp src/server/game_instance.h
         src/server/game_instance_manager.cpp src/server/game_instance_manager.h
-        src/server/start_server.cpp
+        src/server/start_server.cpp src/server/start_server.h
         src/server/player_manager.cpp src/server/player_manager.h
         src/server/server_network_manager.cpp src/server/server_network_manager.h
-        src/common/network/requests/client_exit_lobby_request.cpp src/common/network/requests/client_exit_lobby_request.h src/common/network/responses/server_welcome_lobby_event.cpp src/common/network/responses/server_welcome_lobby_event.h src/common/network/responses/server_update_lobby_event.cpp src/common/network/responses/server_update_lobby_event.h src/common/network/responses/server_update_game_event.cpp src/common/network/responses/server_update_game_event.h src/server/start_server.h src/common/serialization/token_generator.h)
+        )
 
 add_executable(
     ZombieDice

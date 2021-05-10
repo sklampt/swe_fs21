@@ -13,9 +13,8 @@
 class client_join_lobby_request : public client_request{
 
 private:
+    std::string _player_uuid;
     std::string _player_name;
-
-    static std::string undefined_game_id;
     /*
      * Private constructor for deserialization
      */
@@ -23,19 +22,14 @@ private:
 
 public:
     /*
-     * Constructor to join any game
+     * Constructor to join a server
      */
-    client_join_lobby_request(std::string player_id, std::string name);
-
-    /*
-     * Constructor to join a specific game
-     */
-    client_join_lobby_request(std::string game_id, std::string player_id, std::string name);
+    client_join_lobby_request(std::string player_uuid, std::string nickname);
 
     virtual void write_into_json(rapidjson::Value& json, rapidjson::Document::AllocatorType& allocator) const override;
     static client_join_lobby_request* from_json(const rapidjson::Value& json);
 
-    request_response* execute() override;
+    request_response_event* execute() override;
 };
 
 

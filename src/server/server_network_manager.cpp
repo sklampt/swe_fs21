@@ -6,9 +6,7 @@
 // include server address configurations
 #include "default.conf"
 
-server_network_manager::server_network_manager(const std::string host_uuid, const std::string shared_token,
-                                               const uint16_t server_port
-                                               ) : _shared_token(shared_token) {
+server_network_manager::server_network_manager(const std::string host_uuid, const uint16_t server_port) {
     if (_instance == nullptr) {
         _instance = this;
     }
@@ -122,7 +120,7 @@ void server_network_manager::handle_incoming_message(const std::string& msg, con
         client_request* req = client_request::from_json(req_json);
 
         // check if this is a connection to a new player
-        std::string player_id = req->get_player_id();
+        std::string player_id = req->get_player_uuid();
         _rw_lock.lock_shared();
         if (_player_id_to_address.find(player_id) == _player_id_to_address.end()) {
             // save connection to this client
@@ -139,7 +137,7 @@ void server_network_manager::handle_incoming_message(const std::string& msg, con
         std::cout << "Received valid request : " << msg << std::endl;
 #endif
         // execute client request
-        request_response* res = req->execute();
+        request_response_event* res = req->execute();
         delete req;
 
         // transform response into a json

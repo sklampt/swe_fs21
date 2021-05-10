@@ -2,41 +2,37 @@
 // Created by Manuel on 15.02.2021.
 //
 
-#include "request_response.h"
+#include "request_response_event.h"
 #include "../../serialization/json_utils.h"
 #include "../../exceptions/ZombieException.h"
 #include "../../game/Game.h"
-
-//#ifdef LAMA_CLIENT
 #include "gui/GameController.h"
-//#endif
 
 
-request_response::request_response(server_response::base_class_properties props, std::string req_id, bool success, rapidjson::Value* state_json, std::string &err) :
+
+request_response_event::request_response_event(server_response::base_class_properties props, std::string req_id, bool success, rapidjson::Value* state_json, std::string &err) :
     server_response(props),
     _req_id(req_id),
     _state_json(state_json),
     _success(success),
-    _err(err)
-{ }
+    _err(err) { }
 
-request_response::request_response(std::string game_id, std::string req_id, bool success, rapidjson::Value* state_json, std::string err):
-    server_response(server_response::create_base_class_properties(ResponseType::req_response, game_id)),
+request_response_event::request_response_event(ResponseType response_type, std::string req_id, bool success, rapidjson::Value* state_json, std::string err):
+    server_response(server_response::create_base_class_properties(response_type)),
     _req_id(req_id),
     _state_json(state_json),
     _success(success),
-    _err(err)
-{ }
+    _err(err) { }
 
 
-request_response::~request_response() {
+request_response_event::~request_response_event() {
     if (_state_json != nullptr) {
         delete _state_json;
         _state_json = nullptr;
     }
 }
 
-void request_response::write_into_json(rapidjson::Value &json,
+void request_response_event::write_into_json(rapidjson::Value &json,
                                        rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) const {
     server_response::write_into_json(json, allocator);
 
@@ -54,7 +50,7 @@ void request_response::write_into_json(rapidjson::Value &json,
 }
 
 
-request_response *request_response::from_json(const rapidjson::Value& json) {
+request_response_event *request_response_event::from_json(const rapidjson::Value& json) {
     if (json.HasMember("err") && json.HasMember("success")) {
         std::string err = json["err"].GetString();
 
@@ -62,27 +58,27 @@ request_response *request_response::from_json(const rapidjson::Value& json) {
         if (json.HasMember("state_json")) {
             state_json = json_utils::clone_value(json["state_json"].GetObject());
         }
-        return new request_response(
+        return new request_response_event(
                 server_response::extract_base_class_properties(json),
                 json["req_id"].GetString(),
                 json["success"].GetBool(),
                 state_json,
                 err);
     } else {
-        throw ZombieDiceException("Could not parse request_response from json. err or success is missing.");
+        throw ZombieDiceException("Could not parse request_response_event from json. err or success is missing.");
     }
 }
 
 //#ifdef LAMA_CLIENT
 
-void request_response::Process() const {
+void request_response_event::Process() const {
     if (_success) {
         if (this->_state_json != nullptr) {
             Game* state = Game::from_json(*_state_json);
             GameController::updateGameState(state);
 
         } else {
-            GameController::showError("Network error", "Expected a state as JSON inside the request_response. But there was none.");
+            GameController::showError("Network error", "Expected a state as JSON inside the request_response_event. But there was none.");
         }
     } else {
         GameController::showError("Not possible", _err);

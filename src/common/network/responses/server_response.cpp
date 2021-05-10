@@ -3,60 +3,45 @@
 //
 
 #include "server_response.h"
-#include "request_response.h"
-#include "full_state_response.h"
+#include "request_response_event.h"
+#include "server_update_lobby_event.h"
+#include "server_update_game_event.h"
 
 #include "../../exceptions/ZombieException.h"
 
 // for deserialization
 const std::unordered_map<std::string, ResponseType> server_response::_string_to_response_type = {
-        {"req_response", ResponseType::req_response },
-        {"state_diff_msg", ResponseType::state_diff_msg},
-        {"full_state_msg", ResponseType::full_state_msg}
+        {"request_response", ResponseType::request_response },
+        {"server_update_lobby", ResponseType::server_update_lobby},
+        {"server_update_game", ResponseType::server_update_game}
 };
 // for serialization
 const std::unordered_map<ResponseType, std::string> server_response::_response_type_to_string = {
-        { ResponseType::req_response,   "req_response" },
-        { ResponseType::state_diff_msg, "state_diff_msg"},
-        { ResponseType::full_state_msg, "full_state_msg"}
+        { ResponseType::request_response,   "request_response" },
+        { ResponseType::server_update_lobby, "server_update_lobby"},
+        { ResponseType::server_update_game, "server_update_game"}
 };
 
-server_response::server_response(server_response::base_class_properties params):
-        _type(params.type),
-        _game_id(params.game_id)
-{ }
+server_response::server_response(server_response::base_class_properties params):_type(params.type) { }
 
 ResponseType server_response::get_type() const {
     return this->_type;
 }
 
-std::string server_response::get_game_id() const {
-    return this->_game_id;
-}
-
-
 server_response::base_class_properties
-server_response::create_base_class_properties(ResponseType type, const std::string &game_id) {
+server_response::create_base_class_properties(ResponseType type) {
     server_response::base_class_properties params;
     params.type = type;
-    params.game_id = game_id;
     return params;
 }
 
 server_response::base_class_properties server_response::extract_base_class_properties(const rapidjson::Value& json) {
-    if (json.HasMember("type") && json.HasMember("game_id")) {
-        std::string game_id = json["game_id"].GetString();
-        return create_base_class_properties(
-                server_response::_string_to_response_type.at(json["type"].GetString()),
-                game_id
-        );
-    }
-    else
-    {
-        throw ZombieDiceException("Server Response did not contain game_id");
+    if (json.HasMember("type")) {
+        return create_base_class_properties(server_response::_string_to_response_type.at(json["type"].GetString()));
+    } else {
+        throw ZombieDiceException("Server Response malformed");
     }
 }
-
 
 server_response *server_response::from_json(const rapidjson::Value& json) {
 
@@ -64,13 +49,16 @@ server_response *server_response::from_json(const rapidjson::Value& json) {
         std::string type = json["type"].GetString();
         ResponseType response_type = server_response::_string_to_response_type.at(type);
 
-        if (response_type == ResponseType::req_response) {
-            return request_response::from_json(json);
+        if (response_type == ResponseType::request_response) {
+            return request_response_event::from_json(json);
         }
-        else if (response_type == ResponseType::full_state_msg) {
-            return full_state_response::from_json(json);
+        else if (response_type == ResponseType::server_update_game) {
+            return server_update_game_event::from_json(json);
+        }
+        else if (response_type == ResponseType::server_update_lobby) {
+            return server_update_lobby_event::from_json(json);
         } else {
-            throw ZombieDiceException("Encountered unknown ServerResponse type " + response_type);
+            throw ZombieDiceException(&"Encountered unknown ServerResponse type " [ response_type]);
         }
     }
     throw ZombieDiceException("Could not determine type of ClientRequest");
@@ -80,9 +68,6 @@ void server_response::write_into_json(rapidjson::Value &json,
                                       rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) const {
     rapidjson::Value type_val(_response_type_to_string.at(this->_type).c_str(), allocator);
     json.AddMember("type", type_val, allocator);
-
-    rapidjson::Value game_id_val(_game_id.c_str(), allocator);
-    json.AddMember("game_id", game_id_val, allocator);
 }
 
 

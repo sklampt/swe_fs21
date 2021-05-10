@@ -21,7 +21,7 @@
 
 class server_network_manager {
 private:
-    const std::string _shared_token;
+    // const std::string _shared_token;
 
     inline static server_network_manager* _instance;
     inline static std::shared_mutex _rw_lock;
@@ -40,15 +40,13 @@ private:
     static ssize_t send_message(const std::string& msg, const std::string& address);
 
 public:
-    server_network_manager(const std::string host_uuid, const std::string shared_token, const uint16_t server_port);
+    server_network_manager(const std::string host_uuid, const uint16_t server_port);
     ~server_network_manager();
 
     // Used to broadcast a server_response (e.g. a full_state_response) to all 'players' except 'exclude'
     static void broadcast_message(server_response& msg, const std::vector<Player*>& players, const Player* exclude);
 
     static void on_player_left(std::string player_id);
-
-    const std::string sharedToken;
 };
 
 

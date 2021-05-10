@@ -17,7 +17,7 @@
 
 // #ifdef LAMA_SERVER
 #include "../responses/server_response.h"
-#include "../responses/request_response.h"
+#include "../responses/request_response_event.h"
 // #endif
 
 // Identifier for the different request types.
@@ -30,22 +30,24 @@ enum RequestType {
 };
 
 class client_request : public serializable {
-protected:
 
+protected:
     struct base_class_properties {
-        RequestType _type;
-        std::string _req_id;
-        std::string _player_id;
-        std::string _game_id;
+        RequestType _request_type;
+        std::string _request_id;
+        std::string _player_uuid;
     };
 
-    RequestType _type;
-    std::string _req_id;
-    std::string _player_id;
-    std::string _game_id;
+    RequestType _request_type;
+    std::string _request_id;
+    std::string _player_uuid;
 
     explicit client_request(base_class_properties); // base constructor
-    static base_class_properties create_base_class_properties(RequestType type, std::string req_id, std::string& player_id, std::string& game_id);
+
+    static base_class_properties create_base_class_properties(
+            RequestType type, std::string request_id,std::string& player_uuid
+            );
+
     static base_class_properties extract_base_class_properties(const rapidjson::Value& json);
 
 private:
@@ -57,8 +59,7 @@ private:
 public:
     virtual ~client_request() {}
 
-    std::string get_player_id() const;
-    std::string get_game_id() const;
+    std::string get_player_uuid() const;
 
     // Tries to create the specific client_request from the provided json.
     // Throws exception if parsing fails -> Use only in "try{ }catch()" block
@@ -70,7 +71,7 @@ public:
     virtual std::string to_string() const;
 
     // Execute this request on the server side
-    virtual request_response* execute() = 0;
+    virtual request_response_event* execute() = 0;
 };
 
 

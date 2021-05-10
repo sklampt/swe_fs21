@@ -25,7 +25,7 @@ public:
     static client_update_game_request* from_json(const rapidjson::Value& json);
 
 // #ifdef LAMA_SERVER
-    request_response* execute() override;
+    request_response_event* execute() override;
 // #endif
 };
 

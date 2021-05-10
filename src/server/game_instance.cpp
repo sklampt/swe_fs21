@@ -4,10 +4,11 @@
 // The game_instance class is a wrapper around the Game of an active instance of the game.
 // This class contains functions to modify the contained Game.
 
+#include <common/network/responses/server_update_lobby_event.h>
 #include "game_instance.h"
 
 #include "server_network_manager.h"
-#include "../common/network/responses/full_state_response.h"
+#include "../common/network/responses/server_update_game_event.h"
 
 
 game_instance::game_instance() {
@@ -38,7 +39,7 @@ bool game_instance::start_game(Player* player, std::string &err) {
     modification_lock.lock();
     if (_Game->start_game(err)) {
         // send state update to all other players
-        full_state_response state_update_msg = full_state_response(this->get_id(), *_Game);
+        server_update_game_event state_update_msg = server_update_game_event( *_Game);
         server_network_manager::broadcast_message(state_update_msg, _Game->get_players(), player);
         modification_lock.unlock();
         return true;
@@ -52,7 +53,7 @@ bool game_instance::try_remove_player(Player *player, std::string &err) {
     if (_Game->remove_player(player, err)) {
         player->set_game_id("");
         // send state update to all other players
-        full_state_response state_update_msg = full_state_response(this->get_id(), *_Game);
+        server_update_lobby_event state_update_msg = server_update_lobby_event(*_Game);
         server_network_manager::broadcast_message(state_update_msg, _Game->get_players(), player);
         modification_lock.unlock();
         return true;
@@ -66,7 +67,7 @@ bool game_instance::try_add_player(Player *new_player, std::string &err) {
     if (_Game->add_player(new_player, err)) {
         new_player->set_game_id(get_id());
         // send state update to all other players
-        full_state_response state_update_msg = full_state_response(this->get_id(), *_Game);
+        server_update_lobby_event state_update_msg = server_update_lobby_event(*_Game);
         server_network_manager::broadcast_message(state_update_msg, _Game->get_players(), new_player);
         modification_lock.unlock();
         return true;

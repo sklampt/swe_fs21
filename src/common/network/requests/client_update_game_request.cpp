@@ -11,7 +11,7 @@
 
 // Public constructor
 client_update_game_request::client_update_game_request(std::string game_id, std::string player_id)
-        : client_request( client_request::create_base_class_properties(RequestType::start_game, uuid_generator::generate_uuid_v4(), player_id, game_id) )
+        : client_request( client_request::create_base_class_properties(RequestType::client_update_game, uuid_generator::generate_uuid_v4(), player_id) )
 { }
 
 // private constructor for deserialization
@@ -20,7 +20,7 @@ client_update_game_request::client_update_game_request(client_request::base_clas
 { }
 
 client_update_game_request* client_update_game_request::from_json(const rapidjson::Value& json) {
-    return new start_game_request(client_request::extract_base_class_properties(json));
+    return new client_update_game_request(client_request::extract_base_class_properties(json));
 }
 
 void client_update_game_request::write_into_json(rapidjson::Value &json,
@@ -28,16 +28,15 @@ void client_update_game_request::write_into_json(rapidjson::Value &json,
     client_request::write_into_json(json, allocator);
 }
 
-// #ifdef LAMA_SERVER
-request_response* client_update_game_request::execute() {
+request_response_event* client_update_game_request::execute() {
     std::string err;
     Player* player;
     game_instance* game_instance_ptr;
-    if (game_instance_manager::try_get_player_and_game_instance(_player_id, player, game_instance_ptr, err)) {
+    if (game_instance_manager::try_get_player_and_game_instance(player, game_instance_ptr, err)) {
         if (game_instance_ptr->start_game(player, err)) {
-            return new request_response(game_instance_ptr->get_id(), _req_id, true, game_instance_ptr->get_game()->to_json(), err);
+            return new request_response_event(ResponseType::server_update_game, _request_id, true, game_instance_ptr->get_game()->to_json(), err);
         }
     }
-    return new request_response("", _req_id, false, nullptr, err);
+    // else
+    return new request_response_event(ResponseType::server_update_game, _request_id, false, nullptr, err);
 }
-// #endif
