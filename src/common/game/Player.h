@@ -17,10 +17,10 @@ class Player {
 
 private:
     serializable_value<std::string>* _player_name;
+    serializable_value<std::string>* _player_uuid;
+    serializable_value<std::string>* _game_id;
     serializable_value<bool>* _has_folded;
     serializable_value<int>* _score;
-
-    std::string _game_id;
 
     /*
      * Deserialization constructor
@@ -32,7 +32,7 @@ public:
 
     void set_game_id(std::string basicString);
 
-    void get_id();
+    std::string get_id();
 
     void get_player_name();
 };
