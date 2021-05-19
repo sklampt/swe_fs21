@@ -1,4 +1,9 @@
 # Doxygen
 html/
 latex/
+
+#
 cmake-build-debug
+
+# CLion
+.idea/
