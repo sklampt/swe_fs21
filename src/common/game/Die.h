@@ -5,27 +5,22 @@
 #ifndef ZOMBIEDICE_DIE_H
 #define ZOMBIEDICE_DIE_H
 
-#include <random>
+#include <vector>
 
-enum Color {
-    green, yellow, red
-};
-enum Face {
-    brains, runners, shotgun
-};
+// three colors of dice
+enum Color {green, yellow, red};
+// three faces present on dice
+enum Face {brain, shotgun, footprint};
 
 class Die {
-private:
-    Color _color;
-    Face _face;
-    std::mt19937 _gen;
-    std::uniform_int_distribution _dist;
-public:
-    Die(Color c);
-
-    Face getFace();
-
-    void roll();
+    private:
+        std::vector<Face> faces;
+        Color color;
+    
+    public:
+        Die(Color color);
+        Color get_color();
+        Face throw_die();
 };
 
 
