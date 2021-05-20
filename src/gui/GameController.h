@@ -1,9 +1,9 @@
 #ifndef ZOMBIEDICE_GUI_GAMECONTROLLER_H
 #define ZOMBIEDICE_GUI_GAMECONTROLLER_H
 
-#include "gui/windows/GameWindow.h"
+#include "windows/GameWindow.h"
 #include "panels/ConnectionPanel.h"
-#include "gui/panels/MainGamePanel.h"
+#include "panels/MainGamePanel.h"
 #include "network/ResponseListenerThread.h"
 #include "../common/game/Game.h"
 
@@ -16,14 +16,14 @@ public:
     static void connectToServer();
     static void updateGameState(Game* newGameState);
     static void startGame();
-    static void drawCard();
-    static void fold();
-    // static void playCard(card* cardToPlay);
+    static void drawDice();
+    static void keepGoing();
+    static void score();
 
     static wxEvtHandler* getMainThreadEventHandler();
     static void showError(const std::string& title, const std::string& message);
     static void showStatus(const std::string& message);
-    static void showNewRoundMessage(Game* oldGameState, Game* newGameState);
+    static void showNewTurnMessage(Game* oldGameState, Game* newGameState);
     static void showGameOverMessage();
 
 private:
