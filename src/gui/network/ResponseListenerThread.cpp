@@ -51,9 +51,9 @@ wxThread::ExitCode ResponseListenerThread::Entry() {
                 // process message (if we've received entire message)
                 if (bytesReadSoFar == messageLength) {
                     std::string message = messageStream.str();
-                    // GameController::getMainThreadEventHandler()->CallAfter([message]{
-                    //    ClientNetworkManager::parseResponse(message);
-                    // });
+                    GameController::getMainThreadEventHandler()->CallAfter([message]{
+                       ClientNetworkManager::parseResponse(message);
+                    });
 
                 } else {
                     this->outputError("Network error", "Could not read entire message. TCP stream ended early. Difference is " + std::to_string(messageLength - bytesReadSoFar) + " bytes");
