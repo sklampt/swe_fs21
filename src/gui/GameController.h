@@ -5,6 +5,7 @@
 #include "panels/ConnectionPanel.h"
 #include "panels/MainGamePanel.h"
 #include "panels/StartPanel.h"
+#include "panels/LobbyPanel.h"
 #include "network/ResponseListenerThread.h"
 #include "../common/game/Game.h"
 
@@ -32,6 +33,7 @@ private:
     static ConnectionPanel* _connectionPanel;
     static StartPanel* _startPanel;
     static MainGamePanel* _mainGamePanel;
+    static LobbyPanel* _lobbyPanel;
 
     static Player* _me;
     static Game* _currentGameState;

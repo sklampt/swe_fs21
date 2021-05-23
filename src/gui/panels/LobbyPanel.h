@@ -2,6 +2,7 @@
 #define ZOMBIEDICE_LOBBYPANEL_H
 
 #include <wx/wx.h>
+#include <wx/grid.h>
 #include "../uiElements/InputField.h"
 
 
@@ -11,6 +12,7 @@ public:
     LobbyPanel(wxWindow* parent);
 
 private:
+    wxGrid* _displayText;
     wxStaticText* _displayMeLHS;
     wxStaticText* _displayMeRHS;
     wxStaticText* _displayOtherPlayersRHS;
