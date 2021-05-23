@@ -1,0 +1,8 @@
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/rebuild_cache.dir
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/example.dir
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/unit_tests.dir
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/ZombieDice.dir
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/edit_cache.dir
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/test.dir
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/ZombieDice-lib.dir
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/GTestProject.dir

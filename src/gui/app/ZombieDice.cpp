@@ -27,8 +27,7 @@ bool ZombieDice::OnInit()
     GameController::init(gameWindow);
 
     // Test Server
-    start_server(token_generator::generate(),default_server_listen_port
-                 );
+    //start_server(token_generator::generate(),default_server_listen_port);
 
 
     return true;

@@ -1,0 +1,13 @@
+# Target labels
+ GTestProject
+# Source files and their labels
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/GTestProject
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/GTestProject.rule
+/home/pete/CLionProjects/zombiedice/mybuild/CMakeFiles/GTestProject-complete.rule
+/home/pete/CLionProjects/zombiedice/mybuild/GTestProject-prefix/src/GTestProject-stamp/GTestProject-install.rule
+/home/pete/CLionProjects/zombiedice/mybuild/GTestProject-prefix/src/GTestProject-stamp/GTestProject-mkdir.rule
+/home/pete/CLionProjects/zombiedice/mybuild/GTestProject-prefix/src/GTestProject-stamp/GTestProject-download.rule
+/home/pete/CLionProjects/zombiedice/mybuild/GTestProject-prefix/src/GTestProject-stamp/GTestProject-update.rule
+/home/pete/CLionProjects/zombiedice/mybuild/GTestProject-prefix/src/GTestProject-stamp/GTestProject-patch.rule
+/home/pete/CLionProjects/zombiedice/mybuild/GTestProject-prefix/src/GTestProject-stamp/GTestProject-configure.rule
+/home/pete/CLionProjects/zombiedice/mybuild/GTestProject-prefix/src/GTestProject-stamp/GTestProject-build.rule

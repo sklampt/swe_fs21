@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pete/CLionProjects/zombiedice/src/example.cpp
+example.h
+/home/pete/CLionProjects/zombiedice/src/example.h
+
+/home/pete/CLionProjects/zombiedice/src/example.h
+
