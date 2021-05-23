@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/GTestProject"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/GTestProject.rule"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/GTestProject-complete.rule"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-install.rule"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-mkdir.rule"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-download.rule"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-update.rule"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-patch.rule"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-configure.rule"
+		},
+		{
+			"file" : "/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"GTestProject"
+		],
+		"name" : "GTestProject"
+	}
+}
