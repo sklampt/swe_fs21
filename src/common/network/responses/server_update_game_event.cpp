@@ -51,7 +51,7 @@ rapidjson::Value* server_update_game_event::get_state_json() const {
 void server_update_game_event::Process() const {
     try {
         Game* state = Game::from_json(*_state_json);
-        GameController::updateGameState(state);
+        //GameController::updateGameState(state);
 
     } catch(std::exception& e) {
         std::cerr << "Failed to extract game_state from server_update_game_event" << std::endl
