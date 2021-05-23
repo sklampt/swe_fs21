@@ -26,7 +26,7 @@ set(SOURCE_FILES
         ## Panels
         src/gui/panels/MainGamePanel.cpp src/gui/panels/MainGamePanel.h
         src/gui/panels/ConnectionPanel.cpp src/gui/panels/ConnectionPanel.h
-        #src/gui/panels/LobbyPanel.cpp src/gui/panels/LobbyPanel.h
+        src/gui/panels/LobbyPanel.cpp src/gui/panels/LobbyPanel.h
         src/gui/panels/StartPanel.cpp src/gui/panels/StartPanel.h
         ## UIElements
         src/gui/uiElements/ImagePanel.cpp src/gui/uiElements/ImagePanel.h

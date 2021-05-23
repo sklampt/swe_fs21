@@ -1,0 +1,13 @@
+# Target labels
+ GTestProject
+# Source files and their labels
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/GTestProject
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/GTestProject.rule
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/GTestProject-complete.rule
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-install.rule
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-mkdir.rule
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-download.rule
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-update.rule
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-patch.rule
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-configure.rule
+/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/GTestProject-prefix/src/GTestProject-stamp/GTestProject-build.rule
