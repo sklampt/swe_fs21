@@ -274,6 +274,7 @@ CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cp
  ../sockpp/include/sockpp/stream_socket.h
  ../sockpp/include/sockpp/tcp_connector.h
  ../sockpp/include/sockpp/tcp_socket.h
+ ../src/common/game/Die.h
  ../src/common/game/Game.h
  ../src/gui/GameController.h
  ../src/gui/network/ResponseListenerThread.h
@@ -609,6 +610,7 @@ CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.
  ../src/gui/panels/ConnectionPanel.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/document.h
  /home/pete/CLionProjects/zombiedice/src/common/exceptions/ZombieException.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Game.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Player.h
  /home/pete/CLionProjects/zombiedice/src/common/network/responses/server_response.h
@@ -909,6 +911,7 @@ CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event
  ../src/gui/panels/ConnectionPanel.h
  ../src/server/player_manager.h
  /home/pete/CLionProjects/zombiedice/src/common/exceptions/ZombieException.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Game.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Player.h
  /home/pete/CLionProjects/zombiedice/src/common/network/responses/server_response.h
@@ -1226,6 +1229,7 @@ CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/reader.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/stream.h
  /home/pete/CLionProjects/zombiedice/src/common/exceptions/ZombieException.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Game.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Player.h
  /home/pete/CLionProjects/zombiedice/src/common/network/requests/client_request.h
@@ -1520,6 +1524,7 @@ CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/rapidjson.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/reader.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/stream.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Game.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Player.h
  /home/pete/CLionProjects/zombiedice/src/common/serialization/serializable.h
@@ -2055,6 +2060,7 @@ CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/reader.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/stream.h
  /home/pete/CLionProjects/zombiedice/src/common/exceptions/ZombieException.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Game.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Player.h
  /home/pete/CLionProjects/zombiedice/src/common/network/requests/client_request.h
@@ -2351,6 +2357,7 @@ CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/reader.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/stream.h
  /home/pete/CLionProjects/zombiedice/src/common/exceptions/ZombieException.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Game.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Player.h
  /home/pete/CLionProjects/zombiedice/src/common/network/requests/client_request.h
@@ -2642,6 +2649,7 @@ CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/rapidjson.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/reader.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/stream.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Game.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Player.h
  /home/pete/CLionProjects/zombiedice/src/common/serialization/serializable.h
@@ -2942,6 +2950,7 @@ CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o
  ../src/gui/uiElements/ImagePanel.h
  ../src/gui/uiElements/InputField.h
  ../src/gui/windows/GameWindow.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/gui/panels/MainGamePanel.cpp
  /home/pete/CLionProjects/zombiedice/src/gui/panels/MainGamePanel.h
  /usr/include/wx-3.0/wx/accel.h
@@ -3215,6 +3224,7 @@ CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/rapidjson.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/reader.h
  /home/pete/CLionProjects/zombiedice/rapidjson/include/rapidjson/stream.h
+ /home/pete/CLionProjects/zombiedice/src/common/game/Die.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Game.h
  /home/pete/CLionProjects/zombiedice/src/common/game/Player.h
  /home/pete/CLionProjects/zombiedice/src/common/serialization/serializable.h

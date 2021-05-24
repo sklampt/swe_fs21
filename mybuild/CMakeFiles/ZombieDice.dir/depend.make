@@ -273,6 +273,7 @@ CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cp
 CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cpp.o: ../sockpp/include/sockpp/stream_socket.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cpp.o: ../sockpp/include/sockpp/tcp_connector.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cpp.o: ../sockpp/include/sockpp/tcp_socket.h
+CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cpp.o: ../src/gui/GameController.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/request_response_event.cpp.o: ../src/gui/network/ResponseListenerThread.h
@@ -608,6 +609,7 @@ CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.cpp.o: ../src/gui/panels/ConnectionPanel.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.cpp.o: ../rapidjson/include/rapidjson/document.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.cpp.o: ../src/common/exceptions/ZombieException.h
+CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.cpp.o: ../src/common/game/Player.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_game_event.cpp.o: ../src/common/network/responses/server_response.h
@@ -908,6 +910,7 @@ CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event.cpp.o: ../src/gui/panels/ConnectionPanel.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event.cpp.o: ../src/server/player_manager.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event.cpp.o: ../src/common/exceptions/ZombieException.h
+CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event.cpp.o: ../src/common/game/Player.h
 CMakeFiles/ZombieDice.dir/src/common/network/responses/server_update_lobby_event.cpp.o: ../src/common/network/responses/server_response.h
@@ -1225,6 +1228,7 @@ CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o: ../rapidjson/include/rap
 CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o: ../rapidjson/include/rapidjson/reader.h
 CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o: ../rapidjson/include/rapidjson/stream.h
 CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o: ../src/common/exceptions/ZombieException.h
+CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o: ../src/common/game/Player.h
 CMakeFiles/ZombieDice.dir/src/gui/GameController.cpp.o: ../src/common/network/requests/client_request.h
@@ -1519,6 +1523,7 @@ CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o: ../rapidjson/include/rap
 CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o: ../rapidjson/include/rapidjson/rapidjson.h
 CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o: ../rapidjson/include/rapidjson/reader.h
 CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o: ../rapidjson/include/rapidjson/stream.h
+CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o: ../src/common/game/Player.h
 CMakeFiles/ZombieDice.dir/src/gui/app/ZombieDice.cpp.o: ../src/common/serialization/serializable.h
@@ -2054,6 +2059,7 @@ CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o: ../rapidjs
 CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o: ../rapidjson/include/rapidjson/reader.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o: ../rapidjson/include/rapidjson/stream.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o: ../src/common/exceptions/ZombieException.h
+CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o: ../src/common/game/Player.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ClientNetworkManager.cpp.o: ../src/common/network/requests/client_request.h
@@ -2350,6 +2356,7 @@ CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o: ../rapid
 CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o: ../rapidjson/include/rapidjson/reader.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o: ../rapidjson/include/rapidjson/stream.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o: ../src/common/exceptions/ZombieException.h
+CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o: ../src/common/game/Player.h
 CMakeFiles/ZombieDice.dir/src/gui/network/ResponseListenerThread.cpp.o: ../src/common/network/requests/client_request.h
@@ -2641,6 +2648,7 @@ CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o: ../rapidjson/inc
 CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o: ../rapidjson/include/rapidjson/rapidjson.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o: ../rapidjson/include/rapidjson/reader.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o: ../rapidjson/include/rapidjson/stream.h
+CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o: ../src/common/game/Player.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/ConnectionPanel.cpp.o: ../src/common/serialization/serializable.h
@@ -2941,6 +2949,7 @@ CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o: ../src/gui/panels/
 CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o: ../src/gui/uiElements/ImagePanel.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o: ../src/gui/uiElements/InputField.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o: ../src/gui/windows/GameWindow.h
+CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o: ../src/gui/panels/MainGamePanel.cpp
 CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o: ../src/gui/panels/MainGamePanel.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/MainGamePanel.cpp.o: /usr/include/wx-3.0/wx/accel.h
@@ -3214,6 +3223,7 @@ CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o: ../rapidjson/include/
 CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o: ../rapidjson/include/rapidjson/rapidjson.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o: ../rapidjson/include/rapidjson/reader.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o: ../rapidjson/include/rapidjson/stream.h
+CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o: ../src/common/game/Die.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o: ../src/common/game/Game.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o: ../src/common/game/Player.h
 CMakeFiles/ZombieDice.dir/src/gui/panels/StartPanel.cpp.o: ../src/common/serialization/serializable.h

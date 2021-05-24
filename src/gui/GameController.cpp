@@ -9,6 +9,10 @@ MainGamePanel* GameController::_mainGamePanel = nullptr;
 StartPanel* GameController::_startPanel = nullptr;
 
 
+//test vectors for MainGamePanel
+std::vector<std::string> names{"kusi", "petra", "mike", "miguel"};
+std::vector<int> scores{1,2,3,4};
+
 
 void GameController::init(GameWindow* gameWindow) {
 
@@ -24,8 +28,10 @@ void GameController::init(GameWindow* gameWindow) {
     GameController::_mainGamePanel->Show(false);
     GameController::_startPanel->Show(false);
 
+    GameController::_mainGamePanel->buildGameState(&scores, &names);
+
     // Only show connection panel at the start of the game
-    GameController::_gameWindow->showPanel(GameController::_startPanel);
+    GameController::_gameWindow->showPanel(GameController::_mainGamePanel);
 
     // Set status bar
     //GameController::showStatus("Not connected");     ->not yet available
