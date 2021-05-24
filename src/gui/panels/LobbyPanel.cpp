@@ -7,7 +7,7 @@
 
 LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     
-    wxColor white = wxColor(255, 255, 255);
+    wxColor white = wxColor(252, 210, 153);
     this->SetBackgroundColour(white);
 
     wxBoxSizer* verticalLayout = new wxBoxSizer(wxVERTICAL);
@@ -43,6 +43,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     );
     verticalLayout->Add(this->_displayMeLHS, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
 
+    /*
     for(int i = 0; i < players.size(); i++) {
         player* playerState = players.at(i);
         std::string playerName = playerState->get_player_name();
@@ -58,7 +59,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
             verticalLayout->Add(this->_displayMeLHS, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
         }
     }
-
+    */
 
     wxButton* connectButton = new wxButton(this, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 40));
     connectButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
