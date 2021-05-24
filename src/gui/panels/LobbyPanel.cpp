@@ -19,6 +19,8 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     ImagePanel* logo = new ImagePanel(this, "assets/zombiedice_logo_nobackground.png", wxBITMAP_TYPE_ANY, wxDefaultPosition, wxSize(800, 275));
     verticalLayout->Add(logo, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
 
+
+    // display self
     wxString txt1 = "You:";
     this->_displayMeLHS = new wxStaticText(
             this,
@@ -45,6 +47,8 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     horizontalLayout1->Add(this->_displayMeRHS, 0, wxTOP | wxLEFT | wxRIGHT, 10);
     verticalLayout->Add(horizontalLayout1, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
+
+    // display other players
     wxString txt3 = "Other Players:";
     this->_displayOtherPlayersLHS = new wxStaticText(
             this,
@@ -57,6 +61,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     );
     horizontalLayout2->Add(this->_displayOtherPlayersLHS, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
+    // fixed vector with players
     std::vector<std::string> players {
         "Booster",
         "Marco",
@@ -87,6 +92,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     verticalLayout->Add(horizontalLayout2, 0, wxTOP | wxLEFT | wxRIGHT, 10);
     
 
+    // button to start game - "link" missing
     wxButton* connectButton = new wxButton(this, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 40));
     connectButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
         // GameController::connectToServer();
@@ -97,7 +103,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
 }
 
 
-    
+// from Lama how to display players and winners    
 /*
 for(int i = 0; i < players.size(); i++) {
 
