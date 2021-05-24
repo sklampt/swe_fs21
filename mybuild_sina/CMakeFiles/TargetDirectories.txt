@@ -1,8 +1,0 @@
-/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/rebuild_cache.dir
-/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/example.dir
-/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/unit_tests.dir
-/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/ZombieDice.dir
-/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/edit_cache.dir
-/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/test.dir
-/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/ZombieDice-lib.dir
-/home/sklampt/eth/fs21/software_engineering/zombiedice/mybuild_sina/CMakeFiles/GTestProject.dir
