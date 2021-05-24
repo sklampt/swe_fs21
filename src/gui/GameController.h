@@ -31,7 +31,7 @@ public:
 private:
     static GameWindow* _gameWindow;
     static ConnectionPanel* _connectionPanel;
-    static StartPanel* _startPanel;
+    // static StartPanel* _startPanel;
     static MainGamePanel* _mainGamePanel;
     static LobbyPanel* _lobbyPanel;
 

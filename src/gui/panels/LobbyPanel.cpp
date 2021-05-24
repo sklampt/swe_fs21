@@ -11,61 +11,88 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     this->SetBackgroundColour(white);
 
     wxBoxSizer* verticalLayout = new wxBoxSizer(wxVERTICAL);
+    wxBoxSizer* horizontalLayout1 = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* horizontalLayout2 = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* verticalLayout2 = new wxBoxSizer(wxVERTICAL);
    
-    ImagePanel* logo = new ImagePanel(this, "assets/zombiedice_logo_nobackground.png", wxBITMAP_TYPE_ANY, wxDefaultPosition, wxSize(200, 250));
+    ImagePanel* logo = new ImagePanel(this, "assets/zombiedice_logo_nobackground.png", wxBITMAP_TYPE_ANY, wxDefaultPosition, wxSize(800, 275));
     verticalLayout->Add(logo, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
 
-
+    wxString txt1 = "You:";
     this->_displayMeLHS = new wxStaticText(
-            "You:",
+            this,
+            wxID_ANY,
+            txt1,
             wxDefaultPosition,
-            wxSize(200, 18),
-            textAlignment,
-            true
+            wxSize(200, 100),
+            wxALIGN_CENTER_HORIZONTAL,
+            txt1
     );
-    verticalLayout->Add(this->_displayMeLHS, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
+    horizontalLayout1->Add(this->_displayMeLHS, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
+    wxString txt2 = "Me";
     this->_displayMeRHS = new wxStaticText(
-            me->get_player_name(),
+            //me->get_player_name(),
+            this,
+            wxID_ANY,
+            txt2,
             wxDefaultPosition,
-            wxSize(200, 18),
-            textAlignment,
-            true
+            wxSize(200, 100),
+            wxALIGN_CENTER_HORIZONTAL,
+            txt2
     );
-    verticalLayout->Add(this->_displayMeLHS, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
+    horizontalLayout1->Add(this->_displayMeRHS, 0, wxTOP | wxLEFT | wxRIGHT, 10);
+    verticalLayout->Add(horizontalLayout1, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
+    wxString txt3 = "Other Players:";
     this->_displayOtherPlayersLHS = new wxStaticText(
-            "Other players:",
+            this,
+            wxID_ANY,
+            txt3,
             wxDefaultPosition,
-            wxSize(200, 18),
-            textAlignment,
-            true
+            wxSize(200, 100),
+            wxALIGN_CENTER_HORIZONTAL,
+            txt3
     );
-    verticalLayout->Add(this->_displayMeLHS, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
+    horizontalLayout2->Add(this->_displayOtherPlayersLHS, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
-    /*
-    for(int i = 0; i < players.size(); i++) {
-        player* playerState = players.at(i);
-        std::string playerName = playerState->get_player_name();
-
-        if(playerState->get_id() != GameController::_me->get_id()) {
+    std::vector<std::string> players {
+        "Booster",
+        "Marco",
+        "Robin",
+        "Sina",
+        "Tarzis"
+    };
+    std::size_t length = players.size();
+    for(int i = 0; i < length; i++) {
+        // player* playerState = players.at(i);
+        // std::string playerName = playerState->get_player_name();
+        // wxString txt4 = playerState->get_player_name();
+        // wxString txt4 = players[i];
+        // if(playerState->get_id() != GameController::_me->get_id()) {
             this->_displayOtherPlayersRHS = new wxStaticText(
-                    otherPlayer->get_player_name(),
+                    this,
+                    wxID_ANY,
+                    players[i],
                     wxDefaultPosition,
-                    wxSize(200, 18),
-                    textAlignment,
-                    true
+                    wxSize(200, 50),
+                    wxALIGN_CENTER_HORIZONTAL,
+                    players[i]
             );
-            verticalLayout->Add(this->_displayMeLHS, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
-        }
+            verticalLayout2->Add(this->_displayOtherPlayersRHS, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 0);
+        // }
     }
-    */
+    horizontalLayout2->Add(verticalLayout2, 0, wxTOP | wxLEFT | wxRIGHT, 10);
+    verticalLayout->Add(horizontalLayout2, 0, wxTOP | wxLEFT | wxRIGHT, 10);
+    
 
     wxButton* connectButton = new wxButton(this, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 40));
     connectButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
-        GameController::connectToServer();
+        // GameController::connectToServer();
     });
     verticalLayout->Add(connectButton, 0, wxALIGN_RIGHT | wxALL, 10);
+
+    this->SetSizerAndFit(verticalLayout);
 }
 
 

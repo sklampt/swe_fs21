@@ -4,6 +4,8 @@
 #include <wx/wx.h>
 #include <wx/grid.h>
 #include "../uiElements/InputField.h"
+#include <vector>
+#include <string>
 
 
 class LobbyPanel : public wxPanel {
@@ -18,6 +20,7 @@ private:
     wxStaticText* _displayOtherPlayersRHS;
     wxStaticText* _displayOtherPlayersLHS;
 
+    // static const std::vector<std::string> players;
 };
 
 
