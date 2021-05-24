@@ -9,6 +9,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     
     wxColor white = wxColor(252, 210, 153);
     this->SetBackgroundColour(white);
+    this->SetForegroundColour(*wxRED);
 
     wxBoxSizer* verticalLayout = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer* horizontalLayout1 = new wxBoxSizer(wxHORIZONTAL);
