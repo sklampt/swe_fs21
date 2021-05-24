@@ -1,8 +1,9 @@
 #include "ConnectionPanel.h"
 
 
-#include "gui/uiElements/ImagePanel.h"
-#include "gui/GameController.h"
+#include "../uiElements/ImagePanel.h"
+#include "../GameController.h"
+// ../../common/network/default.conf missing -> ok?
 
 
 ConnectionPanel::ConnectionPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
@@ -11,11 +12,9 @@ ConnectionPanel::ConnectionPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     this->SetBackgroundColour(white);
 
     wxBoxSizer* verticalLayout = new wxBoxSizer(wxVERTICAL);
-
-    /* I did not delete code below to have an example
-     *
-     * ImagePanel* logo = new ImagePanel(this, "assets/lama_logo.png", wxBITMAP_TYPE_ANY, wxDefaultPosition, wxSize(200, 250));
-     * verticalLayout->Add(logo, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10); */
+   
+    ImagePanel* logo = new ImagePanel(this, "assets/zombiedice_logo_nobackground.png", wxBITMAP_TYPE_ANY, wxDefaultPosition, wxSize(200, 250));
+    verticalLayout->Add(logo, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
 
     this->_serverAddressField = new InputField(
         this, // parent element

@@ -27,6 +27,7 @@ set(SOURCE_FILES
         src/gui/panels/MainGamePanel.cpp src/gui/panels/MainGamePanel.h
         src/gui/panels/ConnectionPanel.cpp src/gui/panels/ConnectionPanel.h
         src/gui/panels/LobbyPanel.cpp src/gui/panels/LobbyPanel.h
+        # src/gui/panels/StartPanel.cpp src/gui/panels/StartPanel.h
         ## UIElements
         src/gui/uiElements/ImagePanel.cpp src/gui/uiElements/ImagePanel.h
         src/gui/uiElements/InputField.cpp src/gui/uiElements/InputField.h

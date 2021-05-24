@@ -2,7 +2,7 @@
 #define ZOMBIEDICE_CONNECTIONPANEL_H
 
 #include <wx/wx.h>
-#include "gui/uiElements/InputField.h"
+#include "../uiElements/InputField.h"
 
 
 class ConnectionPanel : public wxPanel {
