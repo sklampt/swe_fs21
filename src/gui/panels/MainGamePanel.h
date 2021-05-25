@@ -2,11 +2,17 @@
 #define ZOMBIEDICE_CLIENT_MAINGAMEPANEL_H
 
 #include <wx/wx.h>
+#include <vector>
+#include <string>
+#include "../../common/game/Die.h"
+
 
 class MainGamePanel : public wxPanel {
 
 public:
     MainGamePanel(wxWindow* parent);
+
+    void buildGameState(std::vector<int>* scores, std::vector<std::string>* names, std::vector<std::string>* dice, std::vector<std::string>* colors);
 
 private:
 
@@ -26,11 +32,25 @@ private:
     double const otherPlayerHandDistanceFromCenter = 180.0;
     double const otherPlayerLabelDistanceFromCenter = 275.0;
 
+
     wxPoint const discardPileOffset = wxPoint(-84, -42);
     wxPoint const drawPileOffset = wxPoint(4, -42);
     wxPoint const turnIndicatorOffset = wxPoint(-100, 98);
 
+    wxSize const dieSize = wxSize(44,66);
+    wxPoint const uppermostDie = wxPoint(30, 50);
+    wxPoint const linePos = wxPoint(240, 340);
+    wxSize const lineSize = wxSize(547, 680);
+    int dieOffsetX = 60;
+    int dieOffsetY = 80;
+    wxPoint const thrownTextPos = wxPoint(30, 20);
+    wxPoint const throwAgainPos = wxPoint(30, 580);
+    wxPoint const stopTurnPos = wxPoint(30, 630);
+    wxSize const buttonSize = wxSize(100, 40);
+
+
     double const twoPi = 6.28318530718;
+
 
 };
 

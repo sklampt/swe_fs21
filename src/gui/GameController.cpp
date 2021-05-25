@@ -9,6 +9,20 @@ MainGamePanel* GameController::_mainGamePanel = nullptr;
 // StartPanel* GameController::_startPanel = nullptr;
 LobbyPanel* GameController::_lobbyPanel = nullptr;
 
+//test vectors for MainGamePanel
+std::vector<std::string> names{"kusi", "petra", "mike", "miguel"};
+std::vector<int> scores{1,2,3,4};
+std::vector<std::string> dieFaces{
+    "bomb", "brain", "footsteps",
+    "brain", "brain", "brain"
+};
+std::vector<std::string> dieColors{
+        "red", "green", "yellow",
+        "red", "red", "red"
+};
+
+
+
 
 
 void GameController::init(GameWindow* gameWindow) {
@@ -29,7 +43,13 @@ void GameController::init(GameWindow* gameWindow) {
 
     // Only show connection panel at the start of the game
     // GameController::_gameWindow->showPanel(GameController::_startPanel);
+
+    GameController::_mainGamePanel->buildGameState(&scores, &names, &dieFaces, &dieColors);
+
+    GameController::_gameWindow->showPanel(GameController::_mainGamePanel);
+
     GameController::_gameWindow->showPanel(GameController::_lobbyPanel);
+
 
 
     // Set status bar
