@@ -10,25 +10,25 @@ void Turn::roll() {
     if (_num_shotguns > 2)
         return;
     int draw = 3;
-    draw -= _footsteps.size();
-    _num_footprints -= _footsteps.size();
-    std::vector<Die> currenthand;
-    std::move(_footsteps.begin(), _footsteps.end(),
-              std::back_inserter(currenthand));
-    _footsteps.clear();
+    draw -= _footprint.size();
+    _num_footprints -= _footprint.size();
+    std::vector<Die> current_hand;
+    std::move(_footprint.begin(), _footprint.end(),
+              std::back_inserter(current_hand));
+    _footprint.clear();
     for (int i = 0; i < draw; i++) {
         Die d = _cup.get_die();
-        currenthand.push_back(d);
+        current_hand.push_back(d);
     }
-    for (auto d : currenthand) {
-        d.roll();
-        switch (d.getFace()) {
-            case brains:
+    for (auto d : current_hand) {
+        Face die_face = d.throw_die();
+        switch (die_face) {
+            case brain:
                 _brains.push_back(d);
                 _num_brains += 1;
                 break;
-            case runners:
-                _footsteps.push_back(d);
+            case footprint:
+                _footprint.push_back(d);
                 _num_footprints += 1;
                 break;
             case shotgun:
@@ -40,15 +40,15 @@ void Turn::roll() {
 }
 
 
-int Turn::getNumShotguns() {
+int Turn::get_num_shotguns() {
     return _num_shotguns;
 }
 
-int Turn::getNumFootprints() {
+int Turn::get_num_footprints() {
     return _num_footprints;
 }
 
-int Turn::getNumBrains() {
+int Turn::get_num_brains() {
     return _num_brains;
 }
 

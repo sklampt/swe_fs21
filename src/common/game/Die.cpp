@@ -11,13 +11,13 @@
 /** @brief Constructor, only color is needed
  *  @param color color of the die
  */
-Die::Die(Color color):color(color){
-    
+Die::Die(Color color) : color(color){
+
     assert(color == green || color == yellow || color == red);
 
     //define faces distribution of the die (0:brain, 1:shotgun, 2:footprint) as in enum Faces in Die.h
     int faces_dist[3];
-    
+
     if (color == green){
         faces_dist[0] = 3;
         faces_dist[1] = 1;
@@ -33,7 +33,7 @@ Die::Die(Color color):color(color){
         faces_dist[1] = 3;
         faces_dist[2] = 2;
     }
-    
+
     //add brains
     for (int i = 0; i < faces_dist[0]; i++){
         faces.push_back(brain);
@@ -62,5 +62,3 @@ Face Die::throw_die(){
     int face_at = rand() % 6;
     return faces.at(face_at);
 }
-
-

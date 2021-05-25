@@ -14,7 +14,7 @@
 class Turn {
 private:
     std::vector<Die> _brains;
-    std::vector<Die> _footsteps;
+    std::vector<Die> _footprint;
     std::vector<Die> _shotguns;
     int _num_brains;
     int _num_footprints;
@@ -27,11 +27,9 @@ public:
     void roll();
     int play_turn();
 
-    int getNumShotguns();
-
-    int getNumFootprints();
-
-    int getNumBrains();
+    int get_num_shotguns();
+    int get_num_footprints();
+    int get_num_brains();
 };
 
 
