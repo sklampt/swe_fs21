@@ -9,6 +9,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     
     wxColor white = wxColor(252, 210, 153);
     this->SetBackgroundColour(white);
+    this->SetForegroundColour(*wxRED);
 
     wxBoxSizer* verticalLayout = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer* horizontalLayout1 = new wxBoxSizer(wxHORIZONTAL);
@@ -44,6 +45,8 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     horizontalLayout1->Add(this->_displayMeRHS, 0, wxTOP | wxLEFT | wxRIGHT, 10);
     verticalLayout->Add(horizontalLayout1, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
+
+    // display other players
     wxString txt3 = "Other Players:";
     this->_displayOtherPlayersLHS = new wxStaticText(
             this,
@@ -56,6 +59,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     );
     horizontalLayout2->Add(this->_displayOtherPlayersLHS, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
+    // fixed vector with players
     std::vector<std::string> players {
         "Booster",
         "Marco",
@@ -86,6 +90,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     verticalLayout->Add(horizontalLayout2, 0, wxTOP | wxLEFT | wxRIGHT, 10);
     
 
+    // button to start game - "link" missing
     wxButton* connectButton = new wxButton(this, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 40));
     connectButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
         // GameController::connectToServer();
@@ -96,7 +101,7 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
 }
 
 
-    
+// from Lama how to display players and winners    
 /*
 for(int i = 0; i < players.size(); i++) {
 

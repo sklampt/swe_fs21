@@ -23,6 +23,8 @@ std::vector<std::string> dieColors{
 
 
 
+
+
 void GameController::init(GameWindow* gameWindow) {
 
     GameController::_gameWindow = gameWindow;
@@ -45,6 +47,9 @@ void GameController::init(GameWindow* gameWindow) {
     GameController::_mainGamePanel->buildGameState(&scores, &names, &dieFaces, &dieColors);
 
     GameController::_gameWindow->showPanel(GameController::_mainGamePanel);
+
+    GameController::_gameWindow->showPanel(GameController::_lobbyPanel);
+
 
 
     // Set status bar
