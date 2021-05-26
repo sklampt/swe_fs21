@@ -1,7 +1,3 @@
-//
-// Created by marco on 02.05.21.
-//
-
 #include "Game.h"
 #include "../exceptions/ZombieException.h"
 #include "../serialization/vector_utils.h"
@@ -105,7 +101,6 @@ std::vector<Player*>& Game::get_players() {
     return _players;
 }
 
-#ifdef LAMA_SERVER
 void Game::setup_round(std::string &err) {
     _round_number->set_value(_round_number->get_value() + 1);
     for (int i = 0; i < _players.size(); i++) {
@@ -222,8 +217,6 @@ bool Game::fold(Player *player, std::string &err) {
         return false;
     }
 }
-
-#endif
 
 
 // Serializable interface

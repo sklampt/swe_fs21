@@ -7,7 +7,6 @@
 // will generate a new game_instance and add it to the unordered_map of (active) game instances.
 
 #include "game_instance_manager.h"
-
 #include "player_manager.h"
 #include "server_network_manager.h"
 

@@ -1,7 +1,3 @@
-//
-// Created by pete on 22.05.21.
-//
-
 #ifndef ZOMBIEDICE_STARTPANEL_H
 #define ZOMBIEDICE_STARTPANEL_H
 
@@ -16,11 +12,14 @@ public:
 
     wxString getPort();
     wxString getPlayerName();
+    wxString getAddress();
 
 private:
     InputField* _portField;
     InputField* _playerNameField;
+    InputField* _serverAddressField;
 
+    unsigned long getPortAsLong();
 };
 
 #endif //ZOMBIEDICE_STARTPANEL_H
