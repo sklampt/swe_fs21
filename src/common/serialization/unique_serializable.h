@@ -12,7 +12,7 @@
 class unique_serializable : public serializable {
 protected:
 
-    std::string _id;       // unique identifier
+    std::string _id = nullptr;       // unique identifier
 
     unique_serializable();
     unique_serializable(std::string id);

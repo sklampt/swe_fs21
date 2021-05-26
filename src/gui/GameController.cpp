@@ -3,7 +3,11 @@
 #include <common/network/requests/client_join_lobby_request.h>
 #include <common/network/requests/client_update_game_request.h>
 #include "common/game/Player.h"
+#include "server/start_server.h"
 
+
+// default values
+int default_port = 50500;
 
 // initialize static members
 GameWindow* GameController::_gameWindow = nullptr;
@@ -11,7 +15,7 @@ GameWindow* GameController::_gameWindow = nullptr;
 Player* GameController::_me = nullptr;
 Game* GameController::_currentGame = nullptr;
 
-ConnectionPanel* GameController::_connectionPanel = nullptr;
+//ConnectionPanel* GameController::_connectionPanel = nullptr;
 MainGamePanel* GameController::_mainGamePanel = nullptr;
 StartPanel* GameController::_startPanel = nullptr;
 LobbyPanel* GameController::_lobbyPanel = nullptr;
@@ -33,13 +37,11 @@ void GameController::init(GameWindow* gameWindow) {
     GameController::_gameWindow = gameWindow;
 
     // Set up main panels
-    GameController::_connectionPanel = new ConnectionPanel(gameWindow);
     GameController::_mainGamePanel = new MainGamePanel(gameWindow);
     GameController::_startPanel = new StartPanel(gameWindow);
     GameController::_lobbyPanel = new LobbyPanel(gameWindow);
 
     // Hide all panels
-    GameController::_connectionPanel->Show(false);
     GameController::_mainGamePanel->Show(false);
     GameController::_startPanel->Show(false);
     GameController::_lobbyPanel->Show(false);
@@ -57,9 +59,9 @@ void GameController::init(GameWindow* gameWindow) {
 void GameController::connectToServer() {
 
     // get values form UI input fields
-    wxString inputServerAddress = GameController::_connectionPanel->getServerAddress().Trim();
-    wxString inputServerPort = GameController::_connectionPanel->getServerPort().Trim();
-    wxString inputPlayerName = GameController::_connectionPanel->getPlayerName().Trim();
+    wxString inputServerAddress = GameController::_startPanel->getServerAddress().Trim();
+    wxString inputServerPort = GameController::_startPanel->getServerPort().Trim();
+    wxString inputPlayerName = GameController::_startPanel->getPlayerName().Trim();
 
     // check that all values were provided
     if(inputServerAddress.IsEmpty()) {
@@ -93,7 +95,9 @@ void GameController::connectToServer() {
     ClientNetworkManager::init(host, port);
 
     // send request to join game
-    GameController::_me = new Player(playerName);
+    if (!GameController::_me) {
+        GameController::_me = new Player(playerName);
+    }
     client_join_lobby_request request = client_join_lobby_request(GameController::_me->get_id(), GameController::_me->get_player_name());
     ClientNetworkManager::sendRequest(request);
 
@@ -112,7 +116,7 @@ wxEvtHandler* GameController::getMainThreadEventHandler() {
 }
 
 void GameController::showError(const std::string& title, const std::string& message) {
-    wxMessageBox(message, title, wxICON_ERROR);
+    wxMessageBox(message, title, wxICON_INFORMATION);
 }
 
 void GameController::showStatus(const std::string& message) {
@@ -159,4 +163,18 @@ void GameController::showGameOverMessage() {
     if(buttonClicked == wxID_OK) {
         GameController::_gameWindow->Close();
     }
+}
+
+void GameController::createAndConnectToServer() {
+
+    // We have to create the player object here to have its uuid ready for the server
+    std::string playerName = GameController::_startPanel->getPlayerName().Trim().ToStdString();
+    GameController::_me = new Player(playerName);
+
+    start_server(GameController::_me->get_id(), default_port);
+    GameController::_startPanel->setServerPort(std::to_string(default_port));
+    GameController::_startPanel->setServerAddress("127.0.0.1");
+
+    // Call client connect function
+    GameController::connectToServer();
 }

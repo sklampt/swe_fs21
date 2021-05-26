@@ -28,9 +28,10 @@ public:
     static void showNewTurnMessage(Game* oldGameState, Game* newGameState);
     static void showGameOverMessage();
 
+    static void createAndConnectToServer();
+
 private:
     static GameWindow* _gameWindow;
-    static ConnectionPanel* _connectionPanel;
     static StartPanel* _startPanel;
     static MainGamePanel* _mainGamePanel;
     static LobbyPanel* _lobbyPanel;

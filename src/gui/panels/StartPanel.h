@@ -10,16 +10,17 @@ class StartPanel : public wxPanel {
 public:
     StartPanel(wxWindow* parent);
 
-    wxString getPort();
+    wxString getServerPort();
     wxString getPlayerName();
-    wxString getAddress();
+    wxString getServerAddress();
+    void setServerAddress(std::string string);
+    void setServerPort(std::string string);
 
 private:
     InputField* _portField;
     InputField* _playerNameField;
     InputField* _serverAddressField;
 
-    unsigned long getPortAsLong();
 };
 
 #endif //ZOMBIEDICE_STARTPANEL_H
