@@ -101,6 +101,23 @@ void GameController::connectToServer() {
     client_join_lobby_request request = client_join_lobby_request(GameController::_me->get_id(), GameController::_me->get_player_name());
     ClientNetworkManager::sendRequest(request);
 
+    // Switch view to lobby panel
+    GameController::_gameWindow->showPanel(GameController::_lobbyPanel);
+
+}
+
+void GameController::createAndConnectToServer() {
+
+    // We have to create the player object here to have its uuid ready for the server
+    std::string playerName = GameController::_startPanel->getPlayerName().Trim().ToStdString();
+    GameController::_me = new Player(playerName);
+
+    start_server(GameController::_me->get_id(), default_port);
+    GameController::_startPanel->setServerPort(std::to_string(default_port));
+    GameController::_startPanel->setServerAddress("127.0.0.1");
+
+    // Call client connect function
+    GameController::connectToServer();
 }
 
 void GameController::startGame() {
@@ -109,6 +126,11 @@ void GameController::startGame() {
             GameController::_me->get_id()
             );
     ClientNetworkManager::sendRequest(request);
+}
+
+void GameController::updateGameState(Game *newGameState) {
+    //TODO
+    return;
 }
 
 wxEvtHandler* GameController::getMainThreadEventHandler() {
@@ -165,16 +187,3 @@ void GameController::showGameOverMessage() {
     }
 }
 
-void GameController::createAndConnectToServer() {
-
-    // We have to create the player object here to have its uuid ready for the server
-    std::string playerName = GameController::_startPanel->getPlayerName().Trim().ToStdString();
-    GameController::_me = new Player(playerName);
-
-    start_server(GameController::_me->get_id(), default_port);
-    GameController::_startPanel->setServerPort(std::to_string(default_port));
-    GameController::_startPanel->setServerAddress("127.0.0.1");
-
-    // Call client connect function
-    GameController::connectToServer();
-}

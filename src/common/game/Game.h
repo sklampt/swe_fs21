@@ -60,7 +60,6 @@ public:
     Turn* get_current_turn() const;
     Player* get_current_player() const;
 
-#ifdef LAMA_SERVER
     void setup_round(std::string& err);
     bool remove_player(Player* player, std::string& err);
     bool add_player(Player* player,std::string& err);
@@ -70,7 +69,7 @@ public:
 
     void update_current_player(std::string& err);
     void wrap_up_round(std::string& err);
-#endif
+
     //rapidjson::Value *to_json();
 
     static Game *from_json(const rapidjson::Value& json);

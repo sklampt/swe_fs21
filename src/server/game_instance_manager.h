@@ -18,14 +18,13 @@
 class game_instance_manager {
 
 private:
-    static game_instance* _game_instance_ptr;
+    static game_instance* current_game_instance;
 
     inline static std::shared_mutex games_lut_lock;
     static std::unordered_map<std::string, game_instance*> games_lut;
 
-    game_instance* create_new_game();
 public:
-
+    static void create_new_game_instance();
     // returns true if the desired game_instance 'game_id' was found or false otherwise.
     // The found game instance is written into game_instance_ptr.
     static bool try_get_game_instance(game_instance* game_instance_ptr, std::string& err);

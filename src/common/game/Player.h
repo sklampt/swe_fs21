@@ -17,7 +17,6 @@ class Player : public unique_serializable {
 
 private:
     serializable_value<std::string>* _player_name;
-    serializable_value<std::string>* _player_uuid;
     serializable_value<bool>* _has_folded;
     serializable_value<int>* _score;
 

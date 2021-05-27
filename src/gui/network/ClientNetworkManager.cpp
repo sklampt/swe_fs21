@@ -110,11 +110,11 @@ void ClientNetworkManager::sendRequest(const client_request &request) {
 
         // if the number of bytes sent does not match the length of the message, probably something went wrong
         if (bytesSent != ssize_t(message.length())) {
-            //GameController::showError("Network error", "Error writing to the TCP stream: " + ClientNetworkManager::_connection->last_error_str());
+            GameController::showError("Network error", "Error writing to the TCP stream: " + ClientNetworkManager::_connection->last_error_str());
         }
 
     } else {
-        //GameController::showError("Network error", "Lost connection to server");
+        GameController::showError("Network error", "Lost connection to server");
     }
 }
 
@@ -134,6 +134,6 @@ void ClientNetworkManager::parseResponse(const std::string& message) {
         res->Process();
 
     } catch (std::exception e) {
-        //GameController::showError("JSON parsing error", "Failed to parse message from server:\n" + message + "\n" + (std::string) e.what());
+        GameController::showError("JSON parsing error", "Failed to parse message from server:\n" + message + "\n" + (std::string) e.what());
     }
 }

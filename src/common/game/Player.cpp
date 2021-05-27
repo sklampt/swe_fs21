@@ -11,12 +11,22 @@ Player::Player(std::string name) : unique_serializable() {
     this->_score = new serializable_value<int>(0);
 }
 
-Player::Player(std::string id, serializable_value<std::string> *player_name, serializable_value<int> *score,
-               serializable_value<bool> *has_folded) :
+
+Player::Player(std::string id, std::string name) : unique_serializable(id) {
+    this->_player_name = new serializable_value<std::string>(name);
+    this->_has_folded = new serializable_value<bool>(false);
+    this->_score = new serializable_value<int>(0);
+}
+
+Player::Player(std::string id,
+               serializable_value<std::string> *player_name,
+               serializable_value<int> *score,
+               serializable_value<bool> *has_folded
+               ) :
                unique_serializable(id),
                _player_name(player_name),
                _score(score),
-               _has_folded(has_folded) {}
+               _has_folded(has_folded) { }
 
 Player::~Player() {
     if(_player_name != nullptr) {
@@ -71,8 +81,9 @@ bool Player::fold(std::string &err) {
 void Player::write_into_json(rapidjson::Value &json, rapidjson::Document::AllocatorType &allocator) const {
     unique_serializable::write_into_json(json, allocator);
 
-    rapidjson::Value id_val(_id.c_str(), allocator);
-    json.AddMember("id", id_val, allocator);
+    // Double assignment of id
+    //    rapidjson::Value id_val(_id.c_str(), allocator);
+    //    json.AddMember("id", id_val, allocator);
 
     rapidjson::Value name_val(rapidjson::kObjectType);
     _player_name->write_into_json(name_val, allocator);
@@ -101,3 +112,4 @@ Player *Player::from_json(const rapidjson::Value &json) {
         throw ZombieDiceException("Failed to deserialize Player class!");
     }
 }
+
