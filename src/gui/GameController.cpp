@@ -98,6 +98,8 @@ void GameController::connectToServer() {
     if (!GameController::_me) {
         GameController::_me = new Player(playerName);
     }
+
+
     client_join_lobby_request request = client_join_lobby_request(GameController::_me->get_id(), GameController::_me->get_player_name());
     ClientNetworkManager::sendRequest(request);
 
@@ -129,8 +131,39 @@ void GameController::startGame() {
 }
 
 void GameController::updateGameState(Game *newGameState) {
-    //TODO
-    return;
+    // the existing game state is now old
+    Game* oldGameState = GameController::_currentGame;
+
+    // save the new game state as our current game state
+    GameController::_currentGame = newGameState;
+
+    if(oldGameState != nullptr) {
+        // check if a new round started, and display message accordingly
+        if(oldGameState->get_round_number() > 0 && oldGameState->get_round_number() < newGameState->get_round_number()) {
+            GameController::showNewTurnMessage(oldGameState, newGameState);
+        }
+
+        // delete the old game state, we don't need it anymore
+        delete oldGameState;
+    }
+
+    if(GameController::_currentGame->is_finished()) {
+        GameController::showGameOverMessage();
+    }
+
+    // Only switch to mainGamePanel if Game has started
+    if(GameController::_currentGame->is_started()) {
+        GameController::_gameWindow->showPanel(GameController::_mainGamePanel);
+        // command the main game panel to rebuild itself, based on the new game state
+        GameController::_mainGamePanel->buildGameState(GameController::_currentGame, GameController::_me);
+    }
+    else {
+        // Rebuild Lobby Panel
+        return;
+        // TODO: Implement this
+        // GameController::_lobbyPanel->buildLobby(GameController::_currentGame, GameController::_me);
+    }
+    // TODO: HERE I AM FIGURE OUT HOW LAMA GAME STATE WORKED AND UNPACK ZD GAME STATE HERE
 }
 
 wxEvtHandler* GameController::getMainThreadEventHandler() {
@@ -187,3 +220,31 @@ void GameController::showGameOverMessage() {
     }
 }
 
+void GameController::showNewTurnMessage(Game* oldGameState, Game* newGameState) {
+    std::string title = "Turn Completed";
+    std::string message = "The players gained the following minus points:\n";
+    std::string buttonLabel = "Start next turn";
+
+    // add the point differences of all players to the messages
+    for(int i = 0; i < oldGameState->get_players().size(); i++) {
+
+        Player* oldPlayerState = oldGameState->get_players().at(i);
+        Player* newPlayerState = newGameState->get_players().at(i);
+
+        int scoreDelta = newPlayerState->get_score() - oldPlayerState->get_score();
+        std::string scoreText = std::to_string(scoreDelta);
+        if(scoreDelta > 0) {
+            scoreText = "+" + scoreText;
+        }
+
+        std::string playerName = newPlayerState->get_player_name();
+        if(newPlayerState->get_id() == GameController::_me->get_id()) {
+            playerName = "You";
+        }
+        message += "\n" + playerName + ":     " + scoreText;
+    }
+
+    wxMessageDialog dialogBox = wxMessageDialog(nullptr, message, title, wxICON_NONE);
+    dialogBox.SetOKLabel(wxMessageDialog::ButtonLabel(buttonLabel));
+    dialogBox.ShowModal();
+}

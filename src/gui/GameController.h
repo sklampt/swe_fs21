@@ -25,7 +25,7 @@ public:
     static wxEvtHandler* getMainThreadEventHandler();
     static void showError(const std::string& title, const std::string& message);
     static void showStatus(const std::string& message);
-    static void showNewTurnMessage(Game* oldGameState, Game* newGameState);
+    static void  showNewTurnMessage(Game* oldGameState, Game* newGameState);
     static void showGameOverMessage();
 
     static void createAndConnectToServer();

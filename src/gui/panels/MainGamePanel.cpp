@@ -7,7 +7,13 @@ MainGamePanel::MainGamePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY, wxDef
 }
 
 
-void MainGamePanel::buildGameState(std::vector<int>* scores, std::vector<std::string>* names, std::vector<std::string>* dice, std::vector<std::string>* colors){
+void MainGamePanel::buildGameState(Game* game, Player* me) {
+
+    // TODO: UNPACK GAME STATE INFO
+    std::vector<int>* scores = nullptr;
+    std::vector<std::string>* names = nullptr;
+    std::vector<std::string>* dice = nullptr;
+    std::vector<std::string>* colors = nullptr;
 
     //set background color
     wxColor white = wxColor(252, 210, 153);

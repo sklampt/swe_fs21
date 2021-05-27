@@ -81,7 +81,7 @@ bool Player::fold(std::string &err) {
 void Player::write_into_json(rapidjson::Value &json, rapidjson::Document::AllocatorType &allocator) const {
     unique_serializable::write_into_json(json, allocator);
 
-    // Double assignment of id
+    // Double assign
     //    rapidjson::Value id_val(_id.c_str(), allocator);
     //    json.AddMember("id", id_val, allocator);
 
@@ -106,8 +106,8 @@ Player *Player::from_json(const rapidjson::Value &json) {
         return new Player(
                 json["id"].GetString(),
                 serializable_value<std::string>::from_json(json["player_name"].GetObject()),
-                serializable_value<int>::from_json(json["has_folded"].GetObject()),
-                serializable_value<bool>::from_json(json["score"].GetObject()));
+                serializable_value<int>::from_json(json["score"].GetObject()),
+                serializable_value<bool>::from_json(json["has_folded"].GetObject()));
     } else {
         throw ZombieDiceException("Failed to deserialize Player class!");
     }
