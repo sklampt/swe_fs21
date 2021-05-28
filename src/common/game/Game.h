@@ -1,7 +1,3 @@
-//
-// Created by marco on 02.05.21.
-//
-
 #ifndef ZOMBIEDICE_GAME_H
 #define ZOMBIEDICE_GAME_H
 
@@ -33,6 +29,7 @@ private:
     Turn* _current_turn;
     Game(std::string id);
 
+    // Serialization constructor
     Game(
             std::string id,
             Turn* current_turn,

@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <cassert>  //assert
-#include <stdlib.h>  //rand()
+#include <time.h>
 
 #include "Die.h"
 
@@ -59,6 +59,7 @@ Color Die::get_color(){
 /** @brief returns a random face of the die's faces
  */
 Face Die::throw_die(){
-    int face_at = rand() % 6;
+    srand(time(0));
+    int face_at = rand() % 6; // TODO: Check if compiles and works
     return faces.at(face_at);
 }

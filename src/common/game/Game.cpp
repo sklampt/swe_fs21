@@ -12,7 +12,6 @@ Game::Game() : unique_serializable() {
     this->_play_direction = new serializable_value<int>(1);
     this->_round_number = new serializable_value<int>(0);
     this->_starting_player_idx = new serializable_value<int>(0);
-
 }
 
 Game::Game(std::string id, Turn *current_turn,
@@ -274,6 +273,8 @@ Game* Game::from_json(const rapidjson::Value &json) {
         for (auto &serialized_player : json["players"].GetArray()) {
             deserialized_players.push_back(Player::from_json(serialized_player.GetObject()));
         }
+
+        // todo: create turn object
 
         return new Game(
                 json["id"].GetString(),
