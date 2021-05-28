@@ -1,25 +1,45 @@
-//
-// Created by marco on 02.05.21.
-//
-
 #ifndef ZOMBIEDICE_TURN_H
 #define ZOMBIEDICE_TURN_H
 
-#include "Cup.h"
-#include "Die.h"
+#include <string>
 #include <algorithm>
 #include <vector>
 #include <iostream>
 
-class Turn {
+#include "Cup.h"
+#include "Die.h"
+#include "../../../rapidjson/include/rapidjson/document.h"
+#include "../serialization/serializable.h"
+#include "../serialization/serializable_value.h"
+#include "../serialization/unique_serializable.h"
+
+
+
+class Turn : public unique_serializable {
+
 private:
-    std::vector<Die> _brains;
-    std::vector<Die> _footprint;
-    std::vector<Die> _shotguns;
+    Cup _cup;
+
+    std::vector<Die>* _brains;
+    std::vector<Die>* _footprints;
+    std::vector<Die>* _shotguns;
+    std::vector<Die>* _current_hand;
     int _num_brains;
     int _num_footprints;
     int _num_shotguns;
-    Cup _cup;
+
+    // Serialization constructor
+    Turn(
+            std::string id,
+            std::vector<Die> current_hand,
+            std::vector<Die> brains,
+            std::vector<Die> footprints,
+            std::vector<Die> shotguns,
+            serializable_value<int> num_brains,
+            serializable_value<int> num_footprints,
+            serializable_value<int> num_shotguns,
+            Cup cup // Cup can be reconstructed from other values
+            );
 
 public:
     Turn();
@@ -30,6 +50,12 @@ public:
     int get_num_shotguns();
     int get_num_footprints();
     int get_num_brains();
+
+    static Turn *from_json(const rapidjson::Value& json);
+
+    virtual void write_into_json(rapidjson::Value& json,
+                         rapidjson::Document::AllocatorType& allocator
+                         ) const;
 };
 
 
