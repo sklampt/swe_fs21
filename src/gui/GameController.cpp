@@ -109,7 +109,6 @@ void GameController::connectToServer() {
 }
 
 void GameController::createAndConnectToServer() {
-
     // We have to create the player object here to have its uuid ready for the server
     std::string playerName = GameController::_startPanel->getPlayerName().Trim().ToStdString();
     GameController::_me = new Player(playerName);
@@ -123,6 +122,7 @@ void GameController::createAndConnectToServer() {
 }
 
 void GameController::startGame() {
+    // TODO: Implement check that only host can start game
     client_update_game_request request = client_update_game_request(
             GameController::_currentGame->get_id(),
             GameController::_me->get_id()

@@ -73,8 +73,9 @@ public:
     //rapidjson::Value *to_json();
 
     static Game *from_json(const rapidjson::Value& json);
-    virtual void write_into_json(rapidjson::Value& json, rapidjson::Document::AllocatorType& allocator) const override;
+    virtual void write_into_json(rapidjson::Value& json,
+                                 rapidjson::Document::AllocatorType& allocator
+                                 ) const override;
 };
-
 
 #endif //ZOMBIEDICE_GAME_H
