@@ -4,14 +4,17 @@
 
 #include <iostream>
 #include <cassert>  //assert
-#include <time.h>
+#include <ctime>
 
 #include "Die.h"
 
 /** @brief Constructor, only color is needed
  *  @param color color of the die
  */
-Die::Die(Color color) : color(color){
+Die::Die(Color color) : _color(color) {
+
+    // Unrolled dice has no face
+    _face = Face::undefined;
 
     assert(color == green || color == yellow || color == red);
 
@@ -36,30 +39,53 @@ Die::Die(Color color) : color(color){
 
     //add brains
     for (int i = 0; i < faces_dist[0]; i++){
-        faces.push_back(brain);
+        _faces.push_back(brain);
     }
     //add shotguns
     for (int i = 0; i < faces_dist[1]; i++){
-        faces.push_back(shotgun);
+        _faces.push_back(shotgun);
     }
     //add footprints
     for (int i = 0; i < faces_dist[2]; i++){
-        faces.push_back(footprint);
+        _faces.push_back(footprint);
     }
 }
-
 
 /** @brief returns the die's color
  */
 Color Die::get_color(){
-    return color;
+    return _color;
 }
-
 
 /** @brief returns a random face of the die's faces
  */
 Face Die::throw_die(){
     srand(time(0));
     int face_at = rand() % 6; // TODO: Check if compiles and works
-    return faces.at(face_at);
+    _face = _faces.at(face_at);
+    return _face;
+}
+
+Die *Die::from_json(const rapidjson::Value &json) {
+    // TODO: Implement from_json
+    return nullptr;
+}
+
+void Die::write_into_json(rapidjson::Value &json, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) const {
+    unique_serializable::write_into_json(json, allocator);
+
+    std::string color_val;
+    if (_color == Color::green) color_val = "green";
+    else if (_color == Color::yellow) color_val = "yellow";
+    else if (_color == Color::red) color_val = "red";
+
+    std::string face_val;
+    if (_face == Face::undefined) face_val = "undefined";
+    else if (_face == Face::brain) face_val = "brain";
+    else if (_face == Face::footprint) face_val = "footprint";
+    else if (_face == Face::shotgun) face_val = "shotgun";
+
+
+    json.AddMember("color", color_val, allocator);
+    json.AddMember("face",face_val, allocator);
 }

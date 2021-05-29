@@ -5,21 +5,30 @@
 #ifndef ZOMBIEDICE_CUP_H
 #define ZOMBIEDICE_CUP_H
 
-#include "Die.h"
 #include <vector>
 #include <random>
 #include <algorithm>
 
-class Cup {
+#include "Die.h"
+#include <common/serialization/unique_serializable.h>
+
+class Cup: public unique_serializable {
 private:
-    std::vector<Die> _dice;
-    int _num_dice;
+    std::vector<Die*> _dice;
+
+    // Serialization constructor
+    Cup(std::vector<Die*> dice);
+
 public:
     Cup();
-
+    // ~Cup(); not needed but we could implement it anyway
     int dice_count();
+    Die * draw_die();
 
-    Die get_die();
+    static Cup *from_json(const rapidjson::Value& json);
+    virtual void write_into_json(rapidjson::Value& json,
+                                 rapidjson::Document::AllocatorType& allocator
+                                 ) const override;
 };
 
 

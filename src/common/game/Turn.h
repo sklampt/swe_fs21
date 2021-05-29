@@ -18,27 +18,21 @@
 class Turn : public unique_serializable {
 
 private:
-    Cup _cup;
+    Cup* _cup;
 
-    std::vector<Die>* _brains;
-    std::vector<Die>* _footprints;
-    std::vector<Die>* _shotguns;
-    std::vector<Die>* _current_hand;
-    int _num_brains;
-    int _num_footprints;
-    int _num_shotguns;
+    std::vector<Die*> *_brains;
+    std::vector<Die*> *_footprints;
+    std::vector<Die*> *_shotguns;
+    std::vector<Die*> *_current_hand;
 
     // Serialization constructor
     Turn(
             std::string id,
-            std::vector<Die> current_hand,
-            std::vector<Die> brains,
-            std::vector<Die> footprints,
-            std::vector<Die> shotguns,
-            serializable_value<int> num_brains,
-            serializable_value<int> num_footprints,
-            serializable_value<int> num_shotguns,
-            Cup cup // Cup can be reconstructed from other values
+            std::vector<Die *> *current_hand,
+            std::vector<Die *> *brains,
+            std::vector<Die *> *footprints,
+            std::vector<Die *> *shotguns,
+            Cup* cup // Cup could be reconstructed from other values
             );
 
 public:
@@ -47,15 +41,11 @@ public:
     void roll();
     int play_turn();
 
-    int get_num_shotguns();
-    int get_num_footprints();
-    int get_num_brains();
-
     static Turn *from_json(const rapidjson::Value& json);
 
     virtual void write_into_json(rapidjson::Value& json,
                          rapidjson::Document::AllocatorType& allocator
-                         ) const;
+                         ) const override;
 };
 
 

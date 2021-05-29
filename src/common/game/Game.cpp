@@ -274,11 +274,13 @@ Game* Game::from_json(const rapidjson::Value &json) {
             deserialized_players.push_back(Player::from_json(serialized_player.GetObject()));
         }
 
-        // todo: create turn object
+        // TODO: create turn object
+        Turn *current_turn;
+        current_turn = new Turn();
 
         return new Game(
                 json["id"].GetString(),
-                Turn* current_turn,
+                current_turn,
                 deserialized_players,
                 serializable_value<bool>::from_json(json["is_started"].GetObject()),
                 serializable_value<bool>::from_json(json["is_finished"].GetObject()),
