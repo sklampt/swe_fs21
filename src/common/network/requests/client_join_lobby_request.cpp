@@ -43,10 +43,24 @@ request_response_event* client_join_lobby_request::execute() {
 
     std::string err;
     if (game_instance_manager::try_add_player(player, err)) {
-            return new request_response_event(ResponseType::server_update_lobby,_request_id,true, nullptr /* player_json */, err);
+    //        game_instance* game_instance_ptr;
+    //        if (game_instance_manager::try_get_player_and_game_instance(player, game_instance_ptr, err)) {
+    //            if (game_instance_ptr->start_game(player, err))
+    //                return new request_response_event(ResponseType::server_update_lobby,
+    //                                                  _request_id,
+    //                                                  true,
+    //                                                  game_instance_ptr->get_game()->to_json(),
+    //                                                  err
+    //                                                  );
+    //        }
+        return new request_response_event(ResponseType::request_response,_request_id,true, nullptr, err);
     } else {
-        return new request_response_event(ResponseType::request_response,_request_id, false, nullptr, "Request couldn't be executed");
+        return new request_response_event(ResponseType::request_response,
+                                          _request_id,
+                                          false,
+                                          nullptr,
+                                          "Request couldn't be executed: " + err
+                                          );
     }
+
 }
-
-

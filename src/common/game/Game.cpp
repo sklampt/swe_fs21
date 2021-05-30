@@ -255,12 +255,17 @@ void Game::write_into_json(rapidjson::Value &json,
     json.AddMember("round_number", round_number_val, allocator);
 
     json.AddMember("players", vector_utils::serialize_vector(_players, allocator), allocator);
+
+    if (!_current_turn) {
+        rapidjson::Value turn_val(rapidjson::kObjectType);
+        _current_turn->write_into_json(turn_val, allocator);
+        json.AddMember("turn", turn_val, allocator);
+    }
 }
 
 
 Game* Game::from_json(const rapidjson::Value &json) {
     if (json.HasMember("id")
-        && json.HasMember("turn")
         && json.HasMember("is_finished")
         && json.HasMember("is_started")
         && json.HasMember("current_player_idx")
@@ -274,9 +279,22 @@ Game* Game::from_json(const rapidjson::Value &json) {
             deserialized_players.push_back(Player::from_json(serialized_player.GetObject()));
         }
 
-        // TODO: create turn object
+
         Turn *current_turn;
-        current_turn = new Turn();
+        if (json.HasMember("turn")) {
+            // TODO: Deserialize turn json
+            current_turn = new Turn(
+//                    id
+//                    current_hand,
+//                    brains,
+//                    footprints,
+//                    shotguns,
+//                    cup
+                    );
+
+        } else {
+            current_turn = nullptr;
+        }
 
         return new Game(
                 json["id"].GetString(),

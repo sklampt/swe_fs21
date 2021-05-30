@@ -8,10 +8,10 @@ server_update_lobby_event::server_update_lobby_event(server_response::base_class
         _state_json(state_json)
 { }
 
-server_update_lobby_event::server_update_lobby_event(Game state) :
+server_update_lobby_event::server_update_lobby_event(Game* state) :
         server_response(server_response::create_base_class_properties(ResponseType::server_update_lobby))
 {
-    this->_state_json = state.to_json();
+    this->_state_json = state->to_json();
 }
 
 void server_update_lobby_event::write_into_json(rapidjson::Value &json,
@@ -56,7 +56,6 @@ rapidjson::Value* server_update_lobby_event::get_state_json() const {
 
 void server_update_lobby_event::Process() const {
     try {
-        //TODO: Actually update player manager instead of game
         Game* state = Game::from_json(*_state_json);
         GameController::updateGameState(state);
 

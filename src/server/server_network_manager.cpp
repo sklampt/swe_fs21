@@ -184,14 +184,13 @@ void server_network_manager::broadcast_message(server_response &msg, const std::
 #ifdef PRINT_NETWORK_MESSAGES
     std::cout << "Broadcasting message : " << msg_string << std::endl;
 #endif
-
     _rw_lock.lock_shared();
 
 
     // send object_diff to all requested players
     try {
         for(auto& player : players) {
-            // TODO: We send all messages to everyone for now
+            // TODO: We send all messages to everyone for now. change back to exclude requestor
             // if (player != exclude) {
                 int nof_bytes_written = send_message(msg_string, _player_id_to_address.at(player->get_id()));
             // }

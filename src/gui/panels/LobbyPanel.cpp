@@ -97,13 +97,18 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     
 
     // button to start game - "link" missing
-    wxButton* connectButton = new wxButton(this, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 40));
+    wxButton* connectButton = new wxButton(this, wxID_ANY, "Start Game", wxDefaultPosition, wxSize(100, 40));
     connectButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
-        // GameController::connectToServer();
+        GameController::startGame();
     });
-    verticalLayout->Add(connectButton, 0, wxALIGN_RIGHT | wxALL, 10);
+    verticalLayout->Add(connectButton, 0, wxALIGN_CENTER | wxALL, 10);
 
     this->SetSizerAndFit(verticalLayout);
+}
+
+void LobbyPanel::buildLobby(Game *Game, Player *Player) {
+    // TODO: Make lobby panel react to updates
+    return;
 }
 
 

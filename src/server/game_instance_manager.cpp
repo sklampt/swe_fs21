@@ -46,7 +46,7 @@ bool game_instance_manager::try_get_player_and_game_instance(
 
 bool game_instance_manager::try_add_player(Player *player, std::string& err) {
     if (current_game_instance->try_add_player(player, err)) {
-        player->set_game_id(current_game_instance->get_id());   // mark that this player is playing in a src
+        //player->set_game_id(current_game_instance->get_id());   // mark that this player is playing in a src
         return true;
     } else {
         return false;

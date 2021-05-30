@@ -1,6 +1,7 @@
 // Entrypoint for hosting a server
 //
 #include <string>
+#include <unistd.h>
 #include "thread"
 #include "server_network_manager.h"
 #include "game_instance_manager.h"
@@ -16,5 +17,7 @@ const int start_server(const std::string& host_uuid, const uint16_t& server_port
     // create server_network_manager, which listens endlessly for new connections
     std::thread t = std::thread(server_thread, host_uuid, server_port);
     t.detach();
+    //TODO: Wait until server is started instead of fixed time
+    sleep(2);
     return 0;
 }

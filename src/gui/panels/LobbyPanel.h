@@ -6,12 +6,15 @@
 #include "../uiElements/InputField.h"
 #include <vector>
 #include <string>
+#include <common/game/Game.h>
 
 
 class LobbyPanel : public wxPanel {
 
 public:
     LobbyPanel(wxWindow* parent);
+
+    void buildLobby(Game *Game, Player *Player);
 
 private:
     wxGrid* _displayText;

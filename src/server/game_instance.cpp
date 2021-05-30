@@ -53,7 +53,7 @@ bool game_instance::try_remove_player(Player *player, std::string &err) {
     if (_Game->remove_player(player, err)) {
         player->set_game_id("");
         // send state update to all other players
-        server_update_lobby_event state_update_msg = server_update_lobby_event(*_Game);
+        server_update_lobby_event state_update_msg = server_update_lobby_event(_Game);
         server_network_manager::broadcast_message(state_update_msg, _Game->get_players(), player);
         modification_lock.unlock();
         return true;
@@ -67,7 +67,7 @@ bool game_instance::try_add_player(Player *new_player, std::string &err) {
     if (_Game->add_player(new_player, err)) {
         new_player->set_game_id(get_id());
         // send state update to all other players
-        server_update_lobby_event state_update_msg = server_update_lobby_event(*_Game);
+        server_update_lobby_event state_update_msg = server_update_lobby_event(_Game);
         server_network_manager::broadcast_message(state_update_msg, _Game->get_players(), new_player);
         modification_lock.unlock();
         return true;

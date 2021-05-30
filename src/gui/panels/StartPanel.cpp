@@ -36,7 +36,7 @@ StartPanel::StartPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
             this, // parent element
             "Server port:", // label
             100, // width of label
-            wxString::Format("%i", 50500),
+            "50500",
             240 // width of field
     );
     verticalLayout->Add(this->_portField, 0, wxTOP | wxLEFT | wxRIGHT, 10);
@@ -57,7 +57,6 @@ StartPanel::StartPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
 
     wxButton* hostButton = new wxButton(this, wxID_ANY, "HOST A SERVER", wxDefaultPosition, wxSize(150, 50));
     hostButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {
-
         GameController::createAndConnectToServer();
     });
     verticalLayout->Add(connectButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);

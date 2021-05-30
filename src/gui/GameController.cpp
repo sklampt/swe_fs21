@@ -77,35 +77,39 @@ void GameController::connectToServer() {
         return;
     }
 
+    if (!GameController::_me) {
+        // convert player name from wxString to std::string
+        std::string playerName = inputPlayerName.ToStdString();
+
+        GameController::_me = new Player(playerName);
+    }
+
     // convert host from wxString to std::string
     std::string host = inputServerAddress.ToStdString();
 
     // convert port from wxString to uint16_t
-    unsigned long portAsLong;
+    unsigned long portAsLong = 0;
     if(!inputServerPort.ToULong(&portAsLong) || portAsLong > 65535) {
         GameController::showError("Connection error", "Invalid port");
+        std::cout << "Connection error: Invalid Port - " << std::to_string(portAsLong) << std::endl;
         return;
     }
     uint16_t port = (uint16_t) portAsLong;
-
-    // convert player name from wxString to std::string
-    std::string playerName = inputPlayerName.ToStdString();
 
     // connect to network
     ClientNetworkManager::init(host, port);
 
     // send request to join game
-    if (!GameController::_me) {
-        GameController::_me = new Player(playerName);
-    }
-
-
-    client_join_lobby_request request = client_join_lobby_request(GameController::_me->get_id(), GameController::_me->get_player_name());
+    if (ClientNetworkManager::isConnected()) {
+    client_join_lobby_request request = client_join_lobby_request(
+                                    GameController::_me->get_id(),
+                                    GameController::_me->get_player_name()
+                                );
     ClientNetworkManager::sendRequest(request);
 
     // Switch view to lobby panel
     GameController::_gameWindow->showPanel(GameController::_lobbyPanel);
-
+    }
 }
 
 void GameController::createAndConnectToServer() {
@@ -123,11 +127,18 @@ void GameController::createAndConnectToServer() {
 
 void GameController::startGame() {
     // TODO: Implement check that only host can start game
-    client_update_game_request request = client_update_game_request(
-            GameController::_currentGame->get_id(),
-            GameController::_me->get_id()
-            );
-    ClientNetworkManager::sendRequest(request);
+    std::string err = "";
+    _currentGame->start_game(err);
+
+    if (err == "") {
+        client_update_game_request request = client_update_game_request(
+                GameController::_currentGame->get_id(),
+                GameController::_me->get_id()
+        );
+        ClientNetworkManager::sendRequest(request);
+    } else {
+        GameController::showError("Lobby Error", "Could not start game: " + err);
+    }
 }
 
 void GameController::updateGameState(Game *newGameState) {
@@ -158,12 +169,9 @@ void GameController::updateGameState(Game *newGameState) {
         GameController::_mainGamePanel->buildGameState(GameController::_currentGame, GameController::_me);
     }
     else {
-        // Rebuild Lobby Panel
-        return;
         // TODO: Implement this
-        // GameController::_lobbyPanel->buildLobby(GameController::_currentGame, GameController::_me);
+        GameController::_lobbyPanel->buildLobby(GameController::_currentGame, GameController::_me);
     }
-    // TODO: HERE I AM FIGURE OUT HOW LAMA GAME STATE WORKED AND UNPACK ZD GAME STATE HERE
 }
 
 wxEvtHandler* GameController::getMainThreadEventHandler() {
