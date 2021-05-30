@@ -20,14 +20,14 @@ void game_instance_manager::create_new_game_instance() {
     current_game_instance = new game_instance();
 }
 
-bool game_instance_manager::try_get_game_instance(game_instance* game_instance_ptr, std::string& err) {
+bool game_instance_manager::try_get_game_instance(game_instance*& game_instance_ptr, std::string& err) {
     game_instance_ptr = current_game_instance;
     return true;
 }
 
 bool game_instance_manager::try_get_player_and_game_instance(
-        Player *&player,
-        game_instance *&game_instance_ptr,
+        Player *& player,
+        game_instance*& game_instance_ptr,
         std::string& err
     )
 {

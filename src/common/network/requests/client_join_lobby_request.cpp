@@ -18,8 +18,14 @@ client_join_lobby_request::client_join_lobby_request(std::string player_uuid, st
                 _player_name(nickname), _player_uuid(player_uuid) { }
 
 // private constructor for deserialization
-client_join_lobby_request::client_join_lobby_request(client_request::base_class_properties props, std::string player_name, std::string player_uuid)
-        : client_request(props), _player_name(player_name), _player_uuid(player_uuid) { }
+client_join_lobby_request::client_join_lobby_request(
+        client_request::base_class_properties props,
+        std::string player_name,
+        std::string player_uuid
+        ) : client_request(props),
+        _player_name(player_name),
+        _player_uuid(player_uuid)
+        { }
 
 void client_join_lobby_request::write_into_json(rapidjson::Value &json,
                                         rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) const {
@@ -43,16 +49,6 @@ request_response_event* client_join_lobby_request::execute() {
 
     std::string err;
     if (game_instance_manager::try_add_player(player, err)) {
-    //        game_instance* game_instance_ptr;
-    //        if (game_instance_manager::try_get_player_and_game_instance(player, game_instance_ptr, err)) {
-    //            if (game_instance_ptr->start_game(player, err))
-    //                return new request_response_event(ResponseType::server_update_lobby,
-    //                                                  _request_id,
-    //                                                  true,
-    //                                                  game_instance_ptr->get_game()->to_json(),
-    //                                                  err
-    //                                                  );
-    //        }
         return new request_response_event(ResponseType::request_response,_request_id,true, nullptr, err);
     } else {
         return new request_response_event(ResponseType::request_response,

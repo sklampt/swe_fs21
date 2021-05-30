@@ -43,7 +43,7 @@ server_update_lobby_event::~server_update_lobby_event() {
     }
 }
 
-rapidjson::Value* server_update_lobby_event::get_state_json() const {
+[[maybe_unused]]rapidjson::Value* server_update_lobby_event::get_state_json() const {
     //TODO: Either get player list from player manager or from game
     try {
         Game* state = Game::from_json(*_state_json);

@@ -19,6 +19,10 @@ Game *game_instance::get_game() {
     return _Game;
 }
 
+void game_instance::game_from_state(const rapidjson::Value &json) {
+    _Game = Game::from_json(json);
+}
+
 std::string game_instance::get_id() {
     return _Game->get_id();
 }

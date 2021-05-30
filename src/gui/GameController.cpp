@@ -132,7 +132,7 @@ void GameController::startGame() {
 
     if (err == "") {
         client_update_game_request request = client_update_game_request(
-                GameController::_currentGame->get_id(),
+                GameController::_currentGame,
                 GameController::_me->get_id()
         );
         ClientNetworkManager::sendRequest(request);

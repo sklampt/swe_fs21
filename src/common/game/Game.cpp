@@ -4,7 +4,7 @@
 
 
 Game::Game() : unique_serializable() {
-    this->_current_turn = new Turn();
+    this->_current_turn = nullptr;
     this->_players = std::vector<Player*>();
     this->_is_started = new serializable_value<bool>(false);
     this->_is_finished = new serializable_value<bool>(false);
@@ -34,7 +34,7 @@ Game::Game(std::string id, Turn *current_turn,
 
 
 Game::Game(std::string id) : unique_serializable(id) {
-    this->_current_turn = new Turn();
+    this->_current_turn = nullptr;
     this->_players = std::vector<Player*>();
     this->_is_started = new serializable_value<bool>(false);
     this->_is_finished = new serializable_value<bool>(false);
@@ -256,7 +256,7 @@ void Game::write_into_json(rapidjson::Value &json,
 
     json.AddMember("players", vector_utils::serialize_vector(_players, allocator), allocator);
 
-    if (!_current_turn) {
+    if (_current_turn) {
         rapidjson::Value turn_val(rapidjson::kObjectType);
         _current_turn->write_into_json(turn_val, allocator);
         json.AddMember("turn", turn_val, allocator);

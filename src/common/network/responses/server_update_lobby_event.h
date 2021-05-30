@@ -7,7 +7,7 @@
 
 #include "server_response.h"
 #include "server/player_manager.h"
-#include "../../game/Game.h"
+#include "common/game/Game.h"
 
 class server_update_lobby_event: public server_response {
 private:
