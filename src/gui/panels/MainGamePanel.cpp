@@ -9,11 +9,45 @@ MainGamePanel::MainGamePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY, wxDef
 
 void MainGamePanel::buildGameState(Game* game, Player* me) {
 
-    // TODO: UNPACK GAME STATE INFO
-    std::vector<int>* scores = nullptr;
-    std::vector<std::string>* names = nullptr;
-    std::vector<std::string>* dice = nullptr;
-    std::vector<std::string>* colors = nullptr;
+    // Test vectors for MainGamePanel
+    //    std::vector<std::string> names{"kusi", "petra", "mike", "miguel"};
+    //    std::vector<int> scores{1,2,3,4};
+    //    std::vector<std::string> dice{
+    //            "bomb", "brain", "footsteps",
+    //            "brain", "brain", "brain"
+    //    };
+    //    std::vector<std::string> colors{
+    //            "red", "green", "yellow",
+    //            "red", "red", "red"
+    //    };
+
+    // Unpack Player names and scores
+    std::vector<int> scores;
+    std::vector<std::string> names;
+    for (auto player : game->get_players()) {
+        scores.push_back(player->get_score());
+        names.push_back(player->get_player_name());
+    }
+
+    // Unpack current turn information if current_turn exists else create empty vectors
+    std::vector<Die *>* current_hand;
+    std::vector<Die *>* brains;
+    std::vector<Die *>* footprints;
+    std::vector<Die *>* shotguns;
+    if(game->_current_turn) {
+        current_hand = game->get_current_turn()->getCurrentHand();
+        brains = game->get_current_turn()->getBrains();
+        footprints = game->get_current_turn()->getFootprints();
+        shotguns = game->get_current_turn()->getShotguns();
+    } else {
+        // No current_turn is available create empty vector
+        std::vector<Die *> empty;
+        current_hand = &empty;
+        brains = &empty;
+        footprints = &empty;
+        shotguns = &empty;
+    }
+
 
     //set background color
     wxColor white = wxColor(252, 210, 153);
@@ -23,7 +57,7 @@ void MainGamePanel::buildGameState(Game* game, Player* me) {
     this->DestroyChildren();
 
     //preparation for text generation
-    int numberOfPlayers = names->size();
+    int numberOfPlayers = names.size();
     double anglePerPlayer = MainGamePanel::twoPi / (double) numberOfPlayers;
 
 
@@ -41,7 +75,7 @@ void MainGamePanel::buildGameState(Game* game, Player* me) {
         long textAlignment = wxALIGN_CENTER;
 
         this->buildStaticText(
-                names->at(i),
+                names.at(i),
                 handPosition,
                 wxSize(200, 18),
                 textAlignment,
@@ -49,7 +83,7 @@ void MainGamePanel::buildGameState(Game* game, Player* me) {
         );
 
         this->buildStaticText(
-                "score: " + std::to_string(scores->at(i)),
+                "score: " + std::to_string(scores.at(i)),
                 handPosition + *(new wxPoint(0, 15)),
                 wxSize(200, 18),
                 textAlignment,
@@ -69,24 +103,24 @@ void MainGamePanel::buildGameState(Game* game, Player* me) {
 
 
     // Display dice
-    int n_dice = dice->size();
+    int n_dice = current_hand->size();
 
     for (int i = 0; i < n_dice; i++){
-        std::string fileName = "assets/" + dice->at(i) + "_" + colors->at(i) + ".png";
+        std::string fileName = "assets/" + current_hand->at(i)->get_face_as_string() + "_" + current_hand->at(i)->get_color_as_string() + ".png";
         wxPoint offset = wxPoint((i / 3) * MainGamePanel::dieOffsetX, (i % 3) * MainGamePanel::dieOffsetY);
         ImagePanel* die = new ImagePanel(this, fileName, wxBITMAP_TYPE_ANY, MainGamePanel::uppermostDie + offset, MainGamePanel::dieSize);
     }
 
 
     //Build Buttons
-    wxButton* throwButton = new wxButton(this, wxID_ANY, "Throw Again", MainGamePanel::throwAgainPos, MainGamePanel::buttonSize);
+    wxButton* throwButton = new wxButton(this, wxID_ANY, "Throw Dice", MainGamePanel::throwAgainPos, MainGamePanel::buttonSize);
     throwButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
-        // GameController::connectToServer();
+        GameController::clientGameAction("throw");
     });
 
     wxButton* stopButton = new wxButton(this, wxID_ANY, "End Turn", MainGamePanel::stopTurnPos, MainGamePanel::buttonSize);
     stopButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
-        // GameController::connectToServer();
+        GameController::clientGameAction("endturn");
     });
 
     //std::string linePNG = "assets/vertical_line.png";

@@ -19,8 +19,13 @@ Game *game_instance::get_game() {
     return _Game;
 }
 
-void game_instance::game_from_state(const rapidjson::Value &json) {
+void game_instance::update_game_from_state(const rapidjson::Value &json, Player *player) {
+    modification_lock.lock();
     _Game = Game::from_json(json);
+    // send state update to all other players
+    server_update_game_event state_update_msg = server_update_game_event( *_Game);
+    server_network_manager::broadcast_message(state_update_msg, _Game->get_players(), player);
+    modification_lock.unlock();
 }
 
 std::string game_instance::get_id() {

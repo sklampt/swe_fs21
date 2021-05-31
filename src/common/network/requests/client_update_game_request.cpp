@@ -50,11 +50,12 @@ request_response_event* client_update_game_request::execute() {
     if (this->_state_json != nullptr) {
         // Get new game state from request
         Game* state = Game::from_json(*_state_json);
-
+        // Create dummy player object to exclude requestor from broadcast
+        Player* requestor = new Player("dummy", _player_uuid);
         game_instance* game_instance_ptr;
         if (game_instance_manager::try_get_game_instance(game_instance_ptr, err)){
             // TODO: Could be improved by changing game parameters instead of just replacing it
-            game_instance_ptr->game_from_state(*_state_json);
+            game_instance_ptr->update_game_from_state(*_state_json, requestor);
         }
         return new request_response_event(ResponseType::server_update_game, _request_id, true, state->to_json(), err);
     }

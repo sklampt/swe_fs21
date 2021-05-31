@@ -41,6 +41,16 @@ public:
     void roll();
     int play_turn();
 
+    Cup *getCup() const;
+
+    std::vector<Die *> *getBrains() const;
+
+    std::vector<Die *> *getFootprints() const;
+
+    std::vector<Die *> *getShotguns() const;
+
+    std::vector<Die *> *getCurrentHand() const;
+
     static Turn *from_json(const rapidjson::Value& json);
 
     virtual void write_into_json(rapidjson::Value& json,

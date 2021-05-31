@@ -86,6 +86,10 @@ bool Game::is_finished() const {
     return _is_finished->get_value();
 }
 
+Turn *Game::get_current_turn() const {
+    return _current_turn;
+}
+
 int Game::get_round_number() const {
     return _round_number->get_value();
 }
@@ -312,4 +316,5 @@ Game* Game::from_json(const rapidjson::Value &json) {
         throw ZombieDiceException("Failed to deserialize game_state. Required entries were missing.");
     }
 }
+
 

@@ -20,18 +20,6 @@ MainGamePanel* GameController::_mainGamePanel = nullptr;
 StartPanel* GameController::_startPanel = nullptr;
 LobbyPanel* GameController::_lobbyPanel = nullptr;
 
-//test vectors for MainGamePanel
-std::vector<std::string> names{"kusi", "petra", "mike", "miguel"};
-std::vector<int> scores{1,2,3,4};
-std::vector<std::string> dieFaces{
-    "bomb", "brain", "footsteps",
-    "brain", "brain", "brain"
-};
-std::vector<std::string> dieColors{
-        "red", "green", "yellow",
-        "red", "red", "red"
-};
-
 void GameController::init(GameWindow* gameWindow) {
 
     GameController::_gameWindow = gameWindow;
@@ -171,6 +159,25 @@ void GameController::updateGameState(Game *newGameState) {
     else {
         // TODO: Implement this
         GameController::_lobbyPanel->buildLobby(GameController::_currentGame, GameController::_me);
+    }
+}
+
+void GameController::clientGameAction(std::string action) {
+    // Convert action from string to int for switch statement
+    int action_num = -1;
+    if (action == "throw") action_num = 1;
+    else if (action == "endturn") action_num = 0;
+
+    // TODO: Implement clientGameAction
+    switch (action_num) {
+        case 1:
+            std::cout << "Player clicked throw again button" << std::endl;
+            break;
+        case 0:
+            std::cout << "Player clicked endturn button" << std::endl;
+            break;
+        default:
+            GameController::showError("Client Error", "Button click did not create action");
     }
 }
 

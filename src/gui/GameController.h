@@ -17,6 +17,7 @@ public:
 
     static void connectToServer();
     static void updateGameState(Game* newGameState);
+    static void clientGameAction(std::string action);
     static void startGame();
     static void drawDice();
     static void keepGoing();
@@ -38,6 +39,7 @@ private:
 
     static Player* _me;
     static Game* _currentGame;
+
 };
 
 

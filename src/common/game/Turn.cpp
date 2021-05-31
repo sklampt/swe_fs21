@@ -115,4 +115,24 @@ Turn *Turn::from_json(const rapidjson::Value &json) {
     return nullptr;
 }
 
+Cup *Turn::getCup() const {
+    return _cup;
+}
+
+std::vector<Die *> *Turn::getBrains() const {
+    return _brains;
+}
+
+std::vector<Die *> *Turn::getFootprints() const {
+    return _footprints;
+}
+
+std::vector<Die *> *Turn::getShotguns() const {
+    return _shotguns;
+}
+
+std::vector<Die *> *Turn::getCurrentHand() const {
+    return _current_hand;
+}
+
 

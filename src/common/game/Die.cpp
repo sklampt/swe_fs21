@@ -57,6 +57,28 @@ Color Die::get_color(){
     return _color;
 }
 
+std::string Die::get_color_as_string() {
+    if (_color == Color::green) return "green";
+    else if (_color == Color::yellow) return "yellow";
+    else if (_color == Color::red) return "red";
+    else return "undefined";
+}
+
+/** @brief returns the die's face or undefined if throw_die() has not been called yet
+ */
+Face Die::get_face() {
+    return _face;
+}
+
+std::string Die::get_face_as_string() {
+    if (_face == Face::brain) return "brain";
+    else if (_face == Face::footprint) return "footprint";
+    else if (_face == Face::shotgun) return "shotgun";
+    else return "undefined";
+}
+
+
+
 /** @brief returns a random face of the die's faces
  */
 Face Die::throw_die(){
@@ -89,3 +111,4 @@ void Die::write_into_json(rapidjson::Value &json, rapidjson::MemoryPoolAllocator
     json.AddMember("color", color_val, allocator);
     json.AddMember("face",face_val, allocator);
 }
+

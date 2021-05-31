@@ -29,7 +29,7 @@ public:
     std::string get_id();
 
     Game* get_game();
-    void game_from_state(const rapidjson::Value &json);
+    void update_game_from_state(const rapidjson::Value &json, Player *player);
 
     bool is_full();
     bool is_started();

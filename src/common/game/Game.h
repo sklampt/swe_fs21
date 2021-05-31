@@ -26,7 +26,7 @@ private:
     serializable_value<int>* _starting_player_idx;
 
     std::vector<Player*> _players;
-    Turn* _current_turn;
+
     Game(std::string id);
 
     // Serialization constructor
@@ -73,6 +73,8 @@ public:
     virtual void write_into_json(rapidjson::Value& json,
                                  rapidjson::Document::AllocatorType& allocator
                                  ) const override;
+
+    Turn* _current_turn;
 };
 
 #endif //ZOMBIEDICE_GAME_H

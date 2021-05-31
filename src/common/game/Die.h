@@ -21,13 +21,21 @@ class Die: public unique_serializable {
     
     public:
         Die(Color color);
+
         Color get_color();
+        std::string get_color_as_string();
+        Face get_face();
+        std::string get_face_as_string();
+
+
         Face throw_die();
 
         static Die *from_json(const rapidjson::Value& json);
         virtual void write_into_json(rapidjson::Value& json,
                                      rapidjson::Document::AllocatorType& allocator
         ) const override;
+
+    ;
 };
 
 
