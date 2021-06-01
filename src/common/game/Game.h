@@ -43,6 +43,8 @@ private:
             );
     int get_player_index(Player* player) const;
 public:
+    Turn* _current_turn;
+
     Game();
     ~Game();
 
@@ -73,8 +75,6 @@ public:
     virtual void write_into_json(rapidjson::Value& json,
                                  rapidjson::Document::AllocatorType& allocator
                                  ) const override;
-
-    Turn* _current_turn;
 };
 
 #endif //ZOMBIEDICE_GAME_H

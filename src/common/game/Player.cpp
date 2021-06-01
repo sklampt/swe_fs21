@@ -52,7 +52,8 @@ int Player::get_score() const noexcept {
     return _score->get_value();
 }
 void Player::update_score(int score) {
-    _score += score;
+    int old_score = _score->get_value();
+    _score->set_value(old_score+score);
 }
 
 

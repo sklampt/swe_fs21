@@ -132,19 +132,11 @@ void Game::wrap_up_turn(std::string &err) {
     _players[current_player_idx]->update_score(get_current_turn()->end_turn());
     // NTH: Destruct turn object instead of just discarding it
     _current_turn = nullptr;
+
+    // If a player reaches a score of 13 or higher the game is over
     if(_players[current_player_idx]->get_score() >= 13) {
-        is_game_over = true;
-    }
-
-    if (is_game_over) {
         this->_is_finished->set_value(true);
-    } else {
-        // decide which player starts in the next round
-        _starting_player_idx->set_value((_starting_player_idx->get_value() + 1) % _players.size());
-        // start next round
-        setup_round(err);
     }
-
 }
 
 void Game::update_current_player(std::string& err) {
@@ -152,8 +144,7 @@ void Game::update_current_player(std::string& err) {
     int current_player_idx = _current_player_idx->get_value();
     ++current_player_idx %= nof_players;
     _current_player_idx->set_value(current_player_idx);
-    // NTH: Destruct turn object instead of just discarding it
-    _current_turn = nullptr;
+
 }
 
 bool Game::start_game(std::string &err) {
@@ -269,7 +260,6 @@ void Game::write_into_json(rapidjson::Value &json,
         json.AddMember("turn", turn_val, allocator);
     }
 }
-
 
 Game* Game::from_json(const rapidjson::Value &json) {
     if (json.HasMember("id")

@@ -144,6 +144,9 @@ void GameController::updateGameState(Game *newGameState) {
             GameController::showNewTurnMessage(oldGameState, newGameState);
         }
 
+        // TODO: Handle case when 13 brains are rolled and Cup is empty
+        // if (newGameState->get_current_turn()->getBrains().size() >= 13) { do something };
+
         // delete the old game state, we don't need it anymore
         delete oldGameState;
     }
@@ -194,6 +197,10 @@ void GameController::clientGameAction(std::string action) {
                 GameController::sendGameStateToServer(err);
                 GameController::showError("The humans killed you", "You have been shotgunned more than two times. Your score will be discarded");
                 _currentGame->update_current_player(err);
+
+                // NTH: Fix Show last thrown dice to current player if they reach too many shotguns
+
+                GameController::_currentGame->_current_turn = nullptr; // NTH: Destruct turn object instead of just discarding it
                 GameController::sendGameStateToServer(err);
             }
             break;
@@ -201,7 +208,7 @@ void GameController::clientGameAction(std::string action) {
         case 0: {
             // If user ends turn without reaching the limit of shotguns
             _currentGame->wrap_up_turn(err);
-
+            _currentGame->update_current_player(err);
             GameController::sendGameStateToServer(err);
             break;
         }
@@ -242,7 +249,7 @@ void GameController::showGameOverMessage() {
     // sort players by score
     std::vector<Player*> players = GameController::_currentGame->get_players();
     std::sort(players.begin(), players.end(), [](const Player* a, const Player* b) -> bool {
-        return a->get_score() < b->get_score();
+        return a->get_score() > b->get_score();
     });
 
     // list all players
