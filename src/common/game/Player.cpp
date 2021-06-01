@@ -51,6 +51,10 @@ void Player::set_game_id(std::string game_id) {
 int Player::get_score() const noexcept {
     return _score->get_value();
 }
+void Player::update_score(int score) {
+    _score += score;
+}
+
 
 std::string Player::get_player_name() const noexcept {
     return this->_player_name->get_value();
@@ -112,4 +116,5 @@ Player *Player::from_json(const rapidjson::Value &json) {
         throw ZombieDiceException("Failed to deserialize Player class!");
     }
 }
+
 

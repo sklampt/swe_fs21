@@ -86,7 +86,10 @@ bool Game::is_finished() const {
     return _is_finished->get_value();
 }
 
-Turn *Game::get_current_turn() const {
+Turn * Game::get_current_turn() {
+    if (_current_turn == nullptr) {
+        _current_turn = new Turn();
+    }
     return _current_turn;
 }
 
@@ -122,14 +125,26 @@ void Game::setup_round(std::string &err) {
     }
 }
 
-void Game::wrap_up_round(std::string &err) {
+void Game::wrap_up_turn(std::string &err) {
     bool is_game_over = false;
-    for (int i = 0; i < _players.size(); i++) {
-        _players[i]->wrap_up_round(err);
-        if(_players[i]->get_score() >= 13) {
-            is_game_over = true;
-        }
+    int current_player_idx = _current_player_idx->get_value();
+
+    _players[current_player_idx]->update_score(get_current_turn()->end_turn());
+    // NTH: Destruct turn object instead of just discarding it
+    _current_turn = nullptr;
+    if(_players[current_player_idx]->get_score() >= 13) {
+        is_game_over = true;
     }
+
+    if (is_game_over) {
+        this->_is_finished->set_value(true);
+    } else {
+        // decide which player starts in the next round
+        _starting_player_idx->set_value((_starting_player_idx->get_value() + 1) % _players.size());
+        // start next round
+        setup_round(err);
+    }
+
 }
 
 void Game::update_current_player(std::string& err) {
@@ -147,10 +162,10 @@ void Game::update_current_player(std::string& err) {
         }
     }
 
-    if (round_over) {
-        // all players have folded and the round is over
-        wrap_up_round(err);
-    }
+//    if (round_over) {
+//        // all players have folded and the round is over
+//        wrap_up_turn(err);
+//    }
 }
 
 bool Game::start_game(std::string &err) {
@@ -283,19 +298,10 @@ Game* Game::from_json(const rapidjson::Value &json) {
             deserialized_players.push_back(Player::from_json(serialized_player.GetObject()));
         }
 
-
-        Turn *current_turn;
+        // Prepare empty turn object
+        Turn* current_turn = nullptr;
         if (json.HasMember("turn")) {
-            // TODO: Deserialize turn json
-            current_turn = new Turn(
-//                    id
-//                    current_hand,
-//                    brains,
-//                    footprints,
-//                    shotguns,
-//                    cup
-                    );
-
+            current_turn = Turn::from_json(json["turn"]);
         } else {
             current_turn = nullptr;
         }

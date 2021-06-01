@@ -54,7 +54,7 @@ public:
     bool is_allowed_to_play_now(Player* player) const;
     std::vector<Player *> &get_players();
     int get_round_number() const;
-    Turn* get_current_turn() const;
+    Turn * get_current_turn();
     Player* get_current_player() const;
 
     void setup_round(std::string& err);
@@ -65,7 +65,7 @@ public:
     bool fold(Player* player, std::string& err);
 
     void update_current_player(std::string& err);
-    void wrap_up_round(std::string& err);
+    void wrap_up_turn(std::string& err);
 
     //rapidjson::Value *to_json();
 

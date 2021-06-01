@@ -12,6 +12,9 @@ StartPanel::StartPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     wxColor white = wxColor(252, 210, 153);
     this->SetBackgroundColour(white);
 
+    // Store window pointer for later use
+    this->_parent = parent;
+
     wxBoxSizer* verticalLayout = new wxBoxSizer(wxVERTICAL);
 
     ImagePanel* logo = new ImagePanel(
@@ -58,6 +61,7 @@ StartPanel::StartPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     wxButton* hostButton = new wxButton(this, wxID_ANY, "HOST A SERVER", wxDefaultPosition, wxSize(150, 50));
     hostButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {
         GameController::createAndConnectToServer();
+        StartPanel::setWindowTitle("Zombie Dice - Braaainz! - SERVER MODE");
     });
     verticalLayout->Add(connectButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
     verticalLayout->Add(hostButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
@@ -85,4 +89,7 @@ wxString StartPanel::getPlayerName() {
     return this->_playerNameField->getValue();
 }
 
+void StartPanel::setWindowTitle(std::string title) {
+    this->_parent->SetLabel(title);
+}
 

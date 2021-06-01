@@ -9,7 +9,7 @@ server_update_game_event::server_update_game_event(server_response::base_class_p
 { }
 
 server_update_game_event::server_update_game_event(Game state) :
-        server_response(server_response::create_base_class_properties(ResponseType::server_update_lobby))
+        server_response(server_response::create_base_class_properties(ResponseType::server_update_game))
 {
     this->_state_json = state.to_json();
 }

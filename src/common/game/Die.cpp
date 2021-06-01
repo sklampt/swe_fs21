@@ -11,11 +11,21 @@
 /** @brief Constructor, only color is needed
  *  @param color color of the die
  */
-Die::Die(Color color) : _color(color) {
-
+Die::Die(Color color) : unique_serializable(), _color(color) {
     // Unrolled dice has no face
     _face = Face::undefined;
+    _faces = Die::generateFaces(color);
+}
 
+Die::Die(std::string id, Color color, Face face) :
+        unique_serializable(id), _color(color), _face(face) {
+    _faces = Die::generateFaces(color);
+}
+
+/** @brief returns vector of Face variables that represent the side
+ * @param color
+ */
+std::vector<Face> Die::generateFaces(Color color) {
     assert(color == green || color == yellow || color == red);
 
     //define faces distribution of the die (0:brain, 1:shotgun, 2:footprint) as in enum Faces in Die.h
@@ -37,18 +47,21 @@ Die::Die(Color color) : _color(color) {
         faces_dist[2] = 2;
     }
 
+    std::vector<Face> faces;
     //add brains
     for (int i = 0; i < faces_dist[0]; i++){
-        _faces.push_back(brain);
+        faces.push_back(brain);
     }
     //add shotguns
     for (int i = 0; i < faces_dist[1]; i++){
-        _faces.push_back(shotgun);
+        faces.push_back(shotgun);
     }
     //add footprints
     for (int i = 0; i < faces_dist[2]; i++){
-        _faces.push_back(footprint);
+        faces.push_back(footprint);
     }
+
+    return faces;
 }
 
 /** @brief returns the die's color
@@ -89,8 +102,28 @@ Face Die::throw_die(){
 }
 
 Die *Die::from_json(const rapidjson::Value &json) {
-    // TODO: Implement from_json
-    return nullptr;
+
+    // Convert color string to Enum::Color value
+    Color color_val;
+    std::string json_color = json["color"].GetString();
+
+    if (json_color == "green") color_val = Color::green;
+    else if (json_color == "yellow") color_val = Color::yellow;
+    else if (json_color == "red") color_val = Color::red;
+
+    // Convert face string to Enum::Face value
+    Face face_val;
+    std::string json_face = json["face"].GetString();
+    if (json_face == "undefined") face_val = Face::undefined;
+    else if (json_face == "brain") face_val = Face::brain;
+    else if (json_face == "footprint") face_val = Face::footprint;
+    else if (json_face == "shotgun") face_val = Face::shotgun;
+
+    return new Die(
+            json["id"].GetString(),
+            color_val,
+            face_val
+            );
 }
 
 void Die::write_into_json(rapidjson::Value &json, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) const {

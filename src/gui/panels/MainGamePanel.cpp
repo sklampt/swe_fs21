@@ -30,22 +30,21 @@ void MainGamePanel::buildGameState(Game* game, Player* me) {
     }
 
     // Unpack current turn information if current_turn exists else create empty vectors
-    std::vector<Die *>* current_hand;
-    std::vector<Die *>* brains;
-    std::vector<Die *>* footprints;
-    std::vector<Die *>* shotguns;
+    std::vector<Die *> current_hand;
+    std::vector<Die *> brains;
+    std::vector<Die *> footprints;
+    std::vector<Die *> shotguns;
     if(game->_current_turn) {
         current_hand = game->get_current_turn()->getCurrentHand();
         brains = game->get_current_turn()->getBrains();
         footprints = game->get_current_turn()->getFootprints();
         shotguns = game->get_current_turn()->getShotguns();
     } else {
-        // No current_turn is available create empty vector
-        std::vector<Die *> empty;
-        current_hand = &empty;
-        brains = &empty;
-        footprints = &empty;
-        shotguns = &empty;
+        // No current_turn is available create empty vectors
+        current_hand = std::vector<Die *>();
+        brains = std::vector<Die *>();
+        footprints = std::vector<Die *>();
+        shotguns = std::vector<Die *>();
     }
 
 
@@ -103,10 +102,10 @@ void MainGamePanel::buildGameState(Game* game, Player* me) {
 
 
     // Display dice
-    int n_dice = current_hand->size();
+    int n_dice = current_hand.size();
 
     for (int i = 0; i < n_dice; i++){
-        std::string fileName = "assets/" + current_hand->at(i)->get_face_as_string() + "_" + current_hand->at(i)->get_color_as_string() + ".png";
+        std::string fileName = "assets/" + current_hand.at(i)->get_face_as_string() + "_" + current_hand.at(i)->get_color_as_string() + ".png";
         wxPoint offset = wxPoint((i / 3) * MainGamePanel::dieOffsetX, (i % 3) * MainGamePanel::dieOffsetY);
         ImagePanel* die = new ImagePanel(this, fileName, wxBITMAP_TYPE_ANY, MainGamePanel::uppermostDie + offset, MainGamePanel::dieSize);
     }

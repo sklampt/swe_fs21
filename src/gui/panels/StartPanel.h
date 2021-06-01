@@ -17,10 +17,13 @@ public:
     void setServerPort(std::string string);
 
 private:
+    wxWindow* _parent;
+
     InputField* _portField;
     InputField* _playerNameField;
     InputField* _serverAddressField;
 
+    void setWindowTitle(std::string title);
 };
 
 #endif //ZOMBIEDICE_STARTPANEL_H

@@ -18,6 +18,9 @@ class Die: public unique_serializable {
         std::vector<Face> _faces;
         Color _color;
         Face _face;
+
+        // Private constructor for deserialization
+        Die(std::string id, Color color, Face face);
     
     public:
         Die(Color color);
@@ -36,6 +39,8 @@ class Die: public unique_serializable {
         ) const override;
 
     ;
+
+    std::vector<Face> generateFaces(Color color);
 };
 
 

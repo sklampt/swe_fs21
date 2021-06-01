@@ -48,8 +48,16 @@ request_response_event* client_join_lobby_request::execute() {
     player_manager::add_or_get_player(_player_name, _player_uuid, player);
 
     std::string err;
+    game_instance* game_instance_ptr;
     if (game_instance_manager::try_add_player(player, err)) {
-        return new request_response_event(ResponseType::request_response,_request_id,true, nullptr, err);
+        if(game_instance_manager::try_get_game_instance(game_instance_ptr, err))
+            return new request_response_event(
+                    ResponseType::request_response,
+                    _request_id,
+                    true,
+                    game_instance_ptr->get_game()->to_json(),
+                    err
+                    );
     } else {
         return new request_response_event(ResponseType::request_response,
                                           _request_id,

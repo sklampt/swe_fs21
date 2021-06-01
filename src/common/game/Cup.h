@@ -17,7 +17,7 @@ private:
     std::vector<Die*> _dice;
 
     // Serialization constructor
-    Cup(std::vector<Die*> dice);
+    Cup(std::string id, std::vector<Die*> dice);
 
 public:
     Cup();

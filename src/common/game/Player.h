@@ -41,6 +41,8 @@ public:
     void set_game_id(std::string game_id);
 
     int get_score() const noexcept;
+    void update_score(int score);
+
     bool has_folded() const noexcept;
     std::string get_player_name() const noexcept;
 
@@ -50,6 +52,8 @@ public:
 
     static Player* from_json(const rapidjson::Value& json);
     virtual void write_into_json(rapidjson::Value& json, rapidjson::Document::AllocatorType& allocator) const override;
+
+
 };
 
 

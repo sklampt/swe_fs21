@@ -20,18 +20,18 @@ class Turn : public unique_serializable {
 private:
     Cup* _cup;
 
-    std::vector<Die*> *_brains;
-    std::vector<Die*> *_footprints;
-    std::vector<Die*> *_shotguns;
-    std::vector<Die*> *_current_hand;
+    std::vector<Die*> _brains;
+    std::vector<Die*> _footprints;
+    std::vector<Die*> _shotguns;
+    std::vector<Die*> _current_hand;
 
     // Serialization constructor
     Turn(
             std::string id,
-            std::vector<Die *> *current_hand,
-            std::vector<Die *> *brains,
-            std::vector<Die *> *footprints,
-            std::vector<Die *> *shotguns,
+            std::vector<Die *> current_hand,
+            std::vector<Die *> brains,
+            std::vector<Die *> footprints,
+            std::vector<Die *> shotguns,
             Cup* cup // Cup could be reconstructed from other values
             );
 
@@ -39,23 +39,26 @@ public:
     Turn();
 
     void roll();
-    int play_turn();
+    bool play_turn();
+    int end_turn();
 
     Cup *getCup() const;
 
-    std::vector<Die *> *getBrains() const;
+    std::vector<Die *> getBrains() const;
 
-    std::vector<Die *> *getFootprints() const;
+    std::vector<Die *> getFootprints() const;
 
-    std::vector<Die *> *getShotguns() const;
+    std::vector<Die *> getShotguns() const;
 
-    std::vector<Die *> *getCurrentHand() const;
+    std::vector<Die *> getCurrentHand() const;
 
     static Turn *from_json(const rapidjson::Value& json);
 
     virtual void write_into_json(rapidjson::Value& json,
                          rapidjson::Document::AllocatorType& allocator
                          ) const override;
+
+
 };
 
 

@@ -138,6 +138,7 @@ void GameController::updateGameState(Game *newGameState) {
 
     if(oldGameState != nullptr) {
         // check if a new round started, and display message accordingly
+        // TODO: Check round number increasing
         if(oldGameState->get_round_number() > 0 && oldGameState->get_round_number() < newGameState->get_round_number()) {
             GameController::showNewTurnMessage(oldGameState, newGameState);
         }
@@ -163,21 +164,43 @@ void GameController::updateGameState(Game *newGameState) {
 }
 
 void GameController::clientGameAction(std::string action) {
+    std::string err;
+    // TODO: Prevent players that don't have their turn from playing
+
+
     // Convert action from string to int for switch statement
     int action_num = -1;
     if (action == "throw") action_num = 1;
     else if (action == "endturn") action_num = 0;
 
-    // TODO: Implement clientGameAction
     switch (action_num) {
-        case 1:
-            std::cout << "Player clicked throw again button" << std::endl;
+        case 1: {
+            // Throw dice in current turn and either update_game_state with result or end round
+            bool moreThanTwoShotGuns = _currentGame->get_current_turn()->play_turn();
+
+            // Update game state and send state to server
+            client_update_game_request request = client_update_game_request(
+                    GameController::_currentGame,
+                    GameController::_me->get_id()
+            );
+            ClientNetworkManager::sendRequest(request);
+            // Server will respond with the game state and client updates the gui with the data from the server response
+
+            if (moreThanTwoShotGuns) {
+                // If to many shotguns are rolled discard player's turn and let next player throw
+                _currentGame->update_current_player(err);
+            }
             break;
-        case 0:
-            std::cout << "Player clicked endturn button" << std::endl;
+        }
+        case 0: {
+            // If user ends turn without reaching the limit of shotguns
+            _currentGame->wrap_up_turn(err);
+
             break;
-        default:
+        }
+        default: {
             GameController::showError("Client Error", "Button click did not create action");
+        }
     }
 }
 

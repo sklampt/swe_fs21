@@ -30,7 +30,7 @@ public:
     static bool try_get_game_instance(game_instance*& game_instance_ptr, std::string& err);
     // returns true if the desired player 'player_id' was found and is connected to a game_instance.
     // The found player and game_instance will be written into 'player' and 'game_instance_ptr'
-    static bool try_get_player_and_game_instance(Player*& player, game_instance*& game_instance_ptr, std::string& err);
+    static bool try_get_player_and_game_instance(const std::string& player_id, Player*& player, game_instance*& game_instance_ptr, std::string& err);
 
     // Try to add 'player' to game. Returns true if 'player' is successfully added.
     static bool try_add_player(Player* player, std::string& err);

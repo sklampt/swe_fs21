@@ -14,21 +14,28 @@ Cup::Cup() {
 }
 
 // Serialization constructur
-Cup::Cup(std::vector<Die*> dice) : _dice(dice) { }
+Cup::Cup(std::string id, std::vector<Die*> dice) : unique_serializable(id), _dice(dice) { }
 
 int Cup::dice_count() {
     return _dice.size();
 }
 
 Die* Cup::draw_die() {
-    Die* d = _dice[_dice.size()];
+    Die* d = _dice[_dice.size()-1];
     _dice.pop_back();
     return d;
 }
 
 Cup *Cup::from_json(const rapidjson::Value &json) {
-    // TODO: Write from_json
-    return nullptr;
+    std::vector<Die*> dice;
+    for (auto &die : json["dice"].GetArray()) {
+        dice.push_back(Die::from_json(die.GetObject()));
+    }
+
+    return new Cup(
+            json["id"].GetString(),
+            dice
+            );
 }
 
 void Cup::write_into_json(rapidjson::Value &json,

@@ -26,12 +26,11 @@ bool game_instance_manager::try_get_game_instance(game_instance*& game_instance_
 }
 
 bool game_instance_manager::try_get_player_and_game_instance(
-        Player *& player,
-        game_instance*& game_instance_ptr,
-        std::string& err
+        const std::string& player_id, Player *& player, game_instance*& game_instance_ptr, std::string& err
     )
 {
-    if (player_manager::try_get_player(player->get_id(), player)) {
+    if (player_manager::try_get_player(player_id, player)) {
+        // Below if always returns true. This a relict of design decision of only one game
         if (game_instance_manager::try_get_game_instance(game_instance_ptr, err)) {
             return true;
         } else {
