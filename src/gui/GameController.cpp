@@ -124,6 +124,7 @@ void GameController::startGame() {
                 GameController::_me->get_id()
         );
         ClientNetworkManager::sendRequest(request);
+        GameController::showStatus("Game has started");
     } else {
         GameController::showError("Lobby Error", "Could not start game: " + err);
     }
@@ -153,9 +154,14 @@ void GameController::updateGameState(Game *newGameState) {
 
     // Only switch to mainGamePanel if Game has started
     if(GameController::_currentGame->is_started()) {
+
         GameController::_gameWindow->showPanel(GameController::_mainGamePanel);
         // command the main game panel to rebuild itself, based on the new game state
         GameController::_mainGamePanel->buildGameState(GameController::_currentGame, GameController::_me);
+
+        // Display status
+        std::string current_player_name = _currentGame->get_current_player()->get_player_name();
+        GameController::showStatus("It\'s " + current_player_name + "\'s turn" );
     }
     else {
         // TODO: Implement this
@@ -166,7 +172,10 @@ void GameController::updateGameState(Game *newGameState) {
 void GameController::clientGameAction(std::string action) {
     std::string err;
     // TODO: Prevent players that don't have their turn from playing
-
+    if (_currentGame->get_current_player()->get_id() != GameController::_me->get_id()) {
+        GameController::showError("GameController Error", "It is not your turn. Wait for the other players to finish");
+        return;
+    }
 
     // Convert action from string to int for switch statement
     int action_num = -1;
@@ -177,18 +186,15 @@ void GameController::clientGameAction(std::string action) {
         case 1: {
             // Throw dice in current turn and either update_game_state with result or end round
             bool moreThanTwoShotGuns = _currentGame->get_current_turn()->play_turn();
-
-            // Update game state and send state to server
-            client_update_game_request request = client_update_game_request(
-                    GameController::_currentGame,
-                    GameController::_me->get_id()
-            );
-            ClientNetworkManager::sendRequest(request);
-            // Server will respond with the game state and client updates the gui with the data from the server response
+            GameController::sendGameStateToServer(err);
 
             if (moreThanTwoShotGuns) {
                 // If to many shotguns are rolled discard player's turn and let next player throw
+                GameController::showStatus("Too many shotguns -> next player" );
+                GameController::sendGameStateToServer(err);
+                GameController::showError("The humans killed you", "You have been shotgunned more than two times. Your score will be discarded");
                 _currentGame->update_current_player(err);
+                GameController::sendGameStateToServer(err);
             }
             break;
         }
@@ -196,6 +202,7 @@ void GameController::clientGameAction(std::string action) {
             // If user ends turn without reaching the limit of shotguns
             _currentGame->wrap_up_turn(err);
 
+            GameController::sendGameStateToServer(err);
             break;
         }
         default: {
@@ -203,6 +210,17 @@ void GameController::clientGameAction(std::string action) {
         }
     }
 }
+
+void GameController::sendGameStateToServer(std::string err) {
+    // Update game state and send state to server
+    client_update_game_request request = client_update_game_request(
+            GameController::_currentGame,
+            GameController::_me->get_id()
+    );
+    ClientNetworkManager::sendRequest(request);
+    // Server will respond with the game state and client updates the gui with the data from the server response
+}
+
 
 wxEvtHandler* GameController::getMainThreadEventHandler() {
     return GameController::_gameWindow->GetEventHandler();

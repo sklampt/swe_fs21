@@ -151,21 +151,9 @@ void Game::update_current_player(std::string& err) {
     int nof_players = _players.size();
     int current_player_idx = _current_player_idx->get_value();
     ++current_player_idx %= nof_players;
-    bool round_over = true;
-    for (int i = 0; i < nof_players; i++) {
-        if (_players[current_player_idx]->has_folded() == false) {
-            _current_player_idx->set_value(current_player_idx);
-            round_over = false;
-            break;
-        } else {
-            ++current_player_idx %= nof_players;
-        }
-    }
-
-//    if (round_over) {
-//        // all players have folded and the round is over
-//        wrap_up_turn(err);
-//    }
+    _current_player_idx->set_value(current_player_idx);
+    // NTH: Destruct turn object instead of just discarding it
+    _current_turn = nullptr;
 }
 
 bool Game::start_game(std::string &err) {

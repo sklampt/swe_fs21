@@ -190,11 +190,8 @@ void server_network_manager::broadcast_message(server_response &msg, const std::
     // send object_diff to all requested players
     try {
         for(auto& player : players) {
-            // TODO: We send all messages to everyone for now. change back to exclude requestor
              if (player->get_id() != exclude->get_id()) {
                 int nof_bytes_written = send_message(msg_string, _player_id_to_address.at(player->get_id()));
-             } else {
-                 std::cout << "Skipped requestor: " << exclude->get_player_name() << std::endl;
              }
         }
     } catch (std::exception& e) {

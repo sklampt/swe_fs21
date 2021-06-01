@@ -18,15 +18,13 @@ public:
     static void connectToServer();
     static void updateGameState(Game* newGameState);
     static void clientGameAction(std::string action);
+    static void sendGameStateToServer(std::string err);
     static void startGame();
-    static void drawDice();
-    static void keepGoing();
-    static void score();
 
     static wxEvtHandler* getMainThreadEventHandler();
     static void showError(const std::string& title, const std::string& message);
     static void showStatus(const std::string& message);
-    static void  showNewTurnMessage(Game* oldGameState, Game* newGameState);
+    static void showNewTurnMessage(Game* oldGameState, Game* newGameState);
     static void showGameOverMessage();
 
     static void createAndConnectToServer();
@@ -39,6 +37,7 @@ private:
 
     static Player* _me;
     static Game* _currentGame;
+
 
 };
 
