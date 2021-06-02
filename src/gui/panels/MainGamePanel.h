@@ -5,14 +5,15 @@
 #include <vector>
 #include <string>
 #include "../../common/game/Die.h"
-
+#include "../../common/game/Player.h"
+#include "../../common/game/Game.h"
 
 class MainGamePanel : public wxPanel {
 
 public:
     MainGamePanel(wxWindow* parent);
 
-    void buildGameState(std::vector<int>* scores, std::vector<std::string>* names, std::vector<std::string>* dice, std::vector<std::string>* colors);
+    void buildGameState(Game* game, Player* me);
 
 private:
 

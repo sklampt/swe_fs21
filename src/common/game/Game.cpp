@@ -1,14 +1,10 @@
-//
-// Created by marco on 02.05.21.
-//
-
 #include "Game.h"
 #include "../exceptions/ZombieException.h"
 #include "../serialization/vector_utils.h"
 
 
 Game::Game() : unique_serializable() {
-    this->_current_turn = new Turn();
+    this->_current_turn = nullptr;
     this->_players = std::vector<Player*>();
     this->_is_started = new serializable_value<bool>(false);
     this->_is_finished = new serializable_value<bool>(false);
@@ -16,17 +12,29 @@ Game::Game() : unique_serializable() {
     this->_play_direction = new serializable_value<int>(1);
     this->_round_number = new serializable_value<int>(0);
     this->_starting_player_idx = new serializable_value<int>(0);
-
 }
 
-Game::Game(std::string id, Turn *current_turn, std::vector<Player *> &players, serializable_value<bool> *is_started,
-           serializable_value<bool> *is_finished, serializable_value<int> *current_player_idx,
-           serializable_value<int> *play_direction, serializable_value<int> *round_number, serializable_value<int> *starting_player_idx) : unique_serializable(id), _current_turn(current_turn), _players(players),
-           _is_started(is_started), _is_finished(is_finished),_current_player_idx(current_player_idx),_play_direction(play_direction),_round_number(round_number),_starting_player_idx(starting_player_idx){}
+Game::Game(std::string id, Turn *current_turn,
+           std::vector<Player *> &players,
+           serializable_value<bool> *is_started,
+           serializable_value<bool> *is_finished,
+           serializable_value<int> *current_player_idx,
+           serializable_value<int> *play_direction,
+           serializable_value<int> *round_number,
+           serializable_value<int> *starting_player_idx
+           ) : unique_serializable(id),
+           _current_turn(current_turn),
+           _players(players),
+           _is_started(is_started),
+           _is_finished(is_finished),
+           _current_player_idx(current_player_idx),
+           _play_direction(play_direction),
+           _round_number(round_number),
+           _starting_player_idx(starting_player_idx) { }
 
 
 Game::Game(std::string id) : unique_serializable(id) {
-    this->_current_turn = new Turn();
+    this->_current_turn = nullptr;
     this->_players = std::vector<Player*>();
     this->_is_started = new serializable_value<bool>(false);
     this->_is_finished = new serializable_value<bool>(false);
@@ -74,9 +82,15 @@ bool Game::is_started() const {
     return _is_started->get_value();
 }
 
-
 bool Game::is_finished() const {
     return _is_finished->get_value();
+}
+
+Turn * Game::get_current_turn() {
+    if (_current_turn == nullptr) {
+        _current_turn = new Turn();
+    }
+    return _current_turn;
 }
 
 int Game::get_round_number() const {
@@ -92,7 +106,6 @@ int Game::get_player_index(Player *player) const {
     }
 }
 
-
 bool Game::is_player_in_game(Player *player) const {
     return std::find(_players.begin(),_players.end(),player) < _players.end();
 }
@@ -105,7 +118,6 @@ std::vector<Player*>& Game::get_players() {
     return _players;
 }
 
-#ifdef LAMA_SERVER
 void Game::setup_round(std::string &err) {
     _round_number->set_value(_round_number->get_value() + 1);
     for (int i = 0; i < _players.size(); i++) {
@@ -113,14 +125,17 @@ void Game::setup_round(std::string &err) {
     }
 }
 
-
-void Game::wrap_up_round(std::string &err) {
+void Game::wrap_up_turn(std::string &err) {
     bool is_game_over = false;
-    for (int i = 0; i < _players.size(); i++) {
-        _players[i]->wrap_up_round(err);
-        if(_players[i]->get_score() >= 13) {
-            is_game_over = true;
-        }
+    int current_player_idx = _current_player_idx->get_value();
+
+    _players[current_player_idx]->update_score(get_current_turn()->end_turn());
+    // NTH: Destruct turn object instead of just discarding it
+    _current_turn = nullptr;
+
+    // If a player reaches a score of 13 or higher the game is over
+    if(_players[current_player_idx]->get_score() >= 13) {
+        this->_is_finished->set_value(true);
     }
 }
 
@@ -128,21 +143,8 @@ void Game::update_current_player(std::string& err) {
     int nof_players = _players.size();
     int current_player_idx = _current_player_idx->get_value();
     ++current_player_idx %= nof_players;
-    bool round_over = true;
-    for (int i = 0; i < nof_players; i++) {
-        if (_players[current_player_idx]->has_folded() == false) {
-            _current_player_idx->set_value(current_player_idx);
-            round_over = false;
-            break;
-        } else {
-            ++current_player_idx %= nof_players;
-        }
-    }
+    _current_player_idx->set_value(current_player_idx);
 
-    if (round_over) {
-        // all players have folded and the round is over
-        wrap_up_round(err);
-    }
 }
 
 bool Game::start_game(std::string &err) {
@@ -176,7 +178,6 @@ bool Game::remove_player(Player *player_ptr, std::string &err) {
     }
 }
 
-
 bool Game::add_player(Player* player_ptr, std::string& err) {
     if (_is_started->get_value()) {
         err = "Could not join game, because the requested game is already started.";
@@ -198,7 +199,6 @@ bool Game::add_player(Player* player_ptr, std::string& err) {
     _players.push_back(player_ptr);
     return true;
 }
-
 
 bool Game::fold(Player *player, std::string &err) {
     if(!is_player_in_game(player)) {
@@ -222,9 +222,6 @@ bool Game::fold(Player *player, std::string &err) {
         return false;
     }
 }
-
-#endif
-
 
 // Serializable interface
 void Game::write_into_json(rapidjson::Value &json,
@@ -255,10 +252,14 @@ void Game::write_into_json(rapidjson::Value &json,
     _round_number->write_into_json(round_number_val, allocator);
     json.AddMember("round_number", round_number_val, allocator);
 
-
     json.AddMember("players", vector_utils::serialize_vector(_players, allocator), allocator);
-}
 
+    if (_current_turn) {
+        rapidjson::Value turn_val(rapidjson::kObjectType);
+        _current_turn->write_into_json(turn_val, allocator);
+        json.AddMember("turn", turn_val, allocator);
+    }
+}
 
 Game* Game::from_json(const rapidjson::Value &json) {
     if (json.HasMember("id")
@@ -275,19 +276,29 @@ Game* Game::from_json(const rapidjson::Value &json) {
             deserialized_players.push_back(Player::from_json(serialized_player.GetObject()));
         }
 
-        //CAREFUL COMMENTED OUT CONSTRUCTOR
-        /*return new Game(json["id"].GetString(),
-                              deserialized_players,
-                              serializable_value<bool>::from_json(json["is_started"].GetObject()),
-                              serializable_value<bool>::from_json(json["is_finished"].GetObject()),
-                              serializable_value<int>::from_json(json["current_player_idx"].GetObject()),
-                              serializable_value<int>::from_json(json["play_direction"].GetObject()),
-                              serializable_value<int>::from_json(json["round_number"].GetObject()),
-                              serializable_value<int>::from_json(json["starting_player_idx"].GetObject()));
+        // Prepare empty turn object
+        Turn* current_turn = nullptr;
+        if (json.HasMember("turn")) {
+            current_turn = Turn::from_json(json["turn"]);
+        } else {
+            current_turn = nullptr;
+        }
 
-        */
+        return new Game(
+                json["id"].GetString(),
+                current_turn,
+                deserialized_players,
+                serializable_value<bool>::from_json(json["is_started"].GetObject()),
+                serializable_value<bool>::from_json(json["is_finished"].GetObject()),
+                serializable_value<int>::from_json(json["current_player_idx"].GetObject()),
+                serializable_value<int>::from_json(json["play_direction"].GetObject()),
+                serializable_value<int>::from_json(json["round_number"].GetObject()),
+                serializable_value<int>::from_json(json["starting_player_idx"].GetObject())
+        );
+
     } else {
         throw ZombieDiceException("Failed to deserialize game_state. Required entries were missing.");
     }
 }
+
 

@@ -75,13 +75,11 @@ void request_response_event::Process() const {
     if (_success) {
         if (this->_state_json != nullptr) {
             Game* state = Game::from_json(*_state_json);
-            //GameController::updateGameState(state);
-
-        } else {
-            //GameController::showError("Network error", "Expected a state as JSON inside the request_response_event. But there was none.");
+            GameController::updateGameState(state);
         }
+
     } else {
-        //GameController::showError("Not possible", _err);
+        GameController::showError("Request has not been executed successfully", _err);
     }
 
 }

@@ -2,7 +2,7 @@
 
 #include "../uiElements/ImagePanel.h"
 #include "../GameController.h"
-// ../../common/network/default.conf missing -> ok?
+
 
 
 LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
@@ -16,7 +16,13 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     wxBoxSizer* horizontalLayout2 = new wxBoxSizer(wxHORIZONTAL);
     wxBoxSizer* verticalLayout2 = new wxBoxSizer(wxVERTICAL);
    
-    ImagePanel* logo = new ImagePanel(this, "assets/zombiedice_logo_nobackground.png", wxBITMAP_TYPE_ANY, wxDefaultPosition, wxSize(800, 275));
+    ImagePanel* logo = new ImagePanel(
+            this,
+            "assets/zombiedice_logo_nobackground.png",
+            wxBITMAP_TYPE_ANY,
+            wxDefaultPosition,
+            wxSize(800, 275)
+            );
     verticalLayout->Add(logo, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
 
     wxString txt1 = "You:";
@@ -91,13 +97,18 @@ LobbyPanel::LobbyPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     
 
     // button to start game - "link" missing
-    wxButton* connectButton = new wxButton(this, wxID_ANY, "Start", wxDefaultPosition, wxSize(100, 40));
+    wxButton* connectButton = new wxButton(this, wxID_ANY, "Start Game", wxDefaultPosition, wxSize(100, 40));
     connectButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
-        // GameController::connectToServer();
+        GameController::startGame();
     });
-    verticalLayout->Add(connectButton, 0, wxALIGN_RIGHT | wxALL, 10);
+    verticalLayout->Add(connectButton, 0, wxALIGN_CENTER | wxALL, 10);
 
     this->SetSizerAndFit(verticalLayout);
+}
+
+void LobbyPanel::buildLobby(Game *Game, Player *Player) {
+    // TODO: Make lobby panel react to updates
+    return;
 }
 
 

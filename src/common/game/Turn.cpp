@@ -1,68 +1,161 @@
-//
-// Created by marco on 02.05.21.
-//
-
 #include "Turn.h"
+#include "../exceptions/ZombieException.h"
+#include "../serialization/vector_utils.h"
 
-Turn::Turn() : _cup(Cup()), _num_brains(0), _num_footprints(0), _num_shotguns(0) {}
+Turn::Turn() : unique_serializable() {
+    this->_cup = new Cup();
+    this->_current_hand = std::vector<Die *>();
+    this->_brains = std::vector<Die *>();
+    this->_footprints = std::vector<Die *>();
+    this->_shotguns = std::vector<Die *>();
+}
+
+Turn::Turn(
+        std::string id,
+        std::vector<Die *> current_hand,
+        std::vector<Die *> brains,
+        std::vector<Die *> footprints,
+        std::vector<Die *> shotguns,
+        Cup* cup
+           ) :
+           unique_serializable(id),
+           _current_hand(current_hand),
+           _brains(brains),
+           _footprints(footprints),
+           _shotguns(shotguns),
+           _cup(cup)
+           {}
+
+
+bool Turn::play_turn() {
+    this->roll();
+    if(_shotguns.size() > 2) {
+        return true;
+    }
+    return false;
+}
+
+int Turn::end_turn() {
+
+    return _brains.size();
+}
 
 void Turn::roll() {
-    if (_num_shotguns > 2)
+    // Is this if here needed?
+    if (_shotguns.size() > 2)
         return;
+
+    // Number of dice needed to fill cup
     int draw = 3;
-    draw -= _footprint.size();
-    _num_footprints -= _footprint.size();
-    std::vector<Die> current_hand;
-    std::move(_footprint.begin(), _footprint.end(),
-              std::back_inserter(current_hand));
-    _footprint.clear();
+    // Account for footprints rolled in last throw
+    draw -= _footprints.size();
+
+    // Clear current hand
+   _current_hand.clear();
+
+    std::move(_footprints.begin(), _footprints.end(),
+              std::back_inserter(_current_hand));
+    _footprints.clear();
+
     for (int i = 0; i < draw; i++) {
-        Die d = _cup.get_die();
-        current_hand.push_back(d);
+        Die* d = _cup->draw_die();
+        _current_hand.push_back(d);
     }
-    for (auto d : current_hand) {
-        Face die_face = d.throw_die();
+    for (auto d : _current_hand) {
+        Face die_face = d->throw_die();
         switch (die_face) {
             case brain:
                 _brains.push_back(d);
-                _num_brains += 1;
                 break;
             case footprint:
-                _footprint.push_back(d);
-                _num_footprints += 1;
+                _footprints.push_back(d);
                 break;
             case shotgun:
                 _shotguns.push_back(d);
-                _num_shotguns += 1;
                 break;
+            case undefined:
+                throw ZombieDiceException("Error in throw_die()");
         }
     }
 }
 
+void Turn::write_into_json(rapidjson::Value &json,
+                           rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) const {
+    unique_serializable::write_into_json(json, allocator);
 
-int Turn::get_num_shotguns() {
-    return _num_shotguns;
+    //    {
+    //        'cup': [ dice ],
+    //        'current_hand': [ dice ],
+    //        'score': {  'brains': [ dice ],
+    //                    'footprints': [ dice ],
+    //                    'shotguns': [ dice ]
+    //                 }
+    //    }
+
+    rapidjson::Value cup_val(rapidjson::kObjectType);
+    _cup->write_into_json(cup_val, allocator);
+    json.AddMember("cup", cup_val, allocator);
+
+    json.AddMember("current_hand", vector_utils::serialize_vector(_current_hand, allocator), allocator);
+
+    rapidjson::Value score(rapidjson::kObjectType);
+    score.AddMember("brains",vector_utils::serialize_vector(_brains, allocator), allocator);
+    score.AddMember("footprints",vector_utils::serialize_vector(_footprints, allocator), allocator);
+    score.AddMember("shotguns",vector_utils::serialize_vector(_shotguns, allocator), allocator);
+
+    json.AddMember("score", score, allocator);
+
 }
 
-int Turn::get_num_footprints() {
-    return _num_footprints;
-}
+Turn* Turn::from_json(const rapidjson::Value &json) {
 
-int Turn::get_num_brains() {
-    return _num_brains;
-}
-
-int Turn::play_turn() {
-    bool done = false;
-    while(!done) {
-        roll();
-        std::cout << "Brains: " << _num_brains << " prints: " << _num_footprints << " shotguns: " << _num_shotguns << std::endl;
-        std::cout << "want to end the turn?" << std::endl; // not sure how the game class wants to communicate with this//
-        std::cin >> done;
-        if(_num_shotguns > 2) {
-            done = true;
-            return 0;
-        }
+    std::vector<Die *> current_hand;
+    for (auto &die : json["current_hand"].GetArray()) {
+        current_hand.push_back(Die::from_json(die.GetObject()));
     }
-    return _num_brains;
+    std::vector<Die *> brains;
+    for (auto &die : json["score"]["brains"].GetArray()) {
+        brains.push_back(Die::from_json(die.GetObject()));
+    }
+    std::vector<Die *> footprints;
+    for (auto &die : json["score"]["footprints"].GetArray()) {
+        footprints.push_back(Die::from_json(die.GetObject()));
+    }
+    std::vector<Die *> shotguns;
+    for (auto &die : json["score"]["shotguns"].GetArray()) {
+        shotguns.push_back(Die::from_json(die.GetObject()));
+    }
+
+    Cup* cup = Cup::from_json(json["cup"]);
+
+    return new Turn(
+            json["id"].GetString(),
+            current_hand,
+            brains,
+            footprints,
+            shotguns,
+            cup
+            );
 }
+
+Cup *Turn::getCup() const {
+    return _cup;
+}
+
+std::vector<Die *> Turn::getBrains() const {
+    return _brains;
+}
+
+std::vector<Die *> Turn::getFootprints() const {
+    return _footprints;
+}
+
+std::vector<Die *> Turn::getShotguns() const {
+    return _shotguns;
+}
+
+std::vector<Die *> Turn::getCurrentHand() const {
+    return _current_hand;
+}
+
+

@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -c")
 
-include(cmake/GetGTest.cmake)
+# Linking error
+#include(cmake/GetGTest.cmake)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/src
@@ -27,7 +28,7 @@ set(SOURCE_FILES
         src/gui/panels/MainGamePanel.cpp src/gui/panels/MainGamePanel.h
         src/gui/panels/ConnectionPanel.cpp src/gui/panels/ConnectionPanel.h
         src/gui/panels/LobbyPanel.cpp src/gui/panels/LobbyPanel.h
-        # src/gui/panels/StartPanel.cpp src/gui/panels/StartPanel.h
+        src/gui/panels/StartPanel.cpp src/gui/panels/StartPanel.h
         ## UIElements
         src/gui/uiElements/ImagePanel.cpp src/gui/uiElements/ImagePanel.h
         src/gui/uiElements/InputField.cpp src/gui/uiElements/InputField.h
@@ -83,25 +84,26 @@ target_compile_definitions(ZombieDice PRIVATE RAPIDJSON_HAS_STDSTRING=1)
 target_compile_definitions(ZombieDice PRIVATE PRINT_NETWORK_MESSAGES=1)
 
 
-add_library(
-    example
-    src/example.cpp
-    )
+# Linking error
+#add_library(
+#    example
+#    src/example.cpp
+#    )
+#
+#add_executable(
+#    unit_tests # executable
+#    tests/main.cpp # dependency
+#    tests/example_add.cpp # dependency
+#)
 
-add_executable(
-    unit_tests # executable
-    tests/main.cpp # dependency
-    tests/example_add.cpp # dependency
-)
+## add_dependencies(unit_tests GTest)
 
-# add_dependencies(unit_tests GTest)
-
-target_link_libraries(
-    unit_tests
-    gtest_main
-    example
-    pthread
-    )
+#target_link_libraries(
+#    unit_tests
+#    gtest_main
+#    example
+#    pthread
+#    )
 
 # link with wxWidgets
 target_link_libraries(ZombieDice ${wxWidgets_LIBRARIES})

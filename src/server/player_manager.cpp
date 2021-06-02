@@ -1,6 +1,3 @@
-//
-// Created by Manuel on 29.01.2021.
-//
 // The player_manager only exists on the server side. It stores all connected users since starting the server. It offers
 // functionality to retrieve players by id or adding players when they first connect to the server.
 //
@@ -25,7 +22,7 @@ bool player_manager::add_or_get_player(std::string name, const std::string& play
     if (try_get_player(player_id, player_ptr)) {
         return true;
     }
-    // player_ptr = new Player(player_id, name);
+    player_ptr = new Player(player_id, name);
     _rw_lock.lock();    // exclusive
     player_manager::_players_lut.insert({player_id, player_ptr});
     _rw_lock.unlock();

@@ -11,13 +11,22 @@ Player::Player(std::string name) : unique_serializable() {
     this->_score = new serializable_value<int>(0);
 }
 
-Player::Player(std::string id, serializable_value<std::string> *player_name, serializable_value<int> *score,
-               serializable_value<bool> *has_folded) : unique_serializable(id),
+
+Player::Player(std::string id, std::string name) : unique_serializable(id) {
+    this->_player_name = new serializable_value<std::string>(name);
+    this->_has_folded = new serializable_value<bool>(false);
+    this->_score = new serializable_value<int>(0);
+}
+
+Player::Player(std::string id,
+               serializable_value<std::string> *player_name,
+               serializable_value<int> *score,
+               serializable_value<bool> *has_folded
+               ) :
+               unique_serializable(id),
                _player_name(player_name),
                _score(score),
-               _has_folded(has_folded) {
-
-}
+               _has_folded(has_folded) { }
 
 Player::~Player() {
     if(_player_name != nullptr) {
@@ -31,14 +40,6 @@ Player::~Player() {
     }
 }
 
-#ifdef LAMA_SERVER
-Player::Player(std::string id, std::string name) : unique_serializable(id)
-{
-    this->_player_name = new serializable_value<std::string>(name);
-    this->_has_folded = new serializable_value<bool>(false);
-    this->_score = new serializable_value<int>(0);
-}
-
 std::string Player::get_game_id() {
     return _game_id;
 }
@@ -46,11 +47,15 @@ std::string Player::get_game_id() {
 void Player::set_game_id(std::string game_id) {
     _game_id = game_id;
 }
-#endif
 
 int Player::get_score() const noexcept {
     return _score->get_value();
 }
+void Player::update_score(int score) {
+    int old_score = _score->get_value();
+    _score->set_value(old_score+score);
+}
+
 
 std::string Player::get_player_name() const noexcept {
     return this->_player_name->get_value();
@@ -59,7 +64,7 @@ std::string Player::get_player_name() const noexcept {
 bool Player::has_folded() const noexcept {
     return this->_has_folded->get_value();
 }
-#ifdef LAMA_SERVER
+
 void Player::setup_round(std::string &err) {
     _has_folded->set_value(false);
 }
@@ -76,13 +81,14 @@ bool Player::fold(std::string &err) {
     _has_folded->set_value(true);
     return true;
 }
-#endif
+
 
 void Player::write_into_json(rapidjson::Value &json, rapidjson::Document::AllocatorType &allocator) const {
     unique_serializable::write_into_json(json, allocator);
 
-    rapidjson::Value id_val(_id.c_str(), allocator);
-    json.AddMember("id", id_val, allocator);
+    // Double assign
+    //    rapidjson::Value id_val(_id.c_str(), allocator);
+    //    json.AddMember("id", id_val, allocator);
 
     rapidjson::Value name_val(rapidjson::kObjectType);
     _player_name->write_into_json(name_val, allocator);
@@ -105,9 +111,11 @@ Player *Player::from_json(const rapidjson::Value &json) {
         return new Player(
                 json["id"].GetString(),
                 serializable_value<std::string>::from_json(json["player_name"].GetObject()),
-                serializable_value<int>::from_json(json["has_folded"].GetObject()),
-                serializable_value<bool>::from_json(json["score"].GetObject()));
+                serializable_value<int>::from_json(json["score"].GetObject()),
+                serializable_value<bool>::from_json(json["has_folded"].GetObject()));
     } else {
         throw ZombieDiceException("Failed to deserialize Player class!");
     }
 }
+
+

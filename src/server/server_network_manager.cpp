@@ -184,22 +184,19 @@ void server_network_manager::broadcast_message(server_response &msg, const std::
 #ifdef PRINT_NETWORK_MESSAGES
     std::cout << "Broadcasting message : " << msg_string << std::endl;
 #endif
-
     _rw_lock.lock_shared();
 
 
     // send object_diff to all requested players
-    //TODO: define how event queue is updated and when it is triggered
-
-    /*try {
+    try {
         for(auto& player : players) {
-            if (player != exclude) {
+             if (player->get_id() != exclude->get_id()) {
                 int nof_bytes_written = send_message(msg_string, _player_id_to_address.at(player->get_id()));
-            }
+             }
         }
     } catch (std::exception& e) {
         std::cerr << "Encountered error when sending state update: " << e.what() << std::endl;
-    }*/
+    }
     _rw_lock.unlock_shared();
     delete msg_json;
 }

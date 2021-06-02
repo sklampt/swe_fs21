@@ -32,21 +32,18 @@ void::ClientNetworkManager::init(const std::string& host, const uint16_t port) {
 
     // try to connect to server
     if(ClientNetworkManager::connect(host, port)) {
-        //TODO
-        //GameController::showStatus("Connected to " + host + ":" + std::to_string(port)); -> not yet implemented
+        GameController::showStatus("Connected to " + host + ":" + std::to_string(port));
         ClientNetworkManager::_connectionSuccess = true;
 
         // start network thread
         ResponseListenerThread* responseListenerThread = new ResponseListenerThread(ClientNetworkManager::_connection);
         if(responseListenerThread->Run() != wxTHREAD_NO_ERROR) {
-            //TODO
-            //GameController::showError("Connection error", "Could not create client network thread"); -> not yet implemented
-
+            GameController::showError("Connection error", "Could not create client network thread");
         }
 
     } else {
         ClientNetworkManager::_failedToConnect = true;
-        //GameController::showStatus("Not connected"); -> not yet implemented
+        GameController::showStatus("Not connected");
     }
 }
 
@@ -58,13 +55,13 @@ bool ClientNetworkManager::connect(const std::string& host, const uint16_t port)
     try {
         address = sockpp::inet_address(host, port);
     } catch (const sockpp::getaddrinfo_error& e) {
-        //GameController::showError("Connection error", "Failed to resolve address " + e.hostname());
+        GameController::showError("Connection error", "Failed to resolve address " + e.hostname());
         return false;
     }
 
     // establish connection to given address
     if (!ClientNetworkManager::_connection->connect(address)) {
-        //GameController::showError("Connection error", "Failed to connect to server " + address.to_string());
+        GameController::showError("Connection error", "Failed to connect to server " + address.to_string());
         return false;
     }
 
@@ -110,11 +107,11 @@ void ClientNetworkManager::sendRequest(const client_request &request) {
 
         // if the number of bytes sent does not match the length of the message, probably something went wrong
         if (bytesSent != ssize_t(message.length())) {
-            //GameController::showError("Network error", "Error writing to the TCP stream: " + ClientNetworkManager::_connection->last_error_str());
+            GameController::showError("Network error", "Error writing to the TCP stream: " + ClientNetworkManager::_connection->last_error_str());
         }
 
     } else {
-        //GameController::showError("Network error", "Lost connection to server");
+        GameController::showError("Network error", "Lost connection to server");
     }
 }
 
@@ -134,6 +131,10 @@ void ClientNetworkManager::parseResponse(const std::string& message) {
         res->Process();
 
     } catch (std::exception e) {
-        //GameController::showError("JSON parsing error", "Failed to parse message from server:\n" + message + "\n" + (std::string) e.what());
+        GameController::showError("JSON parsing error", "Failed to parse message from server:\n" + message + "\n" + (std::string) e.what());
     }
+}
+
+bool ClientNetworkManager::isConnected() {
+    return _connectionSuccess;
 }

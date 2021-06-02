@@ -1,8 +1,8 @@
 #include "GameWindow.h"
 
 
-GameWindow::GameWindow(const wxString& title, const wxPoint& pos, const wxSize& size) : wxFrame(nullptr, wxID_ANY, title, pos, size)
-{
+GameWindow::GameWindow(const wxString& title, const wxPoint& pos, const wxSize& size) :
+                                            wxFrame(nullptr, wxID_ANY, title, pos, size) {
     // Set up layout that will contain and center all content
 
     this->_mainLayout = new wxBoxSizer(wxVERTICAL);

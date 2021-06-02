@@ -1,7 +1,3 @@
-//
-// Created by pete on 22.05.21.
-//
-
 #ifndef ZOMBIEDICE_STARTPANEL_H
 #define ZOMBIEDICE_STARTPANEL_H
 
@@ -14,13 +10,20 @@ class StartPanel : public wxPanel {
 public:
     StartPanel(wxWindow* parent);
 
-    wxString getPort();
+    wxString getServerPort();
     wxString getPlayerName();
+    wxString getServerAddress();
+    void setServerAddress(std::string string);
+    void setServerPort(std::string string);
 
 private:
+    wxWindow* _parent;
+
     InputField* _portField;
     InputField* _playerNameField;
+    InputField* _serverAddressField;
 
+    void setWindowTitle(std::string title);
 };
 
 #endif //ZOMBIEDICE_STARTPANEL_H

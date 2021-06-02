@@ -7,33 +7,30 @@
 // will generate a new game_instance and add it to the unordered_map of (active) game instances.
 
 #include "game_instance_manager.h"
-
 #include "player_manager.h"
 #include "server_network_manager.h"
 
 // Initialize static map
 std::unordered_map<std::string, game_instance*> game_instance_manager::games_lut = {};
 
+// Initialize pointer for current server side game_instance
+game_instance* game_instance_manager::current_game_instance = nullptr;
 
-
-game_instance* game_instance_manager::create_new_game() {
-    game_instance* game = new game_instance();
-    //TODO: Save game pointer to be called again.
-    return game;
+void game_instance_manager::create_new_game_instance() {
+    current_game_instance = new game_instance();
 }
 
-bool game_instance_manager::try_get_game_instance(game_instance* game_instance_ptr, std::string& err) {
-    //TODO: assign game to pointer
-    return false;
+bool game_instance_manager::try_get_game_instance(game_instance*& game_instance_ptr, std::string& err) {
+    game_instance_ptr = current_game_instance;
+    return true;
 }
 
 bool game_instance_manager::try_get_player_and_game_instance(
-        Player *&player,
-        game_instance *&game_instance_ptr,
-        std::string& err
+        const std::string& player_id, Player *& player, game_instance*& game_instance_ptr, std::string& err
     )
 {
-    if (player_manager::try_get_player(player->get_id(), player)) {
+    if (player_manager::try_get_player(player_id, player)) {
+        // Below if always returns true. This a relict of design decision of only one game
         if (game_instance_manager::try_get_game_instance(game_instance_ptr, err)) {
             return true;
         } else {
@@ -47,13 +44,17 @@ bool game_instance_manager::try_get_player_and_game_instance(
 
 
 bool game_instance_manager::try_add_player(Player *player, std::string& err) {
-    //TODO: Implement add_player
-    return false;
+    if (current_game_instance->try_add_player(player, err)) {
+        //player->set_game_id(current_game_instance->get_id());   // mark that this player is playing in a src
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool game_instance_manager::try_remove_player(Player *player, std::string &err) {
     try {
-        return try_remove_player(player, err);
+        return current_game_instance->try_remove_player(player, err);
     }
     catch(std::exception& e) {
         err = "The requested player could not be found.";

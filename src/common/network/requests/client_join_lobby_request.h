@@ -18,7 +18,7 @@ private:
     /*
      * Private constructor for deserialization
      */
-    client_join_lobby_request(base_class_properties, std::string name);
+    client_join_lobby_request(base_class_properties, std::string name, std::string player_uuid);
 
 public:
     /*

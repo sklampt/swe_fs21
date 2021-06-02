@@ -57,7 +57,8 @@ server_response *server_response::from_json(const rapidjson::Value& json) {
         }
         else if (response_type == ResponseType::server_update_lobby) {
             return server_update_lobby_event::from_json(json);
-        } else {
+        }
+        else {
             throw ZombieDiceException(&"Encountered unknown ServerResponse type " [ response_type]);
         }
     }

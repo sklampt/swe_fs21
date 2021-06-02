@@ -3,8 +3,6 @@
 
 #include "../uiElements/ImagePanel.h"
 #include "../GameController.h"
-// ../../common/network/default.conf missing -> ok?
-
 
 ConnectionPanel::ConnectionPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
 
@@ -13,7 +11,12 @@ ConnectionPanel::ConnectionPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
 
     wxBoxSizer* verticalLayout = new wxBoxSizer(wxVERTICAL);
    
-    ImagePanel* logo = new ImagePanel(this, "assets/zombiedice_logo_nobackground.png", wxBITMAP_TYPE_ANY, wxDefaultPosition, wxSize(200, 250));
+    ImagePanel* logo = new ImagePanel(
+            this,
+            "assets/zombiedice_logo_nobackground.png",
+            wxBITMAP_TYPE_ANY, wxDefaultPosition,
+            wxSize(200, 250)
+            );
     verticalLayout->Add(logo, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
 
     this->_serverAddressField = new InputField(
@@ -29,7 +32,7 @@ ConnectionPanel::ConnectionPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
         this, // parent element
         "Server port:", // label
         100, // width of label
-        wxString::Format("%i", 12345), // default value (variable from "default.conf")
+        wxString::Format("%i", "12345"), // default value (variable from "default.conf")
         240 // width of field
     );
     verticalLayout->Add(this->_serverPortField, 0, wxTOP | wxLEFT | wxRIGHT, 10);

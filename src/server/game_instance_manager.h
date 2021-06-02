@@ -18,25 +18,23 @@
 class game_instance_manager {
 
 private:
-    static game_instance* _game_instance_ptr;
+    static game_instance* current_game_instance;
 
     inline static std::shared_mutex games_lut_lock;
     static std::unordered_map<std::string, game_instance*> games_lut;
 
-    game_instance* create_new_game();
 public:
-
+    static void create_new_game_instance();
     // returns true if the desired game_instance 'game_id' was found or false otherwise.
     // The found game instance is written into game_instance_ptr.
-    static bool try_get_game_instance(game_instance* game_instance_ptr, std::string& err);
+    static bool try_get_game_instance(game_instance*& game_instance_ptr, std::string& err);
     // returns true if the desired player 'player_id' was found and is connected to a game_instance.
     // The found player and game_instance will be written into 'player' and 'game_instance_ptr'
-    static bool try_get_player_and_game_instance(Player*& player, game_instance*& game_instance_ptr, std::string& err);
+    static bool try_get_player_and_game_instance(const std::string& player_id, Player*& player, game_instance*& game_instance_ptr, std::string& err);
 
     // Try to add 'player' to game. Returns true if 'player' is successfully added.
     static bool try_add_player(Player* player, std::string& err);
     static bool try_remove_player(Player* player, std::string& err);
-
 };
 
 

@@ -24,7 +24,6 @@ protected:
 private:
     void outputError(std::string title, std::string message);
 
-
     sockpp::tcp_connector* _connection;
 
 };

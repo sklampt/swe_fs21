@@ -1,7 +1,3 @@
-//
-// Created by marco on 02.05.21.
-//
-
 #ifndef ZOMBIEDICE_GAME_H
 #define ZOMBIEDICE_GAME_H
 
@@ -30,9 +26,10 @@ private:
     serializable_value<int>* _starting_player_idx;
 
     std::vector<Player*> _players;
-    Turn* _current_turn;
+
     Game(std::string id);
 
+    // Serialization constructor
     Game(
             std::string id,
             Turn* current_turn,
@@ -46,6 +43,8 @@ private:
             );
     int get_player_index(Player* player) const;
 public:
+    Turn* _current_turn;
+
     Game();
     ~Game();
 
@@ -57,10 +56,9 @@ public:
     bool is_allowed_to_play_now(Player* player) const;
     std::vector<Player *> &get_players();
     int get_round_number() const;
-    Turn* get_current_turn() const;
+    Turn * get_current_turn();
     Player* get_current_player() const;
 
-#ifdef LAMA_SERVER
     void setup_round(std::string& err);
     bool remove_player(Player* player, std::string& err);
     bool add_player(Player* player,std::string& err);
@@ -69,13 +67,14 @@ public:
     bool fold(Player* player, std::string& err);
 
     void update_current_player(std::string& err);
-    void wrap_up_round(std::string& err);
-#endif
+    void wrap_up_turn(std::string& err);
+
     //rapidjson::Value *to_json();
 
     static Game *from_json(const rapidjson::Value& json);
-    virtual void write_into_json(rapidjson::Value& json, rapidjson::Document::AllocatorType& allocator) const override;
+    virtual void write_into_json(rapidjson::Value& json,
+                                 rapidjson::Document::AllocatorType& allocator
+                                 ) const override;
 };
-
 
 #endif //ZOMBIEDICE_GAME_H

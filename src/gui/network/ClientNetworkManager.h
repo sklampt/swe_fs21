@@ -18,6 +18,8 @@ public:
 
     static void parseResponse(const std::string& message);
 
+    static bool isConnected();
+
 private:
     static bool connect(const std::string& host, const uint16_t port);
 

@@ -1,4 +1,6 @@
 #include "InputField.h"
+#include <string>
+
 
 
 InputField::InputField(wxWindow* parent, const wxString& labelText, int labelWidth, const wxString& fieldValue, int fieldWidth)
@@ -30,4 +32,8 @@ InputField::InputField(wxWindow* parent, const wxString& labelText, int labelWid
 
 wxString InputField::getValue() {
     return this->_field->GetValue();
+}
+
+void InputField::setValue(wxString string) {
+    this->_field->SetValue(string);
 }

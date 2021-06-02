@@ -3,29 +3,43 @@
 //
 
 #include "StartPanel.h"
-
-
 #include "../uiElements/ImagePanel.h"
-//#include "../../common/network/default.conf"     ->not yet available
 #include "../GameController.h"
 
-int default_port = 5050;
 
 StartPanel::StartPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
 
     wxColor white = wxColor(252, 210, 153);
     this->SetBackgroundColour(white);
 
+    // Store window pointer for later use
+    this->_parent = parent;
+
     wxBoxSizer* verticalLayout = new wxBoxSizer(wxVERTICAL);
 
-    ImagePanel* logo = new ImagePanel(this, "assets/zombiedice_logo_nobackground.png", wxBITMAP_TYPE_ANY, wxDefaultPosition, wxSize(800, 275));
+    ImagePanel* logo = new ImagePanel(
+            this,
+            "assets/zombiedice_logo_nobackground.png",
+            wxBITMAP_TYPE_ANY,
+            wxDefaultPosition,
+            wxSize(800, 275)
+            );
     verticalLayout->Add(logo, 0, wxALIGN_CENTER | wxTOP | wxLEFT | wxRIGHT, 10);
+
+    this->_serverAddressField = new InputField(
+            this, // parent element
+            "Server IP Address:", // label
+            100, // width of label
+            wxString::Format("%s", "127.0.0.1"),
+            240 // width of field
+    );
+    verticalLayout->Add(this->_serverAddressField, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
     this->_portField = new InputField(
             this, // parent element
             "Server port:", // label
             100, // width of label
-            wxString::Format("%i", default_port), // default value (variable from "default.conf")
+            "50500",
             240 // width of field
     );
     verticalLayout->Add(this->_portField, 0, wxTOP | wxLEFT | wxRIGHT, 10);
@@ -39,26 +53,43 @@ StartPanel::StartPanel(wxWindow* parent) : wxPanel(parent, wxID_ANY) {
     );
     verticalLayout->Add(this->_playerNameField, 0, wxTOP | wxLEFT | wxRIGHT, 10);
 
-    wxButton* connectButton = new wxButton(this, wxID_ANY, "Connect", wxDefaultPosition, wxSize(100, 40));
+    wxButton* connectButton = new wxButton(this, wxID_ANY, "CONNECT", wxDefaultPosition, wxSize(100, 50));
     connectButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
-        //GameController::connectToServer(); -> not yet implemented
+        GameController::connectToServer();
     });
-    wxButton* hostButton = new wxButton(this, wxID_ANY, "Host new lobby", wxDefaultPosition, wxSize(150, 40));
-    connectButton->Bind(wxEVT_BUTTON, [](wxCommandEvent& event) {
-        //GameController::connectToServer(); -> not yet implemented
+
+    wxButton* hostButton = new wxButton(this, wxID_ANY, "HOST A SERVER", wxDefaultPosition, wxSize(150, 50));
+    hostButton->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {
+        GameController::createAndConnectToServer();
+        StartPanel::setWindowTitle("Zombie Dice - Braaainz! - SERVER MODE");
     });
-    verticalLayout->Add(connectButton, 0, wxALIGN_RIGHT | wxALL, 10);
-    verticalLayout->Add(hostButton, 0, wxALIGN_RIGHT | wxALL, 10);
+    verticalLayout->Add(connectButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
+    verticalLayout->Add(hostButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 5);
 
     this->SetSizerAndFit(verticalLayout);
 }
 
+wxString StartPanel::getServerAddress() {
+    return this->_serverAddressField->getValue();
+}
 
-wxString StartPanel::getPort() {
+void StartPanel::setServerAddress(std::string string) {
+    this->_serverAddressField->setValue(string);
+}
+
+wxString StartPanel::getServerPort() {
     return this->_portField->getValue();
 }
 
+void StartPanel::setServerPort(std::string string) {
+    this->_portField->setValue(string);
+}
 
 wxString StartPanel::getPlayerName() {
     return this->_playerNameField->getValue();
 }
+
+void StartPanel::setWindowTitle(std::string title) {
+    this->_parent->SetLabel(title);
+}
+

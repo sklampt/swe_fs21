@@ -14,11 +14,9 @@
 #include "../../exceptions/ZombieException.h"
 #include "../../serialization/uuid_generator.h"
 #include "../../serialization/json_utils.h"
-
-// #ifdef LAMA_SERVER
 #include "../responses/server_response.h"
 #include "../responses/request_response_event.h"
-// #endif
+
 
 // Identifier for the different request types.
 // The RequestType is sent with every client_request to identify the type of client_request

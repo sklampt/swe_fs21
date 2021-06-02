@@ -17,10 +17,9 @@ public:
 
     static void connectToServer();
     static void updateGameState(Game* newGameState);
+    static void clientGameAction(std::string action);
+    static void sendGameStateToServer(std::string err);
     static void startGame();
-    static void drawDice();
-    static void keepGoing();
-    static void score();
 
     static wxEvtHandler* getMainThreadEventHandler();
     static void showError(const std::string& title, const std::string& message);
@@ -28,15 +27,17 @@ public:
     static void showNewTurnMessage(Game* oldGameState, Game* newGameState);
     static void showGameOverMessage();
 
+    static void createAndConnectToServer();
+
 private:
     static GameWindow* _gameWindow;
-    static ConnectionPanel* _connectionPanel;
-    // static StartPanel* _startPanel;
+    static StartPanel* _startPanel;
     static MainGamePanel* _mainGamePanel;
     static LobbyPanel* _lobbyPanel;
 
     static Player* _me;
-    static Game* _currentGameState;
+    static Game* _currentGame;
+
 
 };
 
