@@ -5,5 +5,4 @@ latex/
 #
 cmake-build-debug
 
-# CLion
-.idea/
+mybuild/
