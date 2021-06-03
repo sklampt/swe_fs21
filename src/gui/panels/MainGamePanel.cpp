@@ -3,9 +3,7 @@
 #include "gui/GameController.h"
 
 
-MainGamePanel::MainGamePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(960, 680)) {
-}
-
+MainGamePanel::MainGamePanel(wxWindow* parent) : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(960, 680)) {}
 
 void MainGamePanel::buildGameState(Game* game, Player* me) {
 
