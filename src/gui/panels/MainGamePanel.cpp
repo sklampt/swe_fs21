@@ -90,11 +90,20 @@ void MainGamePanel::buildGameState(Game* game, Player* me) {
         );
     }
 
-    //Display "Dice thrown text"
+    //Display "Current throw:"
     long textAlignment = wxALIGN_CENTER;
     this->buildStaticText(
-            "Dice thrown:",
+            "Current throw:",
             MainGamePanel::thrownTextPos,
+            wxSize(200, 18),
+            textAlignment,
+            true
+    );
+
+    //Display "Dice set aside"
+    this->buildStaticText(
+            "Dice set aside:",
+            MainGamePanel::thrownTextPos + wxPoint(120, 0),
             wxSize(200, 18),
             textAlignment,
             true
@@ -110,6 +119,21 @@ void MainGamePanel::buildGameState(Game* game, Player* me) {
         ImagePanel* die = new ImagePanel(this, fileName, wxBITMAP_TYPE_ANY, MainGamePanel::uppermostDie + offset, MainGamePanel::dieSize);
     }
 
+    //Display already thrown brains
+    int n_brains = brains.size();
+    for (int i = 0; i < n_brains; i++){
+        std::string fileName = "assets/" + brains.at(i)->get_face_as_string() + "_" + brains.at(i)->get_color_as_string() + ".png";
+        wxPoint offset = wxPoint(0, i * MainGamePanel::dieOffsetY);
+        ImagePanel* die = new ImagePanel(this, fileName, wxBITMAP_TYPE_ANY, MainGamePanel::brainsPos + offset, MainGamePanel::dieSize);
+    }
+
+    //Display already thrown shotguns
+    int n_shotguns = shotguns.size();
+    for (int i = 0; i < n_shotguns; i++){
+        std::string fileName = "assets/" + shotguns.at(i)->get_face_as_string() + "_" + shotguns.at(i)->get_color_as_string() + ".png";
+        wxPoint offset = wxPoint(0, (i % 3) * MainGamePanel::dieOffsetY);
+        ImagePanel* die = new ImagePanel(this, fileName, wxBITMAP_TYPE_ANY, MainGamePanel::shotgunsPos + offset, MainGamePanel::dieSize);
+    }
 
     //Build Buttons
     wxButton* throwButton = new wxButton(this, wxID_ANY, "Throw Dice", MainGamePanel::throwAgainPos, MainGamePanel::buttonSize);
