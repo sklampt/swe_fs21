@@ -10,8 +10,6 @@
 #include "../serialization/unique_serializable.h"
 
 
-#define LAMA_SERVER
-
 class Game : public unique_serializable {
 
 private:
