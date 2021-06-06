@@ -30,7 +30,7 @@ public:
     explicit Player(std::string name);
     ~Player();
 
-    Player(std::string id, std::string name);
+    explicit Player(std::string id, std::string name);
 
     std::string get_game_id();
     void set_game_id(std::string game_id);

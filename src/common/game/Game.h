@@ -1,7 +1,6 @@
 #ifndef ZOMBIEDICE_GAME_H
 #define ZOMBIEDICE_GAME_H
 
-
 #include <string>
 #include "Player.h"
 #include "Turn.h"
@@ -59,15 +58,12 @@ public:
 
     void setup_round(std::string& err);
     bool remove_player(Player* player, std::string& err);
-    bool add_player(Player* player,std::string& err);
+    bool add_player(Player* player, std::string& err);
     bool start_game(std::string& err);
-    bool roll(Player* player, std::string& err);
     bool fold(Player* player, std::string& err);
 
     void update_current_player(std::string& err);
     void wrap_up_turn(std::string& err);
-
-    //rapidjson::Value *to_json();
 
     static Game *from_json(const rapidjson::Value& json);
     virtual void write_into_json(rapidjson::Value& json,
