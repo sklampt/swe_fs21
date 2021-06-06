@@ -3,8 +3,6 @@ project(Zombiedice)
 
 set(CMAKE_CXX_STANDARD 20)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -c")
-
 include(cmake/GetGTest.cmake)
 
 include_directories(
@@ -106,7 +104,6 @@ add_executable(
         tests/common/exceptions.cpp
 )
 
-
 target_link_libraries(
         unit_tests
         zombie_lib
@@ -160,6 +157,3 @@ target_compile_definitions(ZombieDice-lib PRIVATE RAPIDJSON_HAS_STDSTRING=1)
 
 
 enable_testing()
-
-# add_subdirectory(src)
-# add_subdirectory(tests)
