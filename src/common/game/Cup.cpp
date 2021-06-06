@@ -1,4 +1,5 @@
 #include <common/serialization/vector_utils.h>
+#include <iostream>
 #include "Cup.h"
 
 Cup::Cup() {
@@ -21,9 +22,15 @@ int Cup::dice_count() {
 }
 
 Die* Cup::draw_die() {
-    Die* d = _dice[_dice.size()-1];
-    _dice.pop_back();
-    return d;
+    if(_dice.size() > 0) {
+        Die *d = _dice[_dice.size() - 1];
+        _dice.pop_back();
+        return d;
+    }
+    else{
+        std::cerr << "Trying to draw a dice from empty cup. Aborting.\n";
+        exit(0);
+    }
 }
 
 Cup *Cup::from_json(const rapidjson::Value &json) {
