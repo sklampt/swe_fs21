@@ -14,7 +14,7 @@ class LobbyPanel : public wxPanel {
 public:
     LobbyPanel(wxWindow* parent);
 
-    void buildLobby(Game *Game, Player *Player);
+    void buildLobbyState(Game *game, Player *player);
 
 private:
     wxGrid* _displayText;

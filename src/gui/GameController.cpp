@@ -97,6 +97,7 @@ void GameController::connectToServer() {
 
     // Switch view to lobby panel
     GameController::_gameWindow->showPanel(GameController::_lobbyPanel);
+    //GameController::_lobbyPanel->buildLobbyState(GameController::_currentGame, GameController::_me);
     }
 }
 
@@ -167,8 +168,9 @@ void GameController::updateGameState(Game *newGameState) {
         GameController::showStatus("It\'s " + current_player_name + "\'s turn" );
     }
     else {
-        // TODO: Implement this
-        GameController::_lobbyPanel->buildLobby(GameController::_currentGame, GameController::_me);
+        // Else use new game state to rebuild player list in lobby
+        GameController::_gameWindow->showPanel(GameController::_lobbyPanel);
+        GameController::_lobbyPanel->buildLobbyState(GameController::_currentGame, GameController::_me);
     }
 }
 
@@ -227,7 +229,6 @@ void GameController::sendGameStateToServer(std::string err) {
     ClientNetworkManager::sendRequest(request);
     // Server will respond with the game state and client updates the gui with the data from the server response
 }
-
 
 wxEvtHandler* GameController::getMainThreadEventHandler() {
     return GameController::_gameWindow->GetEventHandler();
