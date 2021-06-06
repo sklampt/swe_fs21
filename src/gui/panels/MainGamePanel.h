@@ -44,10 +44,17 @@ private:
     wxSize const lineSize = wxSize(547, 680);
     int dieOffsetX = 60;
     int dieOffsetY = 80;
-    wxPoint const thrownTextPos = wxPoint(30, 20);
+
+    int brainsOffset = 120;
+    int shotgunsOffset = 180;
+
+    wxPoint const thrownTextPos = wxPoint(3, 20);
     wxPoint const throwAgainPos = wxPoint(30, 580);
     wxPoint const stopTurnPos = wxPoint(30, 630);
     wxSize const buttonSize = wxSize(100, 40);
+
+    wxPoint const brainsPos = uppermostDie + wxPoint(brainsOffset, 0);
+    wxPoint const shotgunsPos = uppermostDie + wxPoint(shotgunsOffset, 0);
 
 
     double const twoPi = 6.28318530718;
