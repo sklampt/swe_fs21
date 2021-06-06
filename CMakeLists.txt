@@ -152,12 +152,4 @@ endif()
 # copy assets (images) to binary directory
 file(INSTALL assets DESTINATION ${CMAKE_BINARY_DIR})
 
-set(CMAKE_CXX_FLAGS "--coverage")
-
-# TODO: Decide if we want to use a Library to package functionality
-# set source files for library
-add_library(ZombieDice-lib ${SOURCE_FILES})
-# set compile directives for server-library
-target_compile_definitions(ZombieDice-lib PRIVATE RAPIDJSON_HAS_STDSTRING=1)
-
 enable_testing()
