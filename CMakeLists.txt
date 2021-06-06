@@ -19,58 +19,58 @@ include(${wxWidgets_USE_FILE})
 set(SOURCE_FILES
     ### GUI
     src/gui/main.cpp
-    src/gui/GameController.cpp src/gui/GameController.h
-    src/gui/app/ZombieDice.cpp src/gui/app/ZombieDice.h
+    src/gui/GameController.cpp
+    src/gui/app/ZombieDice.cpp
     ## Windows
-    src/gui/windows/GameWindow.cpp src/gui/windows/GameWindow.h
+    src/gui/windows/GameWindow.cpp
     ## Panels
-    src/gui/panels/MainGamePanel.cpp src/gui/panels/MainGamePanel.h
-    src/gui/panels/ConnectionPanel.cpp src/gui/panels/ConnectionPanel.h
-    src/gui/panels/LobbyPanel.cpp src/gui/panels/LobbyPanel.h
-    src/gui/panels/StartPanel.cpp src/gui/panels/StartPanel.h
+    src/gui/panels/MainGamePanel.cpp
+    src/gui/panels/ConnectionPanel.cpp
+    src/gui/panels/LobbyPanel.cpp
+    src/gui/panels/StartPanel.cpp
     ## UIElements
-    src/gui/uiElements/ImagePanel.cpp src/gui/uiElements/ImagePanel.h
-    src/gui/uiElements/InputField.cpp src/gui/uiElements/InputField.h
+    src/gui/uiElements/ImagePanel.cpp
+    src/gui/uiElements/InputField.cpp
     ## Client Network
-    src/gui/network/ClientNetworkManager.cpp src/gui/network/ClientNetworkManager.h
-    src/gui/network/ResponseListenerThread.cpp src/gui/network/ResponseListenerThread.h
+    src/gui/network/ClientNetworkManager.cpp
+    src/gui/network/ResponseListenerThread.cpp
 
     ### COMMON
     ## Exceptions
     src/common/exceptions/ZombieException.h
     ## Game
-    src/common/game/Game.cpp src/common/game/Game.h
-    src/common/game/Turn.cpp src/common/game/Turn.h
-    src/common/game/Cup.cpp src/common/game/Cup.h
-    src/common/game/Die.cpp src/common/game/Die.h
-    src/common/game/Player.cpp src/common/game/Player.h
+    src/common/game/Game.cpp
+    src/common/game/Turn.cpp
+    src/common/game/Cup.cpp
+    src/common/game/Die.cpp
+    src/common/game/Player.cpp
     ## Network
-    src/common/network/requests/client_request.cpp  src/common/network/requests/client_request.h
-    src/common/network/requests/client_join_lobby_request.cpp src/common/network/requests/client_join_lobby_request.h
-    src/common/network/requests/client_update_game_request.cpp src/common/network/requests/client_update_game_request.h
-    src/common/network/requests/client_exit_lobby_request.cpp src/common/network/requests/client_exit_lobby_request.h
+    src/common/network/requests/client_request.cpp
+    src/common/network/requests/client_join_lobby_request.cpp
+    src/common/network/requests/client_update_game_request.cpp
+    src/common/network/requests/client_exit_lobby_request.cpp
 
-    src/common/network/responses/request_response_event.cpp src/common/network/responses/request_response_event.h
-    src/common/network/responses/server_response.cpp src/common/network/responses/server_response.h
-    src/common/network/responses/server_update_lobby_event.cpp src/common/network/responses/server_update_lobby_event.h
-    src/common/network/responses/server_update_game_event.cpp src/common/network/responses/server_update_game_event.h
+    src/common/network/responses/request_response_event.cpp
+    src/common/network/responses/server_response.cpp
+    src/common/network/responses/server_update_lobby_event.cpp
+    src/common/network/responses/server_update_game_event.cpp
 
     ## Serialization
     src/common/serialization/json_utils.h
     src/common/serialization/serializable.h
     src/common/serialization/serializable_value.h
-    src/common/serialization/unique_serializable.cpp src/common/serialization/unique_serializable.h
+    src/common/serialization/unique_serializable.cpp
     src/common/serialization/uuid_generator.h
     src/common/serialization/value_type_helpers.h
     src/common/serialization/vector_utils.h
     src/common/serialization/token_generator.h
 
     ### Server
-    src/server/game_instance.cpp src/server/game_instance.h
-    src/server/game_instance_manager.cpp src/server/game_instance_manager.h
-    src/server/start_server.cpp src/server/start_server.h
-    src/server/player_manager.cpp src/server/player_manager.h
-    src/server/server_network_manager.cpp src/server/server_network_manager.h
+    src/server/game_instance.cpp
+    src/server/game_instance_manager.cpp
+    src/server/start_server.cpp
+    src/server/player_manager.cpp
+    src/server/server_network_manager.cpp
 )
 
 add_executable(
@@ -104,7 +104,7 @@ add_executable(
         unit_tests
         tests/main.cpp
         tests/common/exceptions.cpp
-        tests/common/exceptions.cpp)
+)
 
 
 target_link_libraries(
