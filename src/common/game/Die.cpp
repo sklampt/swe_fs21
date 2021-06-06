@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include <cassert>  //assert
+#include <cassert>
 #include <ctime>
 
 #include "Die.h"
@@ -95,7 +95,11 @@ std::string Die::get_face_as_string() {
 /** @brief returns a random face of the die's faces
  */
 Face Die::throw_die(){
-    srand(time(0));
+    static bool init_once{ false };
+    if(!init_once) {
+        srand(time(0));
+        init_once = true;
+    }
     int face_at = rand() % 6; // TODO: Check if compiles and works
     _face = _faces.at(face_at);
     return _face;
