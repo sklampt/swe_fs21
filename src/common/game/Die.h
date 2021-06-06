@@ -6,6 +6,7 @@
 #define ZOMBIEDICE_DIE_H
 
 #include <vector>
+#include <string>
 #include <common/serialization/unique_serializable.h>
 
 // three colors of dice
@@ -23,7 +24,7 @@ class Die: public unique_serializable {
         Die(std::string id, Color color, Face face);
     
     public:
-        Die(Color color);
+        explicit Die(Color color);
 
         Color get_color();
         std::string get_color_as_string();
