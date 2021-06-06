@@ -1,7 +1,3 @@
-//
-// Created by marco on 02.05.21.
-//
-
 #include "Player.h"
 #include "../exceptions/ZombieException.h"
 
@@ -10,7 +6,6 @@ Player::Player(std::string name) : unique_serializable() {
     this->_has_folded = new serializable_value<bool>(false);
     this->_score = new serializable_value<int>(0);
 }
-
 
 Player::Player(std::string id, std::string name) : unique_serializable(id) {
     this->_player_name = new serializable_value<std::string>(name);
@@ -56,7 +51,6 @@ void Player::update_score(int score) {
     _score->set_value(old_score+score);
 }
 
-
 std::string Player::get_player_name() const noexcept {
     return this->_player_name->get_value();
 }
@@ -67,10 +61,6 @@ bool Player::has_folded() const noexcept {
 
 void Player::setup_round(std::string &err) {
     _has_folded->set_value(false);
-}
-
-void Player::wrap_up_round(std::string &err) {
-    //update scores
 }
 
 bool Player::fold(std::string &err) {

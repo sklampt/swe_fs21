@@ -1,7 +1,3 @@
-//
-// Created by marco on 02.05.21.
-//
-
 #ifndef ZOMBIEDICE_PLAYER_H
 #define ZOMBIEDICE_PLAYER_H
 
@@ -14,7 +10,6 @@
 
 
 class Player : public unique_serializable {
-
 private:
     serializable_value<std::string>* _player_name;
     serializable_value<bool>* _has_folded;
@@ -47,7 +42,6 @@ public:
     std::string get_player_name() const noexcept;
 
     bool fold(std::string& err);
-    void wrap_up_round(std::string& err);
     void setup_round(std::string& err);
 
     static Player* from_json(const rapidjson::Value& json);
